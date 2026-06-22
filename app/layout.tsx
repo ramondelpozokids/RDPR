@@ -2,11 +2,12 @@
 import type { Metadata, Viewport } from "next"
 import "@/styles/globals.css"
 import { Toaster } from "@/components/ui/Toaster"
+import AuthSessionProvider from "@/components/providers/SessionProvider"
 
 export const metadata: Metadata = {
   title: { default: "RDPR OS", template: "%s · RDPR OS" },
-  description: "Sistema ERP SaaS modular para pequeñas y medianas empresas",
-  robots: { index: false },
+  description: "Business Operating System — finanzas, proyectos, CRM e inteligencia artificial para empresas modernas.",
+  robots: { index: true, follow: true },
 }
 
 export const viewport: Viewport = {
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className="h-full">
       <body className="h-full">
-        {children}
+        <AuthSessionProvider>
+          {children}
+        </AuthSessionProvider>
         <Toaster />
       </body>
     </html>

@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { z } from "zod"
+import { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma/client"
 
 const registerSchema = z.object({
@@ -12,6 +13,13 @@ const registerSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json(
+      { error: "Base de datos no configurada (DATABASE_URL)" },
+      { status: 503 }
+    )
+  }
+
   try {
     const body   = await req.json()
     const parsed = registerSchema.safeParse(body)
@@ -60,6 +68,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, userId: result.user.id }, { status: 201 })
   } catch (err) {
     console.error("[register]", err)
+
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+      return NextResponse.json(
+        { error: "No se puede conectar con la base de datos. Revisa DATABASE_URL en Vercel." },
+        { status: 503 }
+      )
+    }
+
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2021") {
+      return NextResponse.json(
+        { error: "Las tablas no existen. Ejecuta npm run db:push contra Supabase." },
+        { status: 503 }
+      )
+    }
+
     return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 })
   }
 }
