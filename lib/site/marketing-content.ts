@@ -79,23 +79,23 @@ export const SERVICES: ServiceItem[] = [
 export const SECURITY_LAYERS = [
   {
     icon: Lock,
-    title: "Conexión protegida",
-    description: "Acceso web con las medidas habituales de seguridad en línea.",
-  },
-  {
-    icon: FileLock2,
-    title: "Documentación reservada",
-    description: "La documentación que nos envía se trata con confidencialidad.",
+    title: "Capa 1 · Transporte",
+    description: "Conexión cifrada HTTPS y cabeceras de seguridad en cada respuesta.",
   },
   {
     icon: KeyRound,
-    title: "Acceso personalizado",
-    description: "Cada usuario accede solo a la información que le corresponde.",
+    title: "Capa 2 · Acceso",
+    description: "Área privada con autenticación; cada usuario solo ve su empresa y expedientes.",
+  },
+  {
+    icon: FileLock2,
+    title: "Capa 3 · Documentos",
+    description: "Documentación sensible con cifrado y controles de acceso por rol.",
   },
   {
     icon: Shield,
-    title: "Buenas prácticas",
-    description: "Procesos revisados para reducir riesgos y mantener el orden.",
+    title: "Capa 4 · Anti-copia",
+    description: "Disuasión en el sitio público: bloqueo de inspección, copia y arrastre no autorizados.",
   },
 ] as const
 

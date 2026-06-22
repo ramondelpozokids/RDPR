@@ -6,9 +6,9 @@ export function SecurityLayers() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-300 mb-2">Confianza</p>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">Su información, bien cuidada</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">4 capas de seguridad</h2>
           <p className="text-white/80 leading-relaxed">
-            Trabajamos con criterios profesionales de confidencialidad y acceso responsable.
+            Protección en transporte, acceso, documentación y disuasión frente a copia no autorizada en la web pública.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

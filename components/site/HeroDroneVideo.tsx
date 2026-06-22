@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { HERO_DRONE_VIDEO } from "@/lib/site/stock-videos"
-import { stockUrl } from "@/lib/site/stock-images"
+import { SITE_IMAGES } from "@/lib/site/config"
 
 const INTRO_HOLD_MS = 10_000
 
@@ -11,7 +11,7 @@ type HeroDroneVideoProps = {
   className?: string
 }
 
-/** Intro estática (Madrid) 10 s → vídeo en bucle con fundido suave. */
+/** Intro estática (torres.webp) 10 s → vídeo en bucle con fundido suave. */
 export function HeroDroneVideo({ className = "" }: HeroDroneVideoProps) {
   const ref = useRef<HTMLVideoElement>(null)
   const [phase, setPhase] = useState<"intro" | "video">("intro")
@@ -32,7 +32,7 @@ export function HeroDroneVideo({ className = "" }: HeroDroneVideoProps) {
   return (
     <div className={`absolute inset-0 ${className}`}>
       <Image
-        src={stockUrl("heroMadrid", 1920)}
+        src={SITE_IMAGES.torres}
         alt=""
         fill
         className={`object-cover transition-opacity duration-[2000ms] ${

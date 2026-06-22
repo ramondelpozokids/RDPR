@@ -3,6 +3,7 @@ export const SITE_IMAGES = {
   logo: "/logo.webp",
   favicon: "/favicon.webp",
   hero: "/hero.webp",
+  torres: "/torres.webp",
   chatAssistant: "/chatassistent.webp",
   plataforma: "/plataforma.webp",
   presentacion: "/presentacion.webp",
