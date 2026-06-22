@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Sparkles } from "lucide-react"
+import Image from "next/image"
+import { SITE_IMAGES } from "@/lib/site/config"
 
 const QUESTION = "¿Cuál fue mi beneficio el último trimestre?"
 const ANSWER =
@@ -22,8 +23,8 @@ export default function AIChatDemo() {
   return (
     <div className="rounded-2xl border border-surface-border bg-white shadow-modal overflow-hidden">
       <div className="flex items-center gap-2 px-5 py-3.5 border-b border-surface-border bg-surface-muted/50">
-        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-violet-600 flex items-center justify-center">
-          <Sparkles size={14} className="text-white" />
+        <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-surface-border">
+          <Image src={SITE_IMAGES.chatAssistant} alt="Asistente RDPR" fill className="object-cover" sizes="36px" />
         </div>
         <div>
           <p className="text-sm font-semibold text-text-primary">RDPR Intelligence</p>

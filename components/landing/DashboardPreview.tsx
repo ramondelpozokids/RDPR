@@ -2,6 +2,8 @@ import {
   TrendingUp, Users, FileText, FolderKanban,
   ArrowUpRight, Sparkles,
 } from "lucide-react"
+import Image from "next/image"
+import { SITE_IMAGES } from "@/lib/site/config"
 
 const METRICS = [
   { label: "Facturación", value: "42.380 €", delta: "+18%", icon: TrendingUp, color: "text-brand-600", bg: "bg-brand-50" },
@@ -33,9 +35,7 @@ export default function DashboardPreview() {
       <div className="flex min-h-[340px]">
         <aside className="hidden sm:flex w-44 shrink-0 border-r border-surface-border bg-surface-muted/20 flex-col p-3 gap-1">
           <div className="flex items-center gap-2 px-2 py-2 mb-2">
-            <div className="w-6 h-6 rounded-md bg-brand-500 flex items-center justify-center">
-              <span className="text-white text-[10px] font-bold">R</span>
-            </div>
+            <Image src={SITE_IMAGES.logo} alt="RDPR" width={24} height={24} className="rounded-md object-contain" />
             <span className="text-xs font-semibold">RDPR OS</span>
           </div>
           {["Inicio", "Finanzas", "CRM", "Proyectos", "Editorial"].map((item, i) => (

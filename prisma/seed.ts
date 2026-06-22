@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import { ensureChartOfAccounts } from "../lib/accounting/journal"
 
 const prisma = new PrismaClient()
 
@@ -74,6 +75,7 @@ async function main() {
       update: { role: "ADMIN" },
       create: { userId: user.id, companyId, role: "ADMIN" },
     })
+    await ensureChartOfAccounts(companyId)
   }
 
   console.log(`\n✅ ${companyIds.length} empresas listas para ${ADMIN_EMAIL}`)

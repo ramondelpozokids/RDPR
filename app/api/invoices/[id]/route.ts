@@ -3,11 +3,15 @@ import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
+import { syncOverdueInvoices } from "@/lib/invoices/sync-overdue"
+import { createInvoicePaymentEntry } from "@/lib/accounting/journal"
 
 // GET /api/invoices/:id
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+
+  await syncOverdueInvoices(companyId)
 
   const invoice = await prisma.invoice.findFirst({
     where:   { id: params.id, companyId },
@@ -41,6 +45,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     },
     include: { customer: true, items: true },
   })
+
+  if (parsed.data.status === "PAID") {
+    await createInvoicePaymentEntry({
+      id: updated.id,
+      companyId: updated.companyId,
+      number: updated.number,
+      paidAt: updated.paidAt,
+      total: updated.total,
+      customer: updated.customer,
+    })
+  }
 
   return NextResponse.json({ success: true, data: updated })
 }

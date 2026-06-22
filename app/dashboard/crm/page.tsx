@@ -1,15 +1,22 @@
-// app/(dashboard)/crm/page.tsx
-import { prisma }  from "@/lib/prisma/client"
+// app/dashboard/crm/page.tsx
+import { prisma } from "@/lib/prisma/client"
 import { getActiveCompanyId } from "@/lib/company/context"
 import { formatDate, PIPELINE_LABELS } from "@/lib/utils"
 import { UserPlus } from "lucide-react"
 import Link from "next/link"
+import { PipelineBoard } from "@/components/crm/PipelineBoard"
+import { CRMPageClient } from "@/components/crm/CRMPageClient"
+import { MetricCard } from "@/components/ui/metric-card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Users, TrendingUp, TrendingDown, Clock } from "lucide-react"
 
-const STAGE_COLORS: Record<string, string> = {
-  NEW_CONTACT:  "badge-blue",
-  QUOTE_SENT:   "badge-yellow",
-  CLIENT_WON:   "badge-green",
-  CLIENT_LOST:  "badge-gray",
+const STAGE_BADGE: Record<string, "info" | "warning" | "success" | "muted"> = {
+  NEW_CONTACT: "info",
+  QUOTE_SENT: "warning",
+  CLIENT_WON: "success",
+  CLIENT_LOST: "muted",
 }
 
 export default async function CRMPage() {
@@ -17,106 +24,112 @@ export default async function CRMPage() {
 
   const customers = companyId
     ? await prisma.customer.findMany({
-        where:   { companyId },
+        where: { companyId },
         orderBy: { createdAt: "desc" },
         include: { _count: { select: { projects: true, invoices: true } } },
       })
     : []
 
-  const ganados   = customers.filter(c => c.pipelineStage === "CLIENT_WON").length
-  const perdidos  = customers.filter(c => c.pipelineStage === "CLIENT_LOST").length
-  const enCurso   = customers.filter(c => c.pipelineStage === "QUOTE_SENT").length
+  const ganados = customers.filter((c) => c.pipelineStage === "CLIENT_WON").length
+  const perdidos = customers.filter((c) => c.pipelineStage === "CLIENT_LOST").length
+  const enCurso = customers.filter((c) => c.pipelineStage === "QUOTE_SENT").length
+
+  const pipelineData = customers.map((c) => ({
+    id: c.id,
+    name: c.name,
+    email: c.email,
+    pipelineStage: c.pipelineStage,
+    createdAt: c.createdAt.toISOString(),
+    _count: c._count,
+  }))
+
+  const pipelineView = <PipelineBoard customers={pipelineData} />
+
+  const listView =
+    customers.length === 0 ? (
+      <Card className="text-center py-16">
+        <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center mx-auto mb-3">
+          <UserPlus size={20} className="text-primary" />
+        </div>
+        <p className="font-medium text-foreground mb-1">Sin clientes todavía</p>
+        <p className="text-sm text-muted-foreground mb-4">Añade tu primer contacto al CRM</p>
+        <Button asChild>
+          <Link href="/dashboard/crm/new">Añadir primer cliente</Link>
+        </Button>
+      </Card>
+    ) : (
+      <Card className="p-0 overflow-hidden">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border bg-muted/50">
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium">Nombre</th>
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium hidden sm:table-cell">Email</th>
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium hidden md:table-cell">Teléfono</th>
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium">Estado</th>
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium hidden lg:table-cell">Proyectos</th>
+              <th className="text-left px-5 py-3 text-muted-foreground font-medium hidden lg:table-cell">Alta</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {customers.map((c) => (
+              <tr key={c.id} className="hover:bg-muted/30 transition-colors group">
+                <td className="px-5 py-3">
+                  <Link
+                    href={`/dashboard/crm/${c.id}`}
+                    className="font-medium text-foreground group-hover:text-primary transition-colors"
+                  >
+                    {c.name}
+                  </Link>
+                  {c.taxId && <p className="text-xs text-muted-foreground mt-0.5">{c.taxId}</p>}
+                </td>
+                <td className="px-5 py-3 text-muted-foreground hidden sm:table-cell">{c.email ?? "—"}</td>
+                <td className="px-5 py-3 text-muted-foreground hidden md:table-cell">{c.phone ?? "—"}</td>
+                <td className="px-5 py-3">
+                  <Badge variant={STAGE_BADGE[c.pipelineStage]}>
+                    {PIPELINE_LABELS[c.pipelineStage]}
+                  </Badge>
+                </td>
+                <td className="px-5 py-3 hidden lg:table-cell text-muted-foreground">
+                  {c._count.projects} proy · {c._count.invoices} fact
+                </td>
+                <td className="px-5 py-3 text-muted-foreground hidden lg:table-cell">
+                  {formatDate(c.createdAt)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Card>
+    )
 
   return (
     <div>
-      {/* Header */}
       <div className="page-header">
         <div>
           <h1>CRM</h1>
-          <p className="text-sm text-text-secondary mt-0.5">{customers.length} contactos</p>
+          <p className="text-sm text-muted-foreground mt-0.5">{customers.length} contactos</p>
         </div>
-        <Link href="/dashboard/crm/new" className="btn-primary">
-          <UserPlus size={15} />
-          Nuevo cliente
-        </Link>
+        <Button asChild>
+          <Link href="/dashboard/crm/new">
+            <UserPlus size={15} />
+            Nuevo cliente
+          </Link>
+        </Button>
       </div>
 
-      {/* Pipeline summary */}
       {customers.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          {[
-            { label: "Total",          value: customers.length, color: "text-text-primary" },
-            { label: "Presupuestados", value: enCurso,          color: "text-amber-600"    },
-            { label: "Ganados",        value: ganados,          color: "text-emerald-600"  },
-            { label: "Perdidos",       value: perdidos,         color: "text-text-muted"   },
-          ].map(({ label, value, color }) => (
-            <div key={label} className="card py-3 text-center">
-              <p className={`text-2xl font-bold ${color}`}>{value}</p>
-              <p className="text-xs text-text-secondary mt-0.5">{label}</p>
-            </div>
-          ))}
+          <MetricCard label="Total" value={customers.length} icon={Users} iconColor="text-foreground" iconBg="bg-muted" />
+          <MetricCard label="Presupuestados" value={enCurso} icon={Clock} iconColor="text-amber-600" iconBg="bg-amber-50" />
+          <MetricCard label="Ganados" value={ganados} icon={TrendingUp} iconColor="text-emerald-600" iconBg="bg-emerald-50" />
+          <MetricCard label="Perdidos" value={perdidos} icon={TrendingDown} iconColor="text-muted-foreground" iconBg="bg-muted" />
         </div>
       )}
 
-      {/* Table */}
       {customers.length === 0 ? (
-        <div className="card text-center py-16">
-          <div className="w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center mx-auto mb-3">
-            <UserPlus size={20} className="text-brand-400" />
-          </div>
-          <p className="font-medium text-text-primary mb-1">Sin clientes todavía</p>
-          <p className="text-sm text-text-muted mb-4">Añade tu primer contacto al CRM</p>
-          <Link href="/dashboard/crm/new" className="btn-primary inline-flex">
-            Añadir primer cliente
-          </Link>
-        </div>
+        listView
       ) : (
-        <div className="card p-0 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-surface-border bg-surface-muted">
-                <th className="text-left px-5 py-3 text-text-secondary font-medium">Nombre</th>
-                <th className="text-left px-5 py-3 text-text-secondary font-medium hidden sm:table-cell">Email</th>
-                <th className="text-left px-5 py-3 text-text-secondary font-medium hidden md:table-cell">Teléfono</th>
-                <th className="text-left px-5 py-3 text-text-secondary font-medium">Estado</th>
-                <th className="text-left px-5 py-3 text-text-secondary font-medium hidden lg:table-cell">Proyectos</th>
-                <th className="text-left px-5 py-3 text-text-secondary font-medium hidden lg:table-cell">Alta</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-surface-border">
-              {customers.map((c) => (
-                <tr key={c.id} className="hover:bg-surface-muted/50 transition-colors group">
-                  <td className="px-5 py-3">
-                    <Link
-                      href={`/dashboard/crm/${c.id}`}
-                      className="font-medium text-text-primary group-hover:text-brand-600 transition-colors"
-                    >
-                      {c.name}
-                    </Link>
-                    {c.taxId && (
-                      <p className="text-xs text-text-muted mt-0.5">{c.taxId}</p>
-                    )}
-                  </td>
-                  <td className="px-5 py-3 text-text-secondary hidden sm:table-cell">{c.email ?? "—"}</td>
-                  <td className="px-5 py-3 text-text-secondary hidden md:table-cell">{c.phone ?? "—"}</td>
-                  <td className="px-5 py-3">
-                    <span className={STAGE_COLORS[c.pipelineStage]}>
-                      {PIPELINE_LABELS[c.pipelineStage]}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3 hidden lg:table-cell">
-                    <span className="text-text-secondary">
-                      {c._count.projects} proy · {c._count.invoices} fact
-                    </span>
-                  </td>
-                  <td className="px-5 py-3 text-text-secondary hidden lg:table-cell">
-                    {formatDate(c.createdAt)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CRMPageClient pipeline={pipelineView} list={listView} />
       )}
     </div>
   )

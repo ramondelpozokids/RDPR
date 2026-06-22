@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
+import { syncOverdueInvoices, initialInvoiceStatus } from "@/lib/invoices/sync-overdue"
+import { createInvoiceIssueEntry } from "@/lib/accounting/journal"
 
 const invoiceItemSchema = z.object({
   description: z.string().min(1),
@@ -28,6 +30,8 @@ async function nextInvoiceNumber(companyId: string): Promise<string> {
 export async function GET(req: NextRequest) {
   const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+
+  await syncOverdueInvoices(companyId)
 
   const { searchParams } = new URL(req.url)
   const status = searchParams.get("status")
@@ -60,16 +64,20 @@ export async function POST(req: NextRequest) {
   const total     = subtotal + taxAmount
   const number    = await nextInvoiceNumber(companyId)
 
+  const due = dueDate ? new Date(dueDate) : null
+  const status = initialInvoiceStatus(due)
+
   const invoice = await prisma.invoice.create({
     data: {
       companyId,
       customerId,
       number,
+      status,
       taxRate,
       subtotal,
       taxAmount,
       total,
-      dueDate:  dueDate ? new Date(dueDate) : null,
+      dueDate:  due,
       notes,
       items: {
         create: items.map((item) => ({
@@ -82,6 +90,8 @@ export async function POST(req: NextRequest) {
     },
     include: { customer: true, items: true },
   })
+
+  await createInvoiceIssueEntry(invoice)
 
   return NextResponse.json({ success: true, data: invoice }, { status: 201 })
 }

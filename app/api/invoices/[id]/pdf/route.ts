@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma }  from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import { formatCurrency, formatDate } from "@/lib/utils"
+import { generateInvoicePdf } from "@/lib/invoices/generate-pdf"
+import { syncOverdueInvoices } from "@/lib/invoices/sync-overdue"
 
 export async function GET(
   req: NextRequest,
@@ -11,13 +13,42 @@ export async function GET(
   const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
+  await syncOverdueInvoices(companyId)
+
   const invoice = await prisma.invoice.findFirst({
     where:   { id: params.id, companyId },
     include: { customer: true, items: true, company: true },
   })
   if (!invoice) return NextResponse.json({ error: "Factura no encontrada" }, { status: 404 })
 
-  const download  = new URL(req.url).searchParams.get("download") === "1"
+  const { searchParams } = new URL(req.url)
+  const download = searchParams.get("download") === "1"
+  const format = searchParams.get("format") ?? "html"
+
+  if (format === "pdf") {
+    const buffer = generateInvoicePdf({
+      number: invoice.number,
+      status: invoice.status,
+      issueDate: invoice.issueDate,
+      dueDate: invoice.dueDate,
+      paidAt: invoice.paidAt,
+      subtotal: invoice.subtotal,
+      taxRate: invoice.taxRate,
+      taxAmount: invoice.taxAmount,
+      total: invoice.total,
+      notes: invoice.notes,
+      company: invoice.company,
+      customer: invoice.customer,
+      items: invoice.items,
+    })
+    return new NextResponse(new Uint8Array(buffer), {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `${download ? "attachment" : "inline"}; filename="${invoice.number}.pdf"`,
+      },
+    })
+  }
+
   const statusMap: Record<string, string> = {
     PENDING: "Pendiente", PAID: "Pagada", OVERDUE: "Vencida", CANCELLED: "Cancelada"
   }
@@ -179,8 +210,11 @@ export async function GET(
       <button class="btn-print" onclick="window.print()">
         🖨 Imprimir
       </button>
-      <a class="btn-dl" href="?download=1" download="${invoice.number}.html">
-        ⬇ Descargar
+      <a class="btn-dl" href="?format=pdf&download=1">
+        ⬇ Descargar PDF
+      </a>
+      <a class="btn-print" href="?format=html" style="margin-left:8px">
+        Vista HTML
       </a>
     </div>
   </div>

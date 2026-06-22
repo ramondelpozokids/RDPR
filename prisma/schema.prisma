@@ -62,6 +62,10 @@ model Company {
   invoices     Invoice[]
   documents    Document[]
   activityLogs ActivityLog[]
+  accounts     ChartOfAccount[]
+  journalEntries JournalEntry[]
+  expenses     Expense[]
+  bankAccounts BankAccount[]
 
   @@map("companies")
 }
@@ -261,6 +265,7 @@ model Invoice {
   taxAmount  Float
   total      Float
   paidAt     DateTime?
+  reminderSentAt DateTime?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
@@ -329,4 +334,151 @@ model ActivityLog {
   user    User?   @relation(fields: [userId], references: [id])
 
   @@map("activity_logs")
+}
+
+// ─────────────────────────────────────────────
+// CONTABILIDAD (Fase 2)
+// ─────────────────────────────────────────────
+model ChartOfAccount {
+  id        String      @id @default(cuid())
+  companyId String
+  code      String      // PGC: 430, 477, 572, 705…
+  name      String
+  type      AccountType
+  active    Boolean     @default(true)
+  createdAt DateTime    @default(now())
+
+  company Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  lines   JournalLine[]
+
+  @@unique([companyId, code])
+  @@map("chart_of_accounts")
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  INCOME
+  EXPENSE
+}
+
+model JournalEntry {
+  id          String        @id @default(cuid())
+  companyId   String
+  number      String        // AST-2026-0001
+  date        DateTime      @default(now())
+  description String
+  source      JournalSource @default(MANUAL)
+  sourceId    String?       // invoice id, etc.
+  createdAt   DateTime      @default(now())
+
+  company Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  lines   JournalLine[]
+
+  @@unique([companyId, source, sourceId])
+  @@unique([companyId, number])
+  @@map("journal_entries")
+}
+
+enum JournalSource {
+  MANUAL
+  INVOICE_ISSUE
+  INVOICE_PAYMENT
+  EXPENSE_ISSUE
+  EXPENSE_PAYMENT
+}
+
+model JournalLine {
+  id          String  @id @default(cuid())
+  entryId     String
+  accountId   String
+  description String?
+  debit       Float   @default(0)
+  credit      Float   @default(0)
+
+  entry   JournalEntry   @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  account ChartOfAccount @relation(fields: [accountId], references: [id])
+
+  @@map("journal_lines")
+}
+
+// ─────────────────────────────────────────────
+// GASTOS / COMPRAS (Fase 2b)
+// ─────────────────────────────────────────────
+model Expense {
+  id          String          @id @default(cuid())
+  companyId   String
+  description String
+  vendor      String?
+  category    ExpenseCategory @default(SERVICES)
+  status      ExpenseStatus   @default(PENDING)
+  issueDate   DateTime        @default(now())
+  paidAt      DateTime?
+  subtotal    Float
+  taxRate     Float           @default(21)
+  taxAmount   Float
+  total       Float
+  notes       String?         @db.Text
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("expenses")
+}
+
+enum ExpenseCategory {
+  SERVICES
+  SUPPLIES
+  BANK_FEES
+  OTHER
+}
+
+enum ExpenseStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+// ─────────────────────────────────────────────
+// BANCA / CONCILIACIÓN (Fase 3)
+// ─────────────────────────────────────────────
+model BankAccount {
+  id        String   @id @default(cuid())
+  companyId String
+  name      String
+  iban      String?
+  bankName  String?
+  createdAt DateTime @default(now())
+
+  company      Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  transactions BankTransaction[]
+
+  @@map("bank_accounts")
+}
+
+model BankTransaction {
+  id              String            @id @default(cuid())
+  companyId       String
+  bankAccountId   String
+  date            DateTime
+  description     String
+  amount          Float             // positivo = entrada, negativo = salida
+  reference       String?
+  status          BankTxStatus      @default(UNMATCHED)
+  matchedInvoiceId String?
+  matchedExpenseId String?
+  importBatchId   String?
+  createdAt       DateTime          @default(now())
+
+  bankAccount BankAccount @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+
+  @@map("bank_transactions")
+}
+
+enum BankTxStatus {
+  UNMATCHED
+  MATCHED
+  IGNORED
 }

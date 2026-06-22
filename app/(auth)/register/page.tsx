@@ -5,6 +5,7 @@ import { useState }  from "react"
 import { useRouter } from "next/navigation"
 import Link          from "next/link"
 import { Eye, EyeOff, Check, ArrowRight } from "lucide-react"
+import { SiteLogo } from "@/components/site/SiteLogo"
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null
@@ -95,10 +96,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-surface-muted p-4 py-8">
       <div className="w-full max-w-sm">
 
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-500 shadow-lg mb-4">
-            <span className="text-white font-bold text-xl">R</span>
-          </div>
+        <div className="text-center mb-6 flex flex-col items-center">
+          <SiteLogo size="lg" href="/" className="mb-4" />
           <h1 className="text-2xl font-bold text-text-primary">Crea tu cuenta</h1>
           <p className="text-sm text-text-secondary mt-1">Empieza gratis · Sin tarjeta</p>
         </div>

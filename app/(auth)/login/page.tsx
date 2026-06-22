@@ -6,6 +6,7 @@ import { signIn }   from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Eye, EyeOff, ArrowRight } from "lucide-react"
+import { SiteLogo } from "@/components/site/SiteLogo"
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null
@@ -70,10 +71,8 @@ function LoginForm() {
       <div className="w-full max-w-sm">
 
         {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-500 shadow-lg mb-4">
-            <span className="text-white font-bold text-xl">R</span>
-          </div>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <SiteLogo size="lg" href="/" className="mb-4" />
           <h1 className="text-2xl font-bold text-text-primary">Bienvenido</h1>
           <p className="text-sm text-text-secondary mt-1">Inicia sesión en RDPR OS</p>
         </div>

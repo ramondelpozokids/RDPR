@@ -3,21 +3,25 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import {
   LayoutDashboard, Users, FolderKanban, FileText,
-  FolderOpen, Settings, LogOut, Menu, X, ChevronRight,
+  FolderOpen, Settings, LogOut, Menu, X, ChevronRight, Sparkles, Wallet,
 } from "lucide-react"
 import { cn, getInitials } from "@/lib/utils"
 import CompanySwitcher from "@/components/layout/CompanySwitcher"
 import type { CompanyOption } from "@/lib/company/context"
+import { SITE_IMAGES } from "@/lib/site/config"
 
 const NAV_ITEMS = [
   { href: "/dashboard",           icon: LayoutDashboard, label: "Inicio"      },
   { href: "/dashboard/crm",       icon: Users,           label: "CRM"         },
   { href: "/dashboard/projects",  icon: FolderKanban,    label: "Proyectos"   },
   { href: "/dashboard/invoices",  icon: FileText,        label: "Facturación" },
+  { href: "/dashboard/finance",   icon: Wallet,          label: "Finanzas"    },
+  { href: "/dashboard/intelligence", icon: Sparkles,    label: "Intelligence" },
   { href: "/dashboard/documents", icon: FolderOpen,      label: "Documentos"  },
   { href: "/dashboard/settings",  icon: Settings,        label: "Ajustes"     },
 ]
@@ -42,15 +46,13 @@ function NavContent({
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-5 border-b border-surface-border shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center shadow-sm">
-            <span className="text-white font-bold text-sm">R</span>
+        <Link href="/dashboard" className="flex items-center gap-2.5 min-w-0">
+          <Image src={SITE_IMAGES.logo} alt="RDPR OS" width={32} height={32} className="rounded-lg object-contain shrink-0" />
+          <div className="min-w-0">
+            <span className="font-semibold text-text-primary text-sm block leading-none">RDPR OS</span>
+            <span className="block text-[10px] text-text-muted leading-none mt-0.5">Business Suite</span>
           </div>
-          <div>
-            <span className="font-semibold text-text-primary text-sm">RDPR OS</span>
-            <span className="block text-[10px] text-text-muted leading-none">Business Suite</span>
-          </div>
-        </div>
+        </Link>
         {onClose && (
           <button onClick={onClose} className="btn-icon md:hidden">
             <X size={16} />

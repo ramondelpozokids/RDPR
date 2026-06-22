@@ -1,0 +1,63 @@
+import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
+import { prisma } from "@/lib/prisma/client"
+import { requireCompanyId } from "@/lib/company/context"
+import { createExpenseIssueEntry, createExpensePaymentEntry } from "@/lib/accounting/journal"
+
+const expenseSchema = z.object({
+  description: z.string().min(1),
+  vendor: z.string().optional(),
+  category: z.enum(["SERVICES", "SUPPLIES", "BANK_FEES", "OTHER"]).default("SERVICES"),
+  issueDate: z.string().optional(),
+  status: z.enum(["PENDING", "PAID"]).default("PENDING"),
+  subtotal: z.number().positive(),
+  taxRate: z.number().min(0).max(100).default(21),
+  notes: z.string().optional(),
+})
+
+export async function GET() {
+  const companyId = await requireCompanyId()
+  if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+
+  const expenses = await prisma.expense.findMany({
+    where: { companyId },
+    orderBy: { issueDate: "desc" },
+  })
+
+  return NextResponse.json({ success: true, data: expenses })
+}
+
+export async function POST(req: NextRequest) {
+  const companyId = await requireCompanyId()
+  if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+
+  const body = await req.json()
+  const parsed = expenseSchema.safeParse(body)
+  if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
+
+  const { description, vendor, category, issueDate, status, subtotal, taxRate, notes } = parsed.data
+  const taxAmount = subtotal * (taxRate / 100)
+  const total = subtotal + taxAmount
+  const paidAt = status === "PAID" ? new Date() : null
+
+  const expense = await prisma.expense.create({
+    data: {
+      companyId,
+      description,
+      vendor: vendor || null,
+      category,
+      status,
+      issueDate: issueDate ? new Date(issueDate) : new Date(),
+      paidAt,
+      subtotal,
+      taxRate,
+      taxAmount,
+      total,
+      notes,
+    },
+  })
+
+  await createExpenseIssueEntry(expense)
+
+  return NextResponse.json({ success: true, data: expense }, { status: 201 })
+}
