@@ -212,4 +212,7 @@ const PREDEFINED_LABELS: Record<IntelligenceQueryId, string> = {
   customers_summary: "¿Cuántos clientes tengo?",
   active_projects: "¿Cuántos proyectos activos hay?",
   expenses_month: "¿Cuánto he gastado este mes?",
+  cashflow_forecast: "¿Cómo está mi tesorería proyectada?",
+  accounting_alerts: "¿Hay alertas contables?",
+  ledger_balance: "¿Cuál es el saldo de clientes (430)?",
 }
