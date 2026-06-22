@@ -14,6 +14,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     name:       z.string().min(1).optional(),
     customerId: z.string().nullable().optional(),
     projectId:  z.string().nullable().optional(),
+    folderId:   z.string().nullable().optional(),
+    tags:       z.array(z.string()).optional(),
   })
   const parsed = schema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
@@ -23,7 +25,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
   const updated = await prisma.document.update({
     where: { id: params.id },
-    data:  parsed.data,
+    data: {
+      ...parsed.data,
+      ...(parsed.data.tags && {
+        tags: parsed.data.tags.map((t) => t.trim().toLowerCase()).filter(Boolean),
+      }),
+    },
   })
   return NextResponse.json({ success: true, data: updated })
 }

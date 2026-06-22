@@ -22,8 +22,11 @@ interface Doc {
   createdAt:  string
   customerId: string | null
   projectId:  string | null
+  folderId:   string | null
+  tags:       string[]
   customer?:  { name: string } | null
   project?:   { name: string } | null
+  folder?:    { id: string; name: string } | null
 }
 
 function FileIcon({ type, size = 16 }: { type: string; size?: number }) {
@@ -48,11 +51,18 @@ export default function DocumentsPage() {
   const [loading,   setLoading]   = useState(true)
   const [uploading, setUploading] = useState(false)
   const [filter,    setFilter]    = useState("")
+  const [folderFilter, setFolderFilter] = useState("")
+  const [tagFilter, setTagFilter] = useState("")
+  const [dateFrom, setDateFrom] = useState("")
+  const [dateTo, setDateTo] = useState("")
   const [showPanel, setShowPanel] = useState(false)
   const [customers, setCustomers] = useState<{ value: string; label: string }[]>([])
   const [projects,  setProjects]  = useState<{ value: string; label: string }[]>([])
+  const [folders,   setFolders]   = useState<{ value: string; label: string }[]>([])
   const [selCustomer, setSelCustomer] = useState("")
   const [selProject,  setSelProject]  = useState("")
+  const [selFolder,   setSelFolder]   = useState("")
+  const [uploadTags,  setUploadTags]  = useState("")
   const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Doc | null>(null)
   const [previewDoc,   setPreviewDoc]   = useState<Doc | null>(null)
@@ -62,22 +72,35 @@ export default function DocumentsPage() {
 
   async function load() {
     setLoading(true)
-    const res = await fetch("/api/documents")
+    const params = new URLSearchParams()
+    if (filter.trim()) params.set("q", filter.trim())
+    if (folderFilter) params.set("folderId", folderFilter)
+    if (tagFilter.trim()) params.set("tag", tagFilter.trim())
+    if (dateFrom) params.set("from", dateFrom)
+    if (dateTo) params.set("to", dateTo)
+    const qs = params.toString()
+    const res = await fetch(`/api/documents${qs ? `?${qs}` : ""}`)
     const d   = await res.json()
     if (d.success) setDocs(d.data)
     setLoading(false)
   }
 
   async function loadMeta() {
-    const [cr, pr] = await Promise.all([
+    const [cr, pr, fo] = await Promise.all([
       fetch("/api/customers").then(r => r.json()),
       fetch("/api/projects").then(r => r.json()),
+      fetch("/api/documents/folders").then(r => r.json()),
     ])
-    if (cr.success) setCustomers(cr.data.map((c: any) => ({ value: c.id, label: c.name })))
-    if (pr.success) setProjects(pr.data.map((p: any) => ({ value: p.id, label: p.name })))
+    if (cr.success) setCustomers(cr.data.map((c: { id: string; name: string }) => ({ value: c.id, label: c.name })))
+    if (pr.success) setProjects(pr.data.map((p: { id: string; name: string }) => ({ value: p.id, label: p.name })))
+    if (fo.success) setFolders(fo.data.map((f: { id: string; name: string }) => ({ value: f.id, label: f.name })))
   }
 
-  useEffect(() => { load(); loadMeta() }, [])
+  useEffect(() => { loadMeta() }, [])
+  useEffect(() => {
+    const t = setTimeout(() => { void load() }, 250)
+    return () => clearTimeout(t)
+  }, [filter, folderFilter, tagFilter, dateFrom, dateTo])
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -95,12 +118,14 @@ export default function DocumentsPage() {
     fd.append("file", pendingFile)
     if (selCustomer) fd.append("customerId", selCustomer)
     if (selProject)  fd.append("projectId",  selProject)
+    if (selFolder)   fd.append("folderId",   selFolder)
+    if (uploadTags.trim()) fd.append("tags", uploadTags.trim())
 
     const res = await fetch("/api/documents", { method: "POST", body: fd })
     if (res.ok) {
       toast.success("Archivo subido", pendingFile.name)
       setPendingFile(null); setShowPanel(false)
-      setSelCustomer(""); setSelProject("")
+      setSelCustomer(""); setSelProject(""); setSelFolder(""); setUploadTags("")
       await load()
     } else {
       const d = await res.json()
@@ -133,12 +158,7 @@ export default function DocumentsPage() {
     setEditingId(null)
   }
 
-  const filtered = docs.filter(d =>
-    !filter ||
-    d.name.toLowerCase().includes(filter.toLowerCase()) ||
-    (d.customer?.name ?? "").toLowerCase().includes(filter.toLowerCase()) ||
-    (d.project?.name  ?? "").toLowerCase().includes(filter.toLowerCase())
-  )
+  const filtered = docs
 
   const imgDocs = filtered.filter(d => d.fileType.startsWith("image/"))
   const otherDocs = filtered.filter(d => !d.fileType.startsWith("image/"))
@@ -196,6 +216,23 @@ export default function DocumentsPage() {
               value={selProject}
               onChange={e => setSelProject(e.target.value)}
             />
+            <Select
+              label="Carpeta (opcional)"
+              options={folders}
+              placeholder="Sin carpeta"
+              value={selFolder}
+              onChange={e => setSelFolder(e.target.value)}
+            />
+            <div>
+              <label className="label">Etiquetas (opcional)</label>
+              <input
+                className="input w-full"
+                placeholder="fiscal, contrato, 2026…"
+                value={uploadTags}
+                onChange={e => setUploadTags(e.target.value)}
+              />
+              <p className="text-[10px] text-text-muted mt-1">Separadas por comas</p>
+            </div>
           </div>
           <div className="flex gap-2">
             <Button onClick={handleUpload} loading={uploading}>
@@ -208,14 +245,47 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      {/* Search */}
+      {/* Search & filters */}
       {docs.length > 0 && (
-        <div className="mb-5">
+        <div className="mb-5 flex flex-wrap gap-3 items-end">
           <SearchInput
-            placeholder="Buscar por nombre, cliente o proyecto..."
+            placeholder="Buscar por nombre o etiqueta…"
             value={filter}
             onChange={setFilter}
             className="max-w-xs"
+          />
+          {folders.length > 0 && (
+            <select
+              className="input text-sm py-2 max-w-[160px]"
+              value={folderFilter}
+              onChange={e => setFolderFilter(e.target.value)}
+            >
+              <option value="">Todas las carpetas</option>
+              {folders.map(f => (
+                <option key={f.value} value={f.value}>{f.label}</option>
+              ))}
+            </select>
+          )}
+          <input
+            type="text"
+            className="input text-sm py-2 max-w-[120px]"
+            placeholder="Etiqueta"
+            value={tagFilter}
+            onChange={e => setTagFilter(e.target.value)}
+          />
+          <input
+            type="date"
+            className="input text-sm py-2"
+            value={dateFrom}
+            onChange={e => setDateFrom(e.target.value)}
+            title="Desde"
+          />
+          <input
+            type="date"
+            className="input text-sm py-2"
+            value={dateTo}
+            onChange={e => setDateTo(e.target.value)}
+            title="Hasta"
           />
         </div>
       )}
@@ -288,6 +358,7 @@ export default function DocumentsPage() {
                       <th className="table-header hidden sm:table-cell">Tipo</th>
                       <th className="table-header hidden md:table-cell">Tamaño</th>
                       <th className="table-header hidden lg:table-cell">Asociado a</th>
+                      <th className="table-header hidden md:table-cell">Etiquetas</th>
                       <th className="table-header hidden xl:table-cell">Fecha</th>
                       <th className="table-header w-24">Acciones</th>
                     </tr>
@@ -331,10 +402,26 @@ export default function DocumentsPage() {
                           {formatFileSize(doc.fileSize)}
                         </td>
                         <td className="table-cell hidden lg:table-cell">
-                          {(doc.customer || doc.project) ? (
-                            <div className="flex items-center gap-1 text-xs text-text-secondary">
-                              <Link2 size={11} className="shrink-0" />
-                              <span>{doc.customer?.name ?? doc.project?.name}</span>
+                          {(doc.customer || doc.project || doc.folder) ? (
+                            <div className="flex flex-col gap-0.5 text-xs text-text-secondary">
+                              {doc.customer && (
+                                <div className="flex items-center gap-1">
+                                  <Link2 size={11} className="shrink-0" />
+                                  <span>{doc.customer.name}</span>
+                                </div>
+                              )}
+                              {doc.folder && <span className="text-text-muted">📁 {doc.folder.name}</span>}
+                            </div>
+                          ) : (
+                            <span className="text-text-muted">—</span>
+                          )}
+                        </td>
+                        <td className="table-cell hidden md:table-cell">
+                          {doc.tags?.length ? (
+                            <div className="flex flex-wrap gap-1">
+                              {doc.tags.map(t => (
+                                <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-surface-muted text-text-secondary">{t}</span>
+                              ))}
                             </div>
                           ) : (
                             <span className="text-text-muted">—</span>

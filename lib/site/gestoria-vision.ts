@@ -226,7 +226,7 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     name: "RDPR Documents",
     tagline: "Archivo digital, envío seguro y gestión documental.",
     status: "beta",
-    highlights: ["Portal de envío", "Clasificación documental", "Roadmap: OCR e IA"],
+    highlights: ["Carpetas por expediente", "Etiquetas y búsqueda", "Roadmap: OCR e IA"],
   },
   {
     slug: "intelligence",

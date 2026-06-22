@@ -202,10 +202,10 @@ export const TAX_MODELS: TaxModelDefinition[] = [
     description: "Operaciones intracomunitarias",
     category: "intracomunitario",
     icon: Globe2,
-    status: "planned",
+    status: "active",
     entities: ["AUTONOMO", "SL", "SA", "OTHER"],
     frequency: "mensual",
-    v1: false,
+    v1: true,
   },
 ]
 
@@ -229,7 +229,7 @@ export const RDPR_TAX_INTELLIGENCE_TAGLINE =
 export const TAX_INTELLIGENCE_ROADMAP = [
   { label: "Presentación AEAT con certificado digital", status: "planned" as const },
   { label: "Modelos 115/180 alquileres", status: "active" as const },
-  { label: "Modelo 349 intracomunitario", status: "planned" as const },
+  { label: "Modelo 349 intracomunitario", status: "active" as const },
   { label: "Modelo 131 módulos IRPF", status: "planned" as const },
   { label: "Modelo 202 pagos fraccionados IS", status: "planned" as const },
   { label: "Simulación fiscal avanzada con IA", status: "planned" as const },

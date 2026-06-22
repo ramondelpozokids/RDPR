@@ -270,6 +270,31 @@ export default async function TaxModelPage({ params, searchParams }: Props) {
         </>
       )}
 
+      {result.modelId === "349" && (
+        <>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <MetricCard label="Entregas UE (base)" value={formatCurrency(result.data.totalDeliveries)} icon={Users} iconColor="text-violet-600" iconBg="bg-violet-50" />
+            <MetricCard label="Adquisiciones UE (base)" value={formatCurrency(result.data.totalAcquisitions)} icon={Calculator} iconColor="text-primary" iconBg="bg-accent" />
+          </div>
+          <p className="text-xs text-muted-foreground mb-3">
+            Periodo mensual: {result.data.period.label}
+          </p>
+          <LinesTable
+            headers={["Tercero", "NIF-IVA", "País", "Tipo", "Base", "Doc.", "Fecha"]}
+            rows={result.data.operations.map((o) => [
+              o.partyName,
+              o.vatNumber,
+              o.countryCode,
+              o.operationType === "E" ? "Entrega" : "Adquisición",
+              formatCurrency(o.baseAmount),
+              o.documentRef,
+              formatDate(o.issueDate),
+            ])}
+            empty="Sin operaciones intracomunitarias detectadas en el mes."
+          />
+        </>
+      )}
+
       <Card className="mt-6">
         <CardHeader>
           <CardTitle className="text-base flex items-center gap-2">

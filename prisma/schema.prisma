@@ -413,6 +413,7 @@ model Document {
   fileUrl    String
   fileType   String
   fileSize   Int
+  tags       String[]       @default([])
   source     DocumentSource @default(INTERNAL)
   createdAt  DateTime       @default(now())
 

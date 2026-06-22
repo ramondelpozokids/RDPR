@@ -207,6 +207,26 @@ export async function exportTaxModelCsv(
         )
       break
     }
+    case "349": {
+      const d = result.data
+      csv =
+        metaRows(model.name, d.period.label, d.disclaimer) +
+        "\n" +
+        rowsToCsv(
+          ["Tercero", "NIF-IVA", "País", "Tipo", "Base", "Total", "Documento", "Fecha"],
+          d.operations.map((o) => [
+            o.partyName,
+            o.vatNumber,
+            o.countryCode,
+            o.operationType === "E" ? "Entrega" : "Adquisición",
+            o.baseAmount.toFixed(2),
+            o.totalAmount.toFixed(2),
+            o.documentRef,
+            o.issueDate.toISOString().slice(0, 10),
+          ])
+        )
+      break
+    }
     default:
       return null
   }

@@ -14,10 +14,12 @@ import {
   getCurrentQuarterPeriod,
   getQuarterPeriod,
   getYearPeriod,
+  parseMonthParam,
   parsePeriodParam,
   quarterOf,
   type TaxPeriod,
 } from "@/lib/tax/periods"
+import { MODEL_349_OPERATION, parseIntraEuVat } from "@/lib/tax/intra-eu"
 import type { TaxEntityType, VatFilingPeriod } from "@prisma/client"
 
 export type TaxCompanyProfile = {
@@ -652,6 +654,103 @@ export async function calculateModel347(companyId: string, year?: number): Promi
   }
 }
 
+export type Model349Operation = {
+  partyName: string
+  vatNumber: string
+  countryCode: string
+  operationType: string
+  baseAmount: number
+  totalAmount: number
+  documentRef: string
+  issueDate: Date
+}
+
+export type Model349Result = {
+  period: TaxPeriod
+  operations: Model349Operation[]
+  totalDeliveries: number
+  totalAcquisitions: number
+  disclaimer: string
+}
+
+export async function calculateModel349(
+  companyId: string,
+  periodParam?: string
+): Promise<Model349Result> {
+  const period = parseMonthParam(periodParam)
+
+  const [invoices, expenses] = await Promise.all([
+    prisma.invoice.findMany({
+      where: {
+        companyId,
+        issueDate: { gte: period.start, lte: period.end },
+        status: { not: "CANCELLED" },
+        documentType: "INVOICE",
+      },
+      include: { customer: { select: { name: true, taxId: true } } },
+      orderBy: { issueDate: "desc" },
+    }),
+    prisma.expense.findMany({
+      where: {
+        companyId,
+        issueDate: { gte: period.start, lte: period.end },
+        status: { not: "CANCELLED" },
+      },
+      orderBy: { issueDate: "desc" },
+    }),
+  ])
+
+  const operations: Model349Operation[] = []
+
+  for (const inv of invoices) {
+    const vat = parseIntraEuVat(inv.customer.taxId)
+    if (!vat) continue
+    operations.push({
+      partyName: inv.customer.name,
+      vatNumber: vat.vatNumber,
+      countryCode: vat.countryCode,
+      operationType: MODEL_349_OPERATION.DELIVERY,
+      baseAmount: inv.subtotal,
+      totalAmount: inv.total,
+      documentRef: inv.number,
+      issueDate: inv.issueDate,
+    })
+  }
+
+  for (const exp of expenses) {
+    const vat = parseIntraEuVat(exp.vendorTaxId)
+    if (!vat) continue
+    operations.push({
+      partyName: exp.vendor ?? "Proveedor UE",
+      vatNumber: vat.vatNumber,
+      countryCode: vat.countryCode,
+      operationType: MODEL_349_OPERATION.ACQUISITION,
+      baseAmount: exp.subtotal,
+      totalAmount: exp.total,
+      documentRef: exp.description,
+      issueDate: exp.issueDate,
+    })
+  }
+
+  const totalDeliveries = operations
+    .filter((o) => o.operationType === MODEL_349_OPERATION.DELIVERY)
+    .reduce((s, o) => s + o.baseAmount, 0)
+  const totalAcquisitions = operations
+    .filter((o) => o.operationType === MODEL_349_OPERATION.ACQUISITION)
+    .reduce((s, o) => s + o.baseAmount, 0)
+
+  return {
+    period,
+    operations,
+    totalDeliveries,
+    totalAcquisitions,
+    disclaimer:
+      operations.length === 0
+        ? "Sin operaciones intracomunitarias detectadas. Use NIF-IVA UE en clientes (ventas) o NIF proveedor (compras), p. ej. FR12345678901."
+        : "Operaciones detectadas por prefijo NIF-IVA intracomunitario (distinto de ES). Revise exenciones y claves de operación antes de presentar.",
+  }
+}
+
 export type TaxModelCalculation =
   | { modelId: "303"; data: Model303Result }
   | { modelId: "390"; data: Model390Result }
@@ -663,6 +762,7 @@ export type TaxModelCalculation =
   | { modelId: "200"; data: Model200Result }
   | { modelId: "202"; data: Model202Result }
   | { modelId: "347"; data: Model347Result }
+  | { modelId: "349"; data: Model349Result }
 
 export async function calculateTaxModel(
   companyId: string,
@@ -705,6 +805,8 @@ export async function calculateTaxModel(
         modelId: "347",
         data: await calculateModel347(companyId, periodParam ? Number(periodParam) : undefined),
       }
+    case "349":
+      return { modelId: "349", data: await calculateModel349(companyId, periodParam) }
     default:
       return null
   }

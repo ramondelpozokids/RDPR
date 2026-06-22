@@ -60,6 +60,44 @@ export function getYearPeriod(year: number): TaxPeriod {
   }
 }
 
+export function monthStart(year: number, month: number): Date {
+  return new Date(year, month - 1, 1)
+}
+
+export function monthEnd(year: number, month: number): Date {
+  return new Date(year, month, 0, 23, 59, 59, 999)
+}
+
+const MONTH_NAMES = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+]
+
+export function getMonthPeriod(year: number, month: number): TaxPeriod {
+  return {
+    year,
+    month,
+    label: `${MONTH_NAMES[month - 1]} ${year}`,
+    start: monthStart(year, month),
+    end: monthEnd(year, month),
+  }
+}
+
+export function getCurrentMonthPeriod(): TaxPeriod {
+  const d = new Date()
+  return getMonthPeriod(d.getFullYear(), d.getMonth() + 1)
+}
+
+export function parseMonthParam(period: string | null | undefined): TaxPeriod {
+  if (!period || period === "current") return getCurrentMonthPeriod()
+  const m = period.match(/^(\d{4})-(\d{2})$/)
+  if (m) {
+    const month = Number(m[2])
+    if (month >= 1 && month <= 12) return getMonthPeriod(Number(m[1]), month)
+  }
+  return getCurrentMonthPeriod()
+}
+
 export function parsePeriodParam(
   period: string | null | undefined,
   defaultYear = new Date().getFullYear()
