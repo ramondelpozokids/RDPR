@@ -11,6 +11,7 @@ import {
   FolderOpen, Upload, FileText, File, ImageIcon,
   Trash2, ExternalLink, Pencil, X, Check, Link2,
 } from "lucide-react"
+import { DocumentOcrButton } from "@/components/documents/DocumentOcrButton"
 import { formatDate, formatFileSize } from "@/lib/utils"
 
 interface Doc {
@@ -432,6 +433,7 @@ export default function DocumentsPage() {
                         </td>
                         <td className="table-cell">
                           <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <DocumentOcrButton documentId={doc.id} />
                             <a
                               href={doc.fileUrl}
                               target="_blank"

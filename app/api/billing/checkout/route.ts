@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { auth } from "@/lib/auth/config"
+import { getActiveCompanyId } from "@/lib/company/context"
 import { getStripeClient, planOrThrow } from "@/lib/stripe/client"
 import type { BillingPlanId } from "@/lib/stripe/billing"
 
@@ -22,6 +23,7 @@ export async function POST(req: NextRequest) {
 
   const plan = planOrThrow(parsed.data.plan as BillingPlanId)
   const session = await auth()
+  const companyId = await getActiveCompanyId()
   const baseUrl = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? req.nextUrl.origin
 
   const checkout = await stripe.checkout.sessions.create({
@@ -44,7 +46,13 @@ export async function POST(req: NextRequest) {
     success_url: `${baseUrl}/dashboard/settings?billing=success`,
     cancel_url: `${baseUrl}/precios?billing=cancelled`,
     customer_email: session?.user?.email ?? undefined,
-    metadata: { plan: parsed.data.plan },
+    metadata: {
+      plan: parsed.data.plan,
+      ...(companyId ? { companyId } : {}),
+    },
+    subscription_data: {
+      metadata: { plan: parsed.data.plan, ...(companyId ? { companyId } : {}) },
+    },
   })
 
   return NextResponse.json({ success: true, url: checkout.url })

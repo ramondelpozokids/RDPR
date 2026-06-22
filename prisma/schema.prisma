@@ -74,6 +74,10 @@ model Company {
   taxEntityType  TaxEntityType   @default(SL)
   vatFilingPeriod VatFilingPeriod @default(QUARTERLY)
   irpfRegime     IrpfRegime?
+  billingPlan          String?
+  billingStatus        String?
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -95,6 +99,7 @@ model Company {
   payrollRuns    PayrollRun[]
   legalTemplates LegalTemplate[]
   legalCases     LegalCase[]
+  portalMessages PortalMessage[]
 
   @@map("companies")
 }
@@ -152,6 +157,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   portalAccess  ClientPortalAccess[]
+  portalMessages PortalMessage[]
 
   @@map("users")
 }
@@ -243,6 +249,7 @@ model Customer {
   portalAccess ClientPortalAccess[]
   employees Employee[]
   legalCases LegalCase[]
+  portalMessages PortalMessage[]
 
   @@map("customers")
 }
@@ -422,6 +429,7 @@ model Document {
   project  Project?        @relation(fields: [projectId], references: [id])
   folder   DocumentFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
   legalCase LegalCase?     @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
+  ocrResult DocumentOcrResult?
 
   @@map("documents")
 }
@@ -461,6 +469,42 @@ model ClientPortalAccess {
 
   @@unique([userId, customerId])
   @@map("client_portal_access")
+}
+
+enum PortalMessageAuthor {
+  CLIENT
+  ADVISOR
+}
+
+model PortalMessage {
+  id         String              @id @default(cuid())
+  companyId  String
+  customerId String
+  authorId   String
+  authorRole PortalMessageAuthor
+  body       String              @db.Text
+  readAt     DateTime?
+  createdAt  DateTime            @default(now())
+
+  company  Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  author   User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, customerId, createdAt])
+  @@map("portal_messages")
+}
+
+model DocumentOcrResult {
+  id         String   @id @default(cuid())
+  documentId String   @unique
+  rawText    String   @db.Text
+  structured Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@map("document_ocr_results")
 }
 
 // ─────────────────────────────────────────────

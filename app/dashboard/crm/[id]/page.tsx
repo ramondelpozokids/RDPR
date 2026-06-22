@@ -9,6 +9,7 @@ import { ArrowLeft, Mail, Phone, MapPin, FileText, FolderKanban } from "lucide-r
 import { CustomerExpedienteTabs, getActiveCustomerTab } from "@/components/crm/CustomerExpedienteTabs"
 import { PortalInvitePanel } from "@/components/crm/PortalInvitePanel"
 import { CustomerDocumentsPanel } from "@/components/crm/CustomerDocumentsPanel"
+import { CustomerMessagesPanel } from "@/components/crm/CustomerMessagesPanel"
 
 const INVOICE_STATUS_COLORS: Record<string, string> = {
   PENDING: "badge-yellow",
@@ -299,6 +300,8 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
           initialFolders={folders}
         />
       )}
+
+      {tab === "mensajes" && <CustomerMessagesPanel customerId={customer.id} />}
 
       {tab === "portal" && (
         <div className="max-w-md">

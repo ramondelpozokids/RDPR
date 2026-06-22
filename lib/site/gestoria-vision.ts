@@ -266,7 +266,7 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     name: "RDPR Portal",
     tagline: "Portal del cliente moderno.",
     status: "beta",
-    highlights: ["Documentos", "Consultas", "Roadmap: firma y chat"],
+    highlights: ["Documentos", "Mensajes con asesoría", "Roadmap: firma y chat en vivo"],
   },
   {
     slug: "signature",
