@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { MarketingAccordionItem } from "@/components/site/MarketingAccordionItem"
 import {
   RDPR_PRODUCT_MODULES,
   RDPR_DIFFERENTIATION,
@@ -9,9 +10,10 @@ import {
 
 type ProductModulesCatalogProps = {
   compact?: boolean
+  accordion?: boolean
 }
 
-export function ProductModulesCatalog({ compact = false }: ProductModulesCatalogProps) {
+export function ProductModulesCatalog({ compact = false, accordion = false }: ProductModulesCatalogProps) {
   return (
     <section className={compact ? "" : "py-16 px-4 sm:px-6 bg-surface-muted/30 border-y border-surface-border"}>
       <div className={compact ? "" : "max-w-5xl mx-auto"}>
@@ -36,30 +38,56 @@ export function ProductModulesCatalog({ compact = false }: ProductModulesCatalog
           ))}
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {RDPR_PRODUCT_MODULES.map(({ slug, icon: Icon, name, tagline, status, highlights }) => (
-            <article
-              key={slug}
-              className="rounded-2xl border border-surface-border bg-white p-5 flex flex-col"
-            >
-              <div className="flex items-start justify-between gap-2 mb-3">
-                <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center">
-                  <Icon size={18} className="text-brand-600" />
-                </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${STATUS_STYLES[status]}`}>
+        {accordion ? (
+          <div className="space-y-3">
+            {RDPR_PRODUCT_MODULES.map(({ slug, icon: Icon, name, tagline, status, highlights }) => (
+              <MarketingAccordionItem
+                key={slug}
+                title={name}
+                summary={tagline}
+                icon={
+                  <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center">
+                    <Icon size={18} className="text-brand-600" />
+                  </div>
+                }
+              >
+                <span className={`inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border mb-3 ${STATUS_STYLES[status]}`}>
                   {STATUS_LABELS[status]}
                 </span>
-              </div>
-              <h3 className="font-bold mb-1">{name}</h3>
-              <p className="text-sm text-text-muted mb-3">{tagline}</p>
-              <ul className="space-y-1 flex-1">
-                {highlights.map((h) => (
-                  <li key={h} className="text-xs text-text-secondary">· {h}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
+                <ul className="space-y-1">
+                  {highlights.map((h) => (
+                    <li key={h} className="text-xs text-text-secondary">· {h}</li>
+                  ))}
+                </ul>
+              </MarketingAccordionItem>
+            ))}
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {RDPR_PRODUCT_MODULES.map(({ slug, icon: Icon, name, tagline, status, highlights }) => (
+              <article
+                key={slug}
+                className="rounded-2xl border border-surface-border bg-white p-5 flex flex-col"
+              >
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center">
+                    <Icon size={18} className="text-brand-600" />
+                  </div>
+                  <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${STATUS_STYLES[status]}`}>
+                    {STATUS_LABELS[status]}
+                  </span>
+                </div>
+                <h3 className="font-bold mb-1">{name}</h3>
+                <p className="text-sm text-text-muted mb-3">{tagline}</p>
+                <ul className="space-y-1 flex-1">
+                  {highlights.map((h) => (
+                    <li key={h} className="text-xs text-text-secondary">· {h}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        )}
 
         {!compact && (
           <div className="text-center mt-10">

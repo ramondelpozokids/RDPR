@@ -40,6 +40,20 @@ export const SITE_NAV: SiteNavItem[] = [
   { href: "/nosotros", label: "Nosotros", description: "CEO y fundador" },
 ]
 
+export type NavModuleItem = {
+  href: string
+  label: string
+}
+
+/** Módulos del menú desplegable del navbar (español). */
+export const NAV_MODULES: NavModuleItem[] = [
+  { href: "/modulos", label: "Contabilidad" },
+  { href: "/modelos-fiscales", label: "Fiscal" },
+  { href: "/modulos#finance", label: "Finanzas" },
+  { href: "/modulos#crm", label: "CRM" },
+  { href: "/modulos", label: "ERP" },
+]
+
 export const FOOTER_LINKS = {
   producto: [
     { href: "/servicios", label: "Servicios" },

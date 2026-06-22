@@ -1,12 +1,31 @@
+import { MarketingAccordionItem } from "@/components/site/MarketingAccordionItem"
+import { SectionDivider } from "@/components/site/SectionDivider"
 import { ADVISORY_AREAS } from "@/lib/site/gestoria-vision"
+import type { StockImageKey } from "@/lib/site/stock-images"
 
 type AdvisoryAreasSectionProps = {
   limit?: number
   showAllLink?: boolean
+  /** IDs de áreas que se muestran como acordeón (p. ej. fiscal, contable, laboral). */
+  accordionAreaIds?: string[]
+  /** Imagen de separación tras cada área en acordeón. */
+  withAreaDividers?: boolean
 }
 
-export function AdvisoryAreasSection({ limit, showAllLink = false }: AdvisoryAreasSectionProps) {
+const AREA_DIVIDER_IMAGES: Record<string, StockImageKey> = {
+  fiscal: "fiscalArea",
+  contable: "accountingArea",
+  laboral: "laborArea",
+}
+
+export function AdvisoryAreasSection({
+  limit,
+  showAllLink = false,
+  accordionAreaIds = [],
+  withAreaDividers = false,
+}: AdvisoryAreasSectionProps) {
   const areas = limit ? ADVISORY_AREAS.slice(0, limit) : ADVISORY_AREAS
+  const accordionSet = new Set(accordionAreaIds)
 
   return (
     <section className="py-16 px-4 sm:px-6">
@@ -22,31 +41,63 @@ export function AdvisoryAreasSection({ limit, showAllLink = false }: AdvisoryAre
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-5">
-          {areas.map(({ id, icon: Icon, title, summary, items }) => (
-            <article
-              key={id}
-              className="rounded-2xl border border-surface-border bg-white p-6 hover:border-brand-200 transition-colors"
-            >
-              <div className="flex items-start gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
-                  <Icon size={20} className="text-brand-600" />
+        <div className="space-y-5">
+          {areas.map(({ id, icon: Icon, title, summary, items }) => {
+            const isAccordion = accordionSet.has(id)
+
+            if (isAccordion) {
+              return (
+                <div key={id}>
+                  <MarketingAccordionItem
+                    title={title}
+                    summary={summary}
+                    icon={
+                      <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
+                        <Icon size={20} className="text-brand-600" />
+                      </div>
+                    }
+                  >
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+                      {items.map((item) => (
+                        <li key={item} className="text-xs text-text-secondary flex items-start gap-1.5">
+                          <span className="text-brand-400 mt-0.5">·</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </MarketingAccordionItem>
+                  {withAreaDividers && AREA_DIVIDER_IMAGES[id] && (
+                    <SectionDivider name={AREA_DIVIDER_IMAGES[id]} className="mt-5 rounded-2xl overflow-hidden border-0" />
+                  )}
                 </div>
-                <div>
-                  <h3 className="font-bold text-lg">{title}</h3>
-                  <p className="text-sm text-text-muted mt-0.5">{summary}</p>
+              )
+            }
+
+            return (
+              <article
+                key={id}
+                className="rounded-2xl border border-surface-border bg-white p-6 hover:border-brand-200 transition-colors"
+              >
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
+                    <Icon size={20} className="text-brand-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">{title}</h3>
+                    <p className="text-sm text-text-muted mt-0.5">{summary}</p>
+                  </div>
                 </div>
-              </div>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
-                {items.map((item) => (
-                  <li key={item} className="text-xs text-text-secondary flex items-start gap-1.5">
-                    <span className="text-brand-400 mt-0.5">·</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+                  {items.map((item) => (
+                    <li key={item} className="text-xs text-text-secondary flex items-start gap-1.5">
+                      <span className="text-brand-400 mt-0.5">·</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            )
+          })}
         </div>
 
         {showAllLink && limit && limit < ADVISORY_AREAS.length && (

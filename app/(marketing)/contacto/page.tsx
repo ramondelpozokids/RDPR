@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { ContactForm } from "@/components/site/ContactForm"
 import { CONTACT_EMAIL } from "@/lib/site/config"
+import { stockUrl } from "@/lib/site/stock-images"
 import { Mail, Phone, MapPin } from "lucide-react"
 
 export const metadata: Metadata = {
@@ -17,6 +18,8 @@ export default function ContactoPage() {
         eyebrow="Contacto"
         title="Hablemos de su empresa"
         description="Confíe en asesores expertos. Le respondemos con la mayor brevedad posible."
+        image={stockUrl("contactHero", 1200)}
+        imageAlt="Contacto con asesoría profesional"
       />
 
       <section className="py-16 px-4 sm:px-6">

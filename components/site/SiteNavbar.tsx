@@ -1,19 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import { SiteLogo } from "@/components/site/SiteLogo"
 import { SiteSidebar } from "@/components/site/SiteSidebar"
+import { NAV_MODULES } from "@/lib/site/config"
+import { cn } from "@/lib/utils"
 
 export function SiteNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [modulesOpen, setModulesOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setModulesOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
     <>
       <header className="fixed top-0 inset-x-0 z-50 h-16 border-b border-surface-border/80 bg-white/85 backdrop-blur-xl">
         <div className="max-w-[1400px] mx-auto h-full px-4 sm:px-6 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
@@ -23,6 +37,35 @@ export function SiteNavbar() {
               <Menu size={20} />
             </button>
             <SiteLogo size="sm" />
+          </div>
+
+          <div className="hidden md:flex items-center gap-1 flex-1 justify-center" ref={dropdownRef}>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setModulesOpen((v) => !v)}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-text-primary px-3 py-2 rounded-lg hover:bg-surface-muted transition-colors"
+                aria-expanded={modulesOpen}
+                aria-haspopup="true"
+              >
+                Módulos
+                <ChevronDown size={16} className={cn("transition-transform", modulesOpen && "rotate-180")} />
+              </button>
+              {modulesOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl border border-surface-border bg-white shadow-lg py-1 z-50">
+                  {NAV_MODULES.map(({ href, label }) => (
+                    <Link
+                      key={`${href}-${label}`}
+                      href={href}
+                      onClick={() => setModulesOpen(false)}
+                      className="block px-4 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">

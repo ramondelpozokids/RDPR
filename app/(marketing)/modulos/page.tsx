@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRight, Wallet, Users, Layers, FolderOpen, Brain } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
+import { SectionDivider } from "@/components/site/SectionDivider"
 import { StockImage } from "@/components/site/StockImage"
 import type { StockImageKey } from "@/lib/site/stock-images"
 
@@ -63,7 +64,11 @@ export default function ModulosPage() {
         description="Finanzas, clientes, documentos y cumplimiento normativo en un entorno unificado, pensado para asesorías y empresas exigentes."
       />
 
-      <ProductModulesCatalog />
+      <SectionDivider name="modulesArea" />
+
+      <ProductModulesCatalog accordion />
+
+      <SectionDivider name="dataAnalytics" />
 
       <section className="py-16 px-4 sm:px-6 space-y-16 max-w-5xl mx-auto">
         <div className="text-center">

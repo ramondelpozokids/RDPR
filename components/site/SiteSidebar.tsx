@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  Home, Layers, Brain, CreditCard, Users, Sparkles, LayoutGrid, LogIn, ArrowRight,
+  Home, Layers, Brain, CreditCard, Users, Sparkles, LayoutGrid,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE_NAV } from "@/lib/site/config"
@@ -71,25 +71,6 @@ export function SiteSidebar({ className, onNavigate, variant = "desktop" }: Site
           )
         })}
       </nav>
-
-      <div className="p-4 border-t border-surface-border space-y-2">
-        <Link
-          href="/register"
-          onClick={onNavigate}
-          className="btn-primary w-full justify-center text-sm py-2.5"
-        >
-          Solicitar demo
-          <ArrowRight size={14} />
-        </Link>
-        <Link
-          href="/login"
-          onClick={onNavigate}
-          className="btn-secondary w-full justify-center text-sm py-2.5"
-        >
-          <LogIn size={14} />
-          Acceder
-        </Link>
-      </div>
     </aside>
   )
 }

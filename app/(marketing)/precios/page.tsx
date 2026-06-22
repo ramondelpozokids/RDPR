@@ -3,6 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Check } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
+import { SectionDivider } from "@/components/site/SectionDivider"
 import { SITE_IMAGES } from "@/lib/site/config"
 
 export const metadata: Metadata = {
@@ -58,6 +59,8 @@ export default function PreciosPage() {
         imageAlt="Planes RDPR OS"
       />
 
+      <SectionDivider name="pricingArea" />
+
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {PLANS.map(({ name, tagline, price, suffix, features, cta, highlight }) => (
@@ -96,6 +99,8 @@ export default function PreciosPage() {
           ))}
         </div>
       </section>
+
+      <SectionDivider name="companyBuilding" />
 
       <section className="py-12 px-4 sm:px-6 bg-surface-muted/50 border-t border-surface-border">
         <div className="max-w-3xl mx-auto text-center text-sm text-text-secondary space-y-3">

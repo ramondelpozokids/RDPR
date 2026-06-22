@@ -5,6 +5,7 @@ import { ArrowRight, Building2, Target, Heart } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { StockImage } from "@/components/site/StockImage"
 import { SITE_IMAGES, CEO_NAME, CEO_TITLE, CONTACT_EMAIL, LEGAL_COMPANY_NAME } from "@/lib/site/config"
+import { stockUrl } from "@/lib/site/stock-images"
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -18,6 +19,8 @@ export default function NosotrosPage() {
         eyebrow="Empresa"
         title="Personas y tecnología al servicio de su negocio"
         description={`${LEGAL_COMPANY_NAME} desarrolla RDPR OS para acompañar la gestión diaria de asesorías y empresas de servicios con una plataforma clara y fiable.`}
+        image={stockUrl("aboutHero", 1200)}
+        imageAlt="Equipo de asesoría y consultoría empresarial"
       />
 
       <section id="ceo" className="py-16 px-4 sm:px-6 bg-white border-y border-surface-border scroll-mt-20">

@@ -10,7 +10,7 @@ import { HeroDroneVideo } from "@/components/site/HeroDroneVideo"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
 import { TestimonialsSection } from "@/components/site/TestimonialsSection"
 import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
-import { SecurityLayers } from "@/components/site/SecurityLayers"
+import { SectionDivider } from "@/components/site/SectionDivider"
 import { SITE_KEYWORDS } from "@/lib/site/marketing-content"
 
 export const metadata: Metadata = {
@@ -87,11 +87,19 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <SectionDivider name="accountingArea" />
+
       <TaxModelsShowcase linkToOfficial />
+
+      <SectionDivider name="taxBanner" />
 
       <TestimonialsSection />
 
+      <SectionDivider name="modulesArea" />
+
       <ProductModulesCatalog compact />
+
+      <SectionDivider name="pricingArea" />
 
       {/* Plataforma */}
       <section className="py-16 px-4 sm:px-6">
@@ -117,8 +125,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      <SecurityLayers />
 
       {/* CTA contacto */}
       <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-sky-50 via-white to-slate-50 border-t border-surface-border">
