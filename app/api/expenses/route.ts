@@ -7,6 +7,7 @@ import { createExpenseIssueEntry, createExpensePaymentEntry } from "@/lib/accoun
 const expenseSchema = z.object({
   description: z.string().min(1),
   vendor: z.string().optional(),
+  vendorTaxId: z.string().optional(),
   category: z.enum(["SERVICES", "SUPPLIES", "BANK_FEES", "OTHER"]).default("SERVICES"),
   issueDate: z.string().optional(),
   status: z.enum(["PENDING", "PAID"]).default("PENDING"),
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
   const parsed = expenseSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
 
-  const { description, vendor, category, issueDate, status, subtotal, taxRate, notes } = parsed.data
+  const { description, vendor, vendorTaxId, category, issueDate, status, subtotal, taxRate, notes } = parsed.data
   const taxAmount = subtotal * (taxRate / 100)
   const total = subtotal + taxAmount
   const paidAt = status === "PAID" ? new Date() : null
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
       companyId,
       description,
       vendor: vendor || null,
+      vendorTaxId: vendorTaxId || null,
       category,
       status,
       issueDate: issueDate ? new Date(issueDate) : new Date(),

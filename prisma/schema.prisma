@@ -32,6 +32,23 @@ enum OrgType {
   CLIENT
 }
 
+enum TaxEntityType {
+  AUTONOMO
+  SL
+  SA
+  OTHER
+}
+
+enum VatFilingPeriod {
+  QUARTERLY
+  MONTHLY
+}
+
+enum IrpfRegime {
+  DIRECT_ESTIMATION
+  OBJECTIVE_MODULES
+}
+
 // ─────────────────────────────────────────────
 // EMPRESA / COMPANY
 // ─────────────────────────────────────────────
@@ -39,6 +56,7 @@ model Company {
   id             String   @id @default(cuid())
   organizationId String?
   name           String
+  legalName      String?  // Razón social (facturación, AEAT, eFactura)
   slug           String?  @unique
   brandColor     String?  @default("#6570f3")
   taxId          String?  // NIF / CIF
@@ -52,6 +70,10 @@ model Company {
   website        String?
   currency       String   @default("EUR")
   taxRate        Float    @default(21)
+  // Perfil fiscal España (RDPR Tax Intelligence)
+  taxEntityType  TaxEntityType   @default(SL)
+  vatFilingPeriod VatFilingPeriod @default(QUARTERLY)
+  irpfRegime     IrpfRegime?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -66,8 +88,42 @@ model Company {
   journalEntries JournalEntry[]
   expenses     Expense[]
   bankAccounts BankAccount[]
+  brands       Brand[]
 
   @@map("companies")
+}
+
+// ─────────────────────────────────────────────
+// MARCAS COMERCIALES (bajo una razón social)
+// ─────────────────────────────────────────────
+enum BrandType {
+  MAIN       // Marca paraguas (RDPR)
+  PRODUCT    // Producto / módulo (RDPR Finance, RDPR CRM…)
+  STANDALONE // Marca especializada (CourtManager Pro, BOOKIA…)
+}
+
+model Brand {
+  id         String    @id @default(cuid())
+  companyId  String
+  name       String
+  slug       String
+  type       BrandType @default(PRODUCT)
+  tagline    String?
+  brandColor String    @default("#6570f3")
+  sortOrder  Int       @default(0)
+  active     Boolean   @default(true)
+  parentId   String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  parent   Brand?    @relation("BrandTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children Brand[]   @relation("BrandTree")
+  invoices Invoice[]
+  projects Project[]
+
+  @@unique([companyId, slug])
+  @@map("brands")
 }
 
 // ─────────────────────────────────────────────
@@ -193,6 +249,7 @@ enum PipelineStage {
 model Project {
   id          String        @id @default(cuid())
   companyId   String
+  brandId     String?
   customerId  String?
   name        String
   description String?       @db.Text
@@ -203,6 +260,7 @@ model Project {
   updatedAt   DateTime      @updatedAt
 
   company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  brand     Brand?     @relation(fields: [brandId], references: [id], onDelete: SetNull)
   customer  Customer?  @relation(fields: [customerId], references: [id])
   tasks     Task[]
   documents Document[]
@@ -254,8 +312,10 @@ enum TaskStatus {
 model Invoice {
   id         String        @id @default(cuid())
   companyId  String
+  brandId    String?
   customerId String
   number     String        // e.g. FAC-2024-001
+  documentType InvoiceDocumentType @default(INVOICE)
   status     InvoiceStatus @default(PENDING)
   issueDate  DateTime      @default(now())
   dueDate    DateTime?
@@ -264,12 +324,21 @@ model Invoice {
   taxRate    Float         @default(21)
   taxAmount  Float
   total      Float
+  withholdingRate   Float?  // Retención IRPF % (modelo 111)
+  withholdingAmount Float?
   paidAt     DateTime?
   reminderSentAt DateTime?
+  // eFactura / cumplimiento fiscal España
+  electronicStatus  ElectronicInvoiceStatus @default(ISSUED)
+  electronicFormat  ElectronicInvoiceFormat?
+  complianceHash    String?   // Huella Verifactu / Ley Antifraude (v1)
+  signedAt          DateTime?
+  electronicSentAt  DateTime?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
   company  Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  brand    Brand?        @relation(fields: [brandId], references: [id], onDelete: SetNull)
   customer Customer      @relation(fields: [customerId], references: [id])
   items    InvoiceItem[]
 
@@ -294,6 +363,29 @@ enum InvoiceStatus {
   PAID
   OVERDUE
   CANCELLED
+}
+
+enum InvoiceDocumentType {
+  INVOICE
+  QUOTE
+  DELIVERY_NOTE
+  CREDIT_NOTE
+}
+
+enum ElectronicInvoiceStatus {
+  DRAFT
+  ISSUED
+  SIGNED
+  SENT
+  REGISTERED
+  REJECTED
+}
+
+enum ElectronicInvoiceFormat {
+  PDF
+  FACTURAE_3_2
+  UBL_2_1
+  CII
 }
 
 // ─────────────────────────────────────────────
@@ -411,6 +503,7 @@ model Expense {
   companyId   String
   description String
   vendor      String?
+  vendorTaxId String?         // NIF proveedor (modelo 347)
   category    ExpenseCategory @default(SERVICES)
   status      ExpenseStatus   @default(PENDING)
   issueDate   DateTime        @default(now())

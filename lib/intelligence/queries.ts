@@ -127,7 +127,7 @@ export async function executeIntelligenceQuery(
           { label: "Facturas", value: String(thisAgg._count) },
           { label: "vs mes anterior", value: pctChange(total, last) },
         ],
-        links: [{ href: "/dashboard/invoices", label: "Ver facturación" }],
+        links: [{ href: "/dashboard/finance/invoicing", label: "Ver facturación" }],
       }
     }
 
@@ -154,7 +154,7 @@ export async function executeIntelligenceQuery(
           { label: "Pagadas", value: String(thisAgg._count) },
           { label: "vs mes anterior", value: pctChange(total, last) },
         ],
-        links: [{ href: "/dashboard/invoices", label: "Ver facturas" }],
+        links: [{ href: "/dashboard/finance/invoicing", label: "Ver facturas" }],
       }
     }
 
@@ -174,7 +174,7 @@ export async function executeIntelligenceQuery(
           { label: "IVA estimado", value: formatCurrency(tax) },
           { label: "Base facturada", value: formatCurrency(billed) },
         ],
-        links: [{ href: "/dashboard/invoices", label: "Ver facturas" }],
+        links: [{ href: "/dashboard/finance/invoicing", label: "Ver facturas" }],
       }
     }
 
@@ -191,7 +191,7 @@ export async function executeIntelligenceQuery(
           queryId,
           question: meta.label,
           answer: `No tienes facturas pendientes de cobro en **${companyName}**. ¡Buen trabajo!`,
-          links: [{ href: "/dashboard/invoices", label: "Ver facturación" }],
+          links: [{ href: "/dashboard/finance/invoicing", label: "Ver facturación" }],
         }
       }
       const list = rows
@@ -208,7 +208,7 @@ export async function executeIntelligenceQuery(
           { label: "Pendiente", value: formatCurrency(total) },
           { label: "Facturas", value: String(rows.length) },
         ],
-        links: [{ href: "/dashboard/invoices", label: "Gestionar cobros" }],
+        links: [{ href: "/dashboard/finance/invoicing", label: "Gestionar cobros" }],
       }
     }
 
@@ -225,7 +225,7 @@ export async function executeIntelligenceQuery(
           queryId,
           question: meta.label,
           answer: `No hay facturas vencidas en **${companyName}**.`,
-          links: [{ href: "/dashboard/invoices", label: "Ver facturación" }],
+          links: [{ href: "/dashboard/finance/invoicing", label: "Ver facturación" }],
         }
       }
       const list = rows
@@ -242,7 +242,7 @@ export async function executeIntelligenceQuery(
           { label: "Vencido", value: formatCurrency(total) },
           { label: "Facturas", value: String(rows.length) },
         ],
-        links: [{ href: "/dashboard/invoices", label: "Enviar recordatorios" }],
+        links: [{ href: "/dashboard/finance/invoicing", label: "Enviar recordatorios" }],
       }
     }
 
@@ -415,7 +415,7 @@ export async function executeIntelligenceQuery(
           queryId,
           question: meta.label,
           answer: `La cuenta **430 Clientes** en **${companyName}** no tiene movimientos todavía.`,
-          links: [{ href: "/dashboard/invoices", label: "Emitir factura" }],
+          links: [{ href: "/dashboard/finance/invoicing", label: "Emitir factura" }],
         }
       }
       return {

@@ -207,7 +207,7 @@ export async function getExecutiveStats(
       type: "danger",
       title: `${overdueRows.length} factura(s) vencida(s)`,
       description: `Tienes ${overdueRows.length} facturas vencidas por cobrar.`,
-      href: "/dashboard/invoices",
+      href: "/dashboard/finance/invoicing",
     })
   }
   if (stalePending > 0) {
@@ -216,7 +216,7 @@ export async function getExecutiveStats(
       type: "warning",
       title: "Cobros pendientes antiguos",
       description: `${stalePending} factura(s) llevan más de 30 días sin cobrar.`,
-      href: "/dashboard/invoices",
+      href: "/dashboard/finance/invoicing",
     })
   }
   if (overdueProjects > 0) {

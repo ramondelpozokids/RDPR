@@ -8,13 +8,16 @@ import { toast }         from "@/components/ui/Toaster"
 import { getInitials }   from "@/lib/utils"
 import {
   Building2, Users, Lock, CreditCard,
-  Check, Eye, EyeOff, Shield, Zap,
+  Check, Eye, EyeOff, Shield, Zap, Tag,
 } from "lucide-react"
+import { BrandsSettings } from "@/components/settings/BrandsSettings"
+import { DEFAULT_LEGAL_NAME } from "@/lib/brands/catalog"
 
 interface Company {
-  id: string; name: string; taxId?: string | null; email?: string | null
+  id: string; name: string; legalName?: string | null; taxId?: string | null; email?: string | null
   phone?: string | null; address?: string | null; city?: string | null
   postalCode?: string | null; country: string; currency: string; taxRate: number
+  taxEntityType?: string; vatFilingPeriod?: string; irpfRegime?: string | null
 }
 interface UserRow { id: string; name: string | null; email: string; role: string }
 interface Props {
@@ -23,10 +26,12 @@ interface Props {
   currentUserId: string
   currentRole: string
   users: UserRow[]
+  brands: Array<{ id: string; name: string; slug: string; type: string; tagline: string | null; brandColor: string }>
 }
 
 const TABS = [
   { key: "company",  label: "Empresa",   icon: <Building2  size={14} /> },
+  { key: "brands",   label: "Marcas",    icon: <Tag        size={14} /> },
   { key: "users",    label: "Usuarios",  icon: <Users      size={14} /> },
   { key: "security", label: "Seguridad", icon: <Lock       size={14} /> },
   { key: "plan",     label: "Plan",      icon: <CreditCard size={14} /> },
@@ -39,7 +44,7 @@ const CURRENCY_OPTIONS = [
   { value: "MXN", label: "Peso MX ($)"},
 ]
 
-export default function SettingsClient({ company, organization, currentUserId, currentRole, users }: Props) {
+export default function SettingsClient({ company, organization, currentUserId, currentRole, users, brands }: Props) {
   const router  = useRouter()
   const isAdmin = currentRole === "ADMIN"
   const [tab, setTab] = useState("company")
@@ -52,9 +57,15 @@ export default function SettingsClient({ company, organization, currentUserId, c
     setCompSaving(true)
     const fd   = new FormData(e.currentTarget)
     const body = Object.fromEntries(fd.entries())
+    const payload: Record<string, unknown> = { ...body, taxRate: Number(body.taxRate) }
+    if (body.irpfRegime === "") payload.irpfRegime = null
+    if (body.legalName) {
+      payload.name = body.legalName
+      payload.legalName = body.legalName
+    }
     const res  = await fetch(`/api/companies/${company.id}`, {
       method: "PATCH", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...body, taxRate: Number(body.taxRate) }),
+      body: JSON.stringify(payload),
     })
     if (res.ok) {
       toast.success("Empresa actualizada")
@@ -116,9 +127,20 @@ export default function SettingsClient({ company, organization, currentUserId, c
       {/* ── EMPRESA ────────────────────────────── */}
       {tab === "company" && (
         <form onSubmit={handleCompanySave} className="card space-y-5">
-          <p className="section-title">Datos de la empresa</p>
+          <p className="section-title">Razón social y datos fiscales</p>
+          <Alert variant="info">
+            Todas las marcas comerciales (RDPR Finance, CourtManager Pro, etc.) facturan bajo esta razón social.
+          </Alert>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input name="name"    label="Nombre de la empresa *" defaultValue={company.name}        required disabled={!isAdmin} />
+            <Input
+              name="legalName"
+              label="Razón social *"
+              defaultValue={company.legalName ?? company.name ?? DEFAULT_LEGAL_NAME}
+              required
+              disabled={!isAdmin}
+              className="sm:col-span-2"
+              hint="Ej: RDPR Digital S.L. — aparece en facturas y modelos AEAT"
+            />
             <Input name="taxId"   label="NIF / CIF"              defaultValue={company.taxId   ?? ""} disabled={!isAdmin} />
             <Input name="email"   label="Email de contacto" type="email" defaultValue={company.email ?? ""} disabled={!isAdmin} />
             <Input name="phone"   label="Teléfono"               defaultValue={company.phone   ?? ""} disabled={!isAdmin} />
@@ -140,6 +162,46 @@ export default function SettingsClient({ company, organization, currentUserId, c
             />
           </div>
 
+          <p className="section-title pt-2 border-t border-surface-border">Perfil fiscal (España)</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Select
+              name="taxEntityType"
+              label="Tipo de contribuyente"
+              defaultValue={company.taxEntityType ?? "SL"}
+              disabled={!isAdmin}
+              options={[
+                { value: "AUTONOMO", label: "Autónomo" },
+                { value: "SL", label: "Sociedad Limitada (SL)" },
+                { value: "SA", label: "Sociedad Anónima (SA)" },
+                { value: "OTHER", label: "Otra entidad" },
+              ]}
+            />
+            <Select
+              name="vatFilingPeriod"
+              label="Liquidación IVA"
+              defaultValue={company.vatFilingPeriod ?? "QUARTERLY"}
+              disabled={!isAdmin}
+              options={[
+                { value: "QUARTERLY", label: "Trimestral (303)" },
+                { value: "MONTHLY", label: "Mensual (303)" },
+              ]}
+            />
+            <Select
+              name="irpfRegime"
+              label="Régimen IRPF (autónomos)"
+              defaultValue={company.irpfRegime ?? ""}
+              disabled={!isAdmin}
+              options={[
+                { value: "", label: "No aplica / sin definir" },
+                { value: "DIRECT_ESTIMATION", label: "Estimación directa (130)" },
+                { value: "OBJECTIVE_MODULES", label: "Estimación objetiva / módulos (131)" },
+              ]}
+            />
+          </div>
+          <Alert variant="info">
+            El perfil fiscal personaliza los modelos en RDPR Tax Intelligence (303, 130, 200, 347…).
+          </Alert>
+
           {isAdmin ? (
             <div className="flex justify-end pt-2 border-t border-surface-border">
               <Button type="submit" loading={compSaving}>
@@ -152,6 +214,14 @@ export default function SettingsClient({ company, organization, currentUserId, c
             </Alert>
           )}
         </form>
+      )}
+
+      {tab === "brands" && (
+        <BrandsSettings
+          legalName={company.legalName ?? null}
+          companyName={company.name}
+          brands={brands}
+        />
       )}
 
       {/* ── USUARIOS ────────────────────────────── */}

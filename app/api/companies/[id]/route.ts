@@ -6,6 +6,7 @@ import { auth }   from "@/lib/auth/config"
 
 const companySchema = z.object({
   name:       z.string().min(1).optional(),
+  legalName:  z.string().min(1).optional(),
   taxId:      z.string().optional(),
   email:      z.string().email().optional().or(z.literal("")),
   phone:      z.string().optional(),
@@ -14,6 +15,9 @@ const companySchema = z.object({
   postalCode: z.string().optional(),
   currency:   z.string().optional(),
   taxRate:    z.number().min(0).max(100).optional(),
+  taxEntityType: z.enum(["AUTONOMO", "SL", "SA", "OTHER"]).optional(),
+  vatFilingPeriod: z.enum(["QUARTERLY", "MONTHLY"]).optional(),
+  irpfRegime: z.enum(["DIRECT_ESTIMATION", "OBJECTIVE_MODULES"]).optional().nullable(),
 })
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {

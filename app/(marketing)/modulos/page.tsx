@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 const MODULES = [
   {
     icon: Wallet,
-    title: "Finanzas y contabilidad",
-    desc: "Libro diario, mayor, IVA, gastos, banca y conciliación con PGC español.",
+    title: "RDPR Finance",
+    desc: "Facturación, eFactura, Tax Intelligence (303·390·347), contabilidad, banca e IA financiera.",
     image: SITE_IMAGES.business,
   },
   {

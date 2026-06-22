@@ -14,6 +14,9 @@ import {
   Trash2,
   Download,
   Mail,
+  FileCode2,
+  ShieldCheck,
+  Send,
 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 
@@ -81,10 +84,42 @@ export default function InvoiceActions({
     setBusy(false)
   }
 
+  async function electronicAction(action: "sign" | "send" | "regenerate_hash", label: string) {
+    setBusy(true)
+    const res = await fetch(`/api/invoices/${invoiceId}/electronic`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action }),
+    })
+    const json = await res.json()
+    if (res.ok) {
+      toast.success(label)
+      router.refresh()
+    } else {
+      toast.error(json.error ?? "Error eFactura")
+    }
+    setBusy(false)
+  }
+
   const canRemind =
     (currentStatus === "PENDING" || currentStatus === "OVERDUE") && customerEmail
 
   const menuItems = [
+    {
+      label: "Firmar electrónicamente (v1)",
+      icon: <ShieldCheck size={14} className="text-violet-600" />,
+      onClick: () => electronicAction("sign", "Factura firmada electrónicamente"),
+    },
+    {
+      label: "Marcar envío electrónico",
+      icon: <Send size={14} className="text-primary" />,
+      onClick: () => electronicAction("send", "Envío electrónico registrado"),
+    },
+    {
+      label: "Regenerar huella cumplimiento",
+      icon: <ShieldCheck size={14} className="text-muted-foreground" />,
+      onClick: () => electronicAction("regenerate_hash", "Huella Verifactu v1 generada"),
+    },
     ...(canRemind
       ? [
           {
@@ -148,6 +183,14 @@ export default function InvoiceActions({
           title="Descargar PDF"
         >
           PDF <Download size={11} />
+        </a>
+
+        <a
+          href={`/api/invoices/${invoiceId}/facturae?format=facturae`}
+          className="flex items-center gap-1 text-xs text-violet-600 hover:opacity-80 font-medium"
+          title="Descargar Facturae XML"
+        >
+          XML <FileCode2 size={11} />
         </a>
 
         <DropdownMenu

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma }  from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import { formatCurrency, formatDate } from "@/lib/utils"
+import { getLegalDisplayName } from "@/lib/brands/catalog"
 import { generateInvoicePdf } from "@/lib/invoices/generate-pdf"
 import { syncOverdueInvoices } from "@/lib/invoices/sync-overdue"
 
@@ -17,9 +18,14 @@ export async function GET(
 
   const invoice = await prisma.invoice.findFirst({
     where:   { id: params.id, companyId },
-    include: { customer: true, items: true, company: true },
+    include: { customer: true, items: true, company: true, brand: true },
   })
   if (!invoice) return NextResponse.json({ error: "Factura no encontrada" }, { status: 404 })
+
+  const legalName = getLegalDisplayName(invoice.company)
+  const brandLine = invoice.brand && invoice.brand.type !== "MAIN"
+    ? `<div class="brand-line">${invoice.brand.name}</div>`
+    : ""
 
   const { searchParams } = new URL(req.url)
   const download = searchParams.get("download") === "1"
@@ -225,7 +231,8 @@ export async function GET(
     <!-- Dark header -->
     <div class="inv-header">
       <div>
-        <div class="company-name">${invoice.company.name}</div>
+        <div class="company-name">${legalName}</div>
+        ${brandLine}
         <div class="company-details">
           ${invoice.company.taxId   ? `NIF/CIF: ${invoice.company.taxId}<br>`   : ""}
           ${invoice.company.address ? `${invoice.company.address}<br>`          : ""}

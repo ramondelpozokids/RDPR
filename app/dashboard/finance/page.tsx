@@ -7,6 +7,7 @@ import { MetricCard } from "@/components/ui/metric-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ExportButton } from "@/components/finance/ExportButton"
 import { TrendingUp, TrendingDown, Wallet, Receipt, BookOpen, ShoppingCart, Landmark, ArrowDownLeft, ArrowUpRight, Download } from "lucide-react"
+import { FINANCE_MODULE_CARD } from "@/lib/finance/structure"
 import Link from "next/link"
 import { formatCurrency } from "@/lib/utils"
 
@@ -26,17 +27,31 @@ export default async function FinancePage() {
     <div>
       <div className="page-header">
         <div>
-          <h1>Finanzas</h1>
+          <h1>RDPR Finance</h1>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Contabilidad integrada · PGC español · {summary.journalEntryCount} asiento(s)
+            Facturación · eFactura · Contabilidad · Tesorería · {summary.journalEntryCount} asiento(s)
           </p>
         </div>
-        <Link href="/dashboard/invoices" className="btn-secondary text-sm">
-          Ver facturación
+        <Link href="/dashboard/finance/invoicing" className="btn-secondary text-sm">
+          Facturación
         </Link>
       </div>
 
       <FinanceNav />
+
+      <Card className="mb-6 border-brand-100 bg-gradient-to-r from-brand-50/50 to-violet-50/30">
+        <CardContent className="py-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-600 mb-3">{FINANCE_MODULE_CARD.subtitle}</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {FINANCE_MODULE_CARD.pillars.map((p) => (
+              <div key={p.name} className="text-center sm:text-left">
+                <p className="text-sm font-semibold">{p.name}</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5 leading-snug">{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <MetricCard
@@ -188,7 +203,10 @@ export default async function FinancePage() {
             <ExportButton type="journal" label="Libro diario" />
             <ExportButton type="ledgers" label="Libro mayor" />
             <ExportButton type="accounts" label="Plan contable" />
-            <ExportButton type="vat" label="IVA trimestre" />
+            <Link href="/dashboard/finance/taxes" className="btn-secondary text-sm">
+              Tax Intelligence
+            </Link>
+            <ExportButton type="vat" label="Exportar 303" />
           </div>
         </CardContent>
       </Card>

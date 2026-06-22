@@ -190,7 +190,7 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
                 Facturas ({customer.invoices.length})
               </h3>
               <Link
-                href={`/dashboard/invoices/new?customerId=${customer.id}`}
+                href={`/dashboard/finance/invoicing/new?customerId=${customer.id}`}
                 className="text-xs text-brand-600 hover:underline font-medium"
               >
                 + Nueva factura

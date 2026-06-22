@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
+import { getActiveBrandId } from "@/lib/brands/context"
 import { syncOverdueInvoices, initialInvoiceStatus } from "@/lib/invoices/sync-overdue"
 import { createInvoiceIssueEntry } from "@/lib/accounting/journal"
 
@@ -17,6 +18,7 @@ const invoiceSchema = z.object({
   dueDate:    z.string().optional(),
   notes:      z.string().optional(),
   taxRate:    z.number().default(21),
+  withholdingRate: z.number().min(0).max(100).optional(),
   items:      z.array(invoiceItemSchema).min(1),
 })
 
@@ -57,28 +59,51 @@ export async function POST(req: NextRequest) {
   const parsed = invoiceSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
 
-  const { customerId, dueDate, notes, taxRate, items } = parsed.data
+  const { customerId, dueDate, notes, taxRate, withholdingRate, items } = parsed.data
 
   const subtotal  = items.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0)
   const taxAmount = subtotal * (taxRate / 100)
-  const total     = subtotal + taxAmount
+  const withholdingAmount =
+    withholdingRate && withholdingRate > 0 ? subtotal * (withholdingRate / 100) : null
+  const total     = subtotal + taxAmount - (withholdingAmount ?? 0)
   const number    = await nextInvoiceNumber(companyId)
+
+  const [company, customer] = await Promise.all([
+    prisma.company.findUnique({ where: { id: companyId }, select: { taxId: true } }),
+    prisma.customer.findFirst({ where: { id: customerId, companyId }, select: { taxId: true } }),
+  ])
+
+  const { generateComplianceHash } = await import("@/lib/efactura/compliance-hash")
+  const complianceHash = generateComplianceHash({
+    number,
+    issueDate: new Date(),
+    total,
+    taxId: company?.taxId,
+    customerTaxId: customer?.taxId,
+  })
 
   const due = dueDate ? new Date(dueDate) : null
   const status = initialInvoiceStatus(due)
+  const brandId = await getActiveBrandId(companyId)
 
   const invoice = await prisma.invoice.create({
     data: {
       companyId,
+      brandId,
       customerId,
       number,
       status,
       taxRate,
       subtotal,
       taxAmount,
+      withholdingRate: withholdingRate && withholdingRate > 0 ? withholdingRate : null,
+      withholdingAmount,
       total,
       dueDate:  due,
       notes,
+      complianceHash,
+      electronicFormat: "FACTURAE_3_2",
+      electronicStatus: "ISSUED",
       items: {
         create: items.map((item) => ({
           description: item.description,

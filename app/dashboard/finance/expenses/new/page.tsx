@@ -15,6 +15,7 @@ export default function NewExpensePage() {
   const router = useRouter()
   const [description, setDescription] = useState("")
   const [vendor, setVendor] = useState("")
+  const [vendorTaxId, setVendorTaxId] = useState("")
   const [category, setCategory] = useState("SERVICES")
   const [issueDate, setIssueDate] = useState(new Date().toISOString().slice(0, 10))
   const [status, setStatus] = useState("PENDING")
@@ -40,6 +41,7 @@ export default function NewExpensePage() {
       body: JSON.stringify({
         description: description.trim(),
         vendor: vendor.trim() || undefined,
+        vendorTaxId: vendorTaxId.trim() || undefined,
         category,
         issueDate,
         status,
@@ -79,6 +81,7 @@ export default function NewExpensePage() {
       <form onSubmit={handleSubmit} className="card space-y-5">
         <Input label="Descripción *" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Ej: Suscripción software, material oficina…" />
         <Input label="Proveedor" value={vendor} onChange={(e) => setVendor(e.target.value)} placeholder="Nombre del proveedor" />
+        <Input label="NIF proveedor" value={vendorTaxId} onChange={(e) => setVendorTaxId(e.target.value)} placeholder="Para modelo 347" hint="Opcional · recomendado si supera 3.005 €/año" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Select label="Categoría" value={category} onChange={(e) => setCategory(e.target.value)} options={CATEGORY_OPTIONS} />

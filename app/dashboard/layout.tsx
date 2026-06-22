@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth/config"
 import { getActiveCompanyContext } from "@/lib/company/context"
+import { getActiveBrandContext } from "@/lib/brands/context"
 import Sidebar from "@/components/layout/Sidebar"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
     )
   }
 
+  const brandCtx = await getActiveBrandContext()
+
   return (
     <div className="flex h-screen overflow-hidden bg-surface-muted">
       <Sidebar
@@ -27,6 +30,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
         companies={ctx.companies}
         activeCompanyId={ctx.companyId}
         organizationName={ctx.organization?.name}
+        brands={brandCtx?.brands ?? []}
+        activeBrandId={brandCtx?.activeBrandId ?? null}
+        legalName={brandCtx?.legalName ?? ctx.company.name}
       />
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">

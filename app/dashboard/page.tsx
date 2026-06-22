@@ -1,4 +1,5 @@
 import { getActiveCompanyContext } from "@/lib/company/context"
+import { getActiveBrandContext } from "@/lib/brands/context"
 import { getExecutiveStats } from "@/lib/dashboard/get-executive-stats"
 import { formatCurrency, formatDate, INVOICE_STATUS_LABELS } from "@/lib/utils"
 import { MetricCard } from "@/components/ui/metric-card"
@@ -56,6 +57,7 @@ export default async function DashboardPage() {
   }
 
   const stats = await getExecutiveStats(ctx.companyId, ctx.companies)
+  const brandCtx = await getActiveBrandContext()
 
   return (
     <div className="space-y-6">
@@ -64,6 +66,9 @@ export default async function DashboardPage() {
           <h1>Dashboard ejecutivo</h1>
           <p className="text-sm text-text-secondary mt-0.5">
             {ctx.company.name}
+            {brandCtx?.activeBrand && brandCtx.activeBrand.type !== "MAIN" && (
+              <span className="text-text-muted"> · {brandCtx.activeBrand.name}</span>
+            )}
             {ctx.organization && ctx.companies.length > 1 && (
               <span className="text-text-muted"> · {ctx.organization.name}</span>
             )}
@@ -72,7 +77,7 @@ export default async function DashboardPage() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild className="hidden sm:inline-flex">
-            <Link href="/dashboard/invoices/new">
+            <Link href="/dashboard/finance/invoicing/new">
               <Plus size={14} />
               Factura
             </Link>
@@ -170,7 +175,7 @@ export default async function DashboardPage() {
           <div className="flex items-center justify-between px-5 py-4 border-b border-surface-border">
             <h3>Últimas facturas</h3>
             <Link
-              href="/dashboard/invoices"
+              href="/dashboard/finance/invoicing"
               className="text-xs text-brand-600 hover:underline font-medium flex items-center gap-1"
             >
               Ver todas <ArrowRight size={12} />
@@ -179,7 +184,7 @@ export default async function DashboardPage() {
           {stats.recentInvoices.length === 0 ? (
             <div className="px-5 py-10 text-center">
               <p className="text-sm text-text-muted">Sin facturas todavía</p>
-              <Link href="/dashboard/invoices/new" className="btn-primary inline-flex mt-3 text-xs">
+              <Link href="/dashboard/finance/invoicing/new" className="btn-primary inline-flex mt-3 text-xs">
                 <Plus size={13} /> Nueva factura
               </Link>
             </div>
@@ -252,7 +257,7 @@ export default async function DashboardPage() {
         {[
           { href: "/dashboard/crm/new", label: "Nuevo cliente", emoji: "👤" },
           { href: "/dashboard/projects/new", label: "Nuevo proyecto", emoji: "📁" },
-          { href: "/dashboard/invoices/new", label: "Nueva factura", emoji: "🧾" },
+          { href: "/dashboard/finance/invoicing/new", label: "Nueva factura", emoji: "🧾" },
           { href: "/dashboard/documents", label: "Subir documento", emoji: "📄" },
         ].map(({ href, label, emoji }) => (
           <Link key={href} href={href} className="card py-4 text-center hover:shadow-md transition-shadow">

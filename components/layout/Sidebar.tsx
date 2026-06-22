@@ -7,20 +7,21 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import {
-  LayoutDashboard, Users, FolderKanban, FileText,
+  LayoutDashboard, Users, FolderKanban,
   FolderOpen, Settings, LogOut, Menu, X, ChevronRight, Sparkles, Wallet,
 } from "lucide-react"
 import { cn, getInitials } from "@/lib/utils"
 import CompanySwitcher from "@/components/layout/CompanySwitcher"
+import BrandSwitcher from "@/components/layout/BrandSwitcher"
 import type { CompanyOption } from "@/lib/company/context"
+import type { BrandOption } from "@/lib/brands/context"
 import { SITE_IMAGES } from "@/lib/site/config"
 
 const NAV_ITEMS = [
   { href: "/dashboard",           icon: LayoutDashboard, label: "Inicio"      },
   { href: "/dashboard/crm",       icon: Users,           label: "CRM"         },
   { href: "/dashboard/projects",  icon: FolderKanban,    label: "Proyectos"   },
-  { href: "/dashboard/invoices",  icon: FileText,        label: "Facturación" },
-  { href: "/dashboard/finance",   icon: Wallet,          label: "Finanzas"    },
+  { href: "/dashboard/finance",   icon: Wallet,          label: "RDPR Finance" },
   { href: "/dashboard/intelligence", icon: Sparkles,    label: "Intelligence" },
   { href: "/dashboard/documents", icon: FolderOpen,      label: "Documentos"  },
   { href: "/dashboard/settings",  icon: Settings,        label: "Ajustes"     },
@@ -31,6 +32,9 @@ interface SidebarProps {
   companies: CompanyOption[]
   activeCompanyId: string
   organizationName?: string | null
+  brands?: BrandOption[]
+  activeBrandId?: string | null
+  legalName?: string
 }
 
 function NavContent({
@@ -38,6 +42,9 @@ function NavContent({
   companies,
   activeCompanyId,
   organizationName,
+  brands = [],
+  activeBrandId = null,
+  legalName = "",
   onClose,
 }: SidebarProps & { onClose?: () => void }) {
   const pathname = usePathname()
@@ -60,11 +67,21 @@ function NavContent({
         )}
       </div>
 
-      <CompanySwitcher
-        companies={companies}
-        activeCompanyId={activeCompanyId}
-        organizationName={organizationName}
-      />
+      {companies.length > 1 && (
+        <CompanySwitcher
+          companies={companies}
+          activeCompanyId={activeCompanyId}
+          organizationName={organizationName}
+        />
+      )}
+
+      {brands.length > 0 && (
+        <BrandSwitcher
+          brands={brands}
+          activeBrandId={activeBrandId}
+          legalName={legalName || companies.find((c) => c.id === activeCompanyId)?.name || "Empresa"}
+        />
+      )}
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">

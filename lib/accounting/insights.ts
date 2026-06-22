@@ -140,7 +140,7 @@ export async function getAccountingInsights(companyId: string): Promise<Accounti
       type: "danger",
       title: `${overdue} factura(s) vencida(s)`,
       description: "Revisa cobros pendientes y envía recordatorios desde Facturación.",
-      href: "/dashboard/invoices",
+      href: "/dashboard/finance/invoicing",
     })
   }
 
@@ -162,7 +162,7 @@ export async function getAccountingInsights(companyId: string): Promise<Accounti
       type: "info",
       title: `${formatCurrency(pendingInvoices._sum.total ?? 0)} por cobrar`,
       description: `${pendingInvoices._count} factura(s) pendientes de cobro.`,
-      href: "/dashboard/invoices",
+      href: "/dashboard/finance/invoicing",
     })
   }
 

@@ -59,9 +59,12 @@ export async function POST(req: NextRequest) {
       const company = await tx.company.create({
         data: {
           name:           companyName,
+          legalName:      companyName,
           slug:           unique,
           organizationId: organization.id,
           brandColor:     "#6570f3",
+          taxEntityType:  "SL",
+          vatFilingPeriod: "QUARTERLY",
         },
       })
 
@@ -81,6 +84,10 @@ export async function POST(req: NextRequest) {
 
       return { user, company }
     })
+
+    const { ensureCompanyBrands, ensureRdprLegalEntity } = await import("@/lib/brands/ensure")
+    await ensureRdprLegalEntity(result.company.id)
+    await ensureCompanyBrands(result.company.id)
 
     return NextResponse.json({ success: true, userId: result.user.id }, { status: 201 })
   } catch (err) {
