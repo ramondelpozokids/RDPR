@@ -2,11 +2,11 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
-import { Shield, Lock, FileCheck2 } from "lucide-react"
+import { TAX_MODEL_CATEGORIES, TAX_MODELS } from "@/lib/tax/models-registry"
 
 export const metadata: Metadata = {
   title: "Modelos fiscales AEAT",
-  description: "Modelos 303, 390, 111, 130, 200 y 347 integrados en RDPR Tax Intelligence.",
+  description: "Catálogo de modelos AEAT en RDPR Tax Intelligence: IVA, IRPF, retenciones, sociedades e intracomunitario.",
   keywords: ["modelo 303", "modelo 390", "modelo 200", "impuesto sociedades", "modelo 347"],
 }
 
@@ -21,32 +21,25 @@ export default function ModelosFiscalesPage() {
 
       <TaxModelsShowcase compact />
 
-      <section className="py-16 px-4 sm:px-6 max-w-4xl mx-auto space-y-6">
-        {[
-          {
-            icon: FileCheck2,
-            title: "303 y 390 — IVA",
-            text: "Autoliquidación trimestral o mensual y resumen anual del IVA desde asientos y facturas.",
-          },
-          {
-            icon: Shield,
-            title: "111, 130 y 190 — Retenciones e IRPF",
-            text: "Retenciones practicadas, pagos fraccionados de autónomos y resumen anual.",
-          },
-          {
-            icon: Lock,
-            title: "200 y 347 — Sociedades y terceros",
-            text: "Impuesto de Sociedades estimado y operaciones con terceros superiores al umbral legal.",
-          },
-        ].map(({ icon: Icon, title, text }) => (
-          <div key={title} className="flex gap-4 p-5 rounded-2xl border border-surface-border bg-white">
-            <Icon size={22} className="text-brand-600 shrink-0 mt-0.5" />
-            <div>
-              <h2 className="font-bold mb-1">{title}</h2>
-              <p className="text-sm text-text-secondary leading-relaxed">{text}</p>
+      <section className="py-16 px-4 sm:px-6 max-w-4xl mx-auto space-y-8">
+        {(Object.keys(TAX_MODEL_CATEGORIES) as Array<keyof typeof TAX_MODEL_CATEGORIES>).map((cat) => {
+          const models = TAX_MODELS.filter((m) => m.category === cat)
+          const { label, description } = TAX_MODEL_CATEGORIES[cat]
+          return (
+            <div key={cat} className="p-5 rounded-2xl border border-surface-border bg-white">
+              <h2 className="font-bold mb-1">{label}</h2>
+              <p className="text-sm text-text-muted mb-4">{description}</p>
+              <ul className="grid sm:grid-cols-2 gap-2">
+                {models.map((m) => (
+                  <li key={m.id} className="text-sm text-text-secondary flex items-start gap-2">
+                    <span className="font-bold text-brand-600 tabular-nums shrink-0">{m.code}</span>
+                    <span>{m.description}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </section>
 
       <section className="py-12 px-4 sm:px-6 bg-surface-muted/50 border-t text-center">

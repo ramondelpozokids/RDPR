@@ -39,14 +39,14 @@ export function SiteNavbar() {
       {sidebarOpen && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} aria-hidden />
-          <aside className="absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-white border-r border-surface-border shadow-xl flex flex-col animate-in">
+          <aside className="absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-white border-r border-surface-border shadow-xl flex flex-col min-h-0 animate-in">
             <div className="h-16 flex items-center justify-between px-4 border-b border-surface-border">
               <SiteLogo size="sm" href={false} />
               <button type="button" onClick={() => setSidebarOpen(false)} className="btn-icon" aria-label="Cerrar menú">
                 <X size={20} />
               </button>
             </div>
-            <SiteSidebar onNavigate={() => setSidebarOpen(false)} className="flex-1 border-0 w-full !flex" />
+            <SiteSidebar variant="drawer" onNavigate={() => setSidebarOpen(false)} className="flex-1 min-h-0" />
           </aside>
         </div>
       )}

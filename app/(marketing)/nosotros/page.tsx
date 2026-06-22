@@ -39,7 +39,7 @@ export default function NosotrosPage() {
               <p className="text-text-muted mt-1">{CEO_TITLE}</p>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              Dirige un ecosistema de marcas — CourtManager Pro, BOOKIA Publisher, Creauna — bajo {LEGAL_COMPANY_NAME}. RDPR OS nace de años gestionando operaciones reales con herramientas dispersas.
+              Experiencia directiva en gestión de operaciones, finanzas y equipos. RDPR OS reúne en un solo lugar lo que antes exigía varias herramientas.
             </p>
             <p className="text-text-secondary leading-relaxed">
               Objetivo: que cualquier empresario abra una sola plataforma por la mañana y tenga la misma claridad que una gestoría bien organizada.
@@ -76,7 +76,7 @@ export default function NosotrosPage() {
           {[
             { icon: Building2, title: "Multi-marca", desc: "Varias líneas de negocio bajo una sola razón social." },
             { icon: Target, title: "Enfoque práctico", desc: "Software que resuelve tesorería, ventas y cumplimiento fiscal." },
-            { icon: Heart, title: "Compromiso", desc: "Usado internamente antes de ofrecerse a clientes." },
+            { icon: Heart, title: "Compromiso", desc: "Acompañamiento cercano y respuesta ágil a cada consulta." },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="p-6 rounded-2xl bg-white border border-surface-border">
               <Icon size={22} className="text-brand-500 mb-3" />

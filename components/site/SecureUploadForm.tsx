@@ -36,7 +36,7 @@ export function SecureUploadForm() {
     return (
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-8 text-center">
         <ShieldCheck className="mx-auto text-emerald-600 mb-3" size={36} />
-        <p className="font-semibold text-emerald-900">Documento recibido y cifrado</p>
+        <p className="font-semibold text-emerald-900">Documento recibido correctamente</p>
         <p className="text-sm text-emerald-800 mt-2">
           Referencia: <span className="font-mono">{refId}</span>
         </p>
@@ -72,12 +72,12 @@ export function SecureUploadForm() {
       </div>
       <p className="text-xs text-text-muted flex items-start gap-2">
         <ShieldCheck size={14} className="shrink-0 mt-0.5 text-brand-600" />
-        El archivo se cifra con AES-256-GCM antes de almacenarse. Solo personal autorizado puede acceder.
+        Su documentación ha quedado registrada. Conservará la referencia para cualquier consulta.
       </p>
       {error && <p className="text-sm text-red-600">{error}</p>}
       <Button type="submit" disabled={loading} className="w-full sm:w-auto">
         {loading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
-        Enviar documento cifrado
+        Enviar documento
       </Button>
     </form>
   )

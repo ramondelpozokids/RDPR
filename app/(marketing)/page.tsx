@@ -8,6 +8,8 @@ import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
 import { stockUrl } from "@/lib/site/stock-images"
 import { HeroDroneVideo } from "@/components/site/HeroDroneVideo"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
+import { TestimonialsSection } from "@/components/site/TestimonialsSection"
+import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
 import { SecurityLayers } from "@/components/site/SecurityLayers"
 import { SITE_KEYWORDS } from "@/lib/site/marketing-content"
 
@@ -66,7 +68,7 @@ export default async function HomePage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { icon: Calculator, label: "CONTABLE", title: "Asesoría contable", desc: "PGC, diario, mayor y conciliación bancaria." },
-              { icon: Receipt, label: "FISCAL", title: "Asesoría fiscal", desc: "Modelos 303, 390, 200, 347 y vencimientos." },
+              { icon: Receipt, label: "FISCAL", title: "Asesoría fiscal", desc: "Modelos AEAT, vencimientos y avisos orientativos." },
               { icon: Users, label: "COMERCIAL", title: "Gestión de clientes", desc: "Embudo de ventas y seguimiento claro." },
             ].map(({ icon: Icon, label, title, desc }) => (
               <div key={label} className="p-6 rounded-2xl border border-surface-border hover:border-sky-200 hover:shadow-sm transition-all">
@@ -87,7 +89,11 @@ export default async function HomePage() {
 
       <TaxModelsShowcase />
 
-      {/* Plataforma — una sola imagen, sin repetir dashboard */}
+      <TestimonialsSection />
+
+      <ProductModulesCatalog compact />
+
+      {/* Plataforma */}
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-xl">
@@ -103,7 +109,7 @@ export default async function HomePage() {
             <p className="text-xs font-semibold uppercase tracking-wider text-brand-600 mb-2">Plataforma RDPR OS</p>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">Una vista, todo el negocio</h2>
             <p className="text-text-secondary leading-relaxed mb-6">
-              Software de gestión usado internamente antes de ofrecerse al mercado. Facturas, cobros, proyectos y alertas fiscales en un solo panel — sin Excel disperso.
+              Facturas, cobros, proyectos y avisos fiscales en un solo panel — sin Excel disperso ni procesos duplicados.
             </p>
             <Link href="/modulos" className="btn-secondary inline-flex text-sm">
               Explorar plataforma <ArrowRight size={14} />
@@ -120,7 +126,7 @@ export default async function HomePage() {
           <Shield size={28} className="mx-auto text-sky-600 mb-4" />
           <h2 className="text-3xl font-bold tracking-tight mb-4">¿Hablamos de su empresa?</h2>
           <p className="text-text-secondary text-lg mb-8">
-            Solicite una consulta o envíe documentación de forma cifrada. Pago online con Stripe disponible próximamente, tras constitución de la SL.
+            Solicite una consulta o envíe documentación de forma segura. Le respondemos con la mayor brevedad posible.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/contacto" className="btn-primary justify-center py-3 px-8 text-base inline-flex">

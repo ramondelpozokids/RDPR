@@ -33,7 +33,7 @@ export const SITE_NAV: SiteNavItem[] = [
   { href: "/", label: "Inicio", description: "Asesoría y gestión empresarial" },
   { href: "/servicios", label: "Servicios", description: "Contable, fiscal y documentos" },
   { href: "/modulos", label: "Plataforma", description: "Finanzas, CRM y proyectos" },
-  { href: "/modelos-fiscales", label: "Modelos fiscales", description: "303, 390, 200, 347…" },
+  { href: "/modelos-fiscales", label: "Modelos fiscales", description: "Catálogo AEAT completo" },
   { href: "/precios", label: "Precios", description: "Planes desde 49 €/mes" },
   { href: "/contacto", label: "Contacto", description: "Consulta gratuita" },
   { href: "/nosotros", label: "Nosotros", description: "CEO y fundador" },

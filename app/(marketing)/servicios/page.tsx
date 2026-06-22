@@ -2,14 +2,16 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
+import { AdvisoryAreasSection } from "@/components/site/AdvisoryAreasSection"
 import { SERVICES } from "@/lib/site/marketing-content"
+import { RDPR_DIFFERENTIATION } from "@/lib/site/gestoria-vision"
 import { stockUrl } from "@/lib/site/stock-images"
 
 export const metadata: Metadata = {
   title: "Servicios de asesoría y gestión empresarial",
   description:
-    "Asesoría contable, fiscal, facturación electrónica, documentación segura e inteligencia artificial para empresas y autónomos.",
-  keywords: ["asesoría contable", "asesoría fiscal", "gestoría online", "facturación electrónica"],
+    "Asesoría fiscal, contable, laboral, mercantil, jurídica, financiera y documental apoyada en RDPR OS — gestoría + ERP + IA.",
+  keywords: ["asesoría contable", "asesoría fiscal", "gestoría online", "asesoría laboral", "asesoría mercantil"],
 }
 
 export default function ServiciosPage() {
@@ -17,30 +19,43 @@ export default function ServiciosPage() {
     <>
       <MarketingPageHeader
         eyebrow="Servicios"
-        title="Asesoría y tecnología para empresas exigentes"
-        description="Calidad, eficacia y cercanía. Servicios contables, fiscales y de gestión apoyados en RDPR OS — software propio, no una demo."
+        title="Toda la vida administrativa de su empresa"
+        description={RDPR_DIFFERENTIATION.headline}
         image={stockUrl("consultationCall", 1200)}
         imageAlt="Consultoría profesional a empresas"
       />
 
-      <section className="py-16 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-6">
-          {SERVICES.map(({ icon: Icon, title, description, href }) => (
-            <Link
-              key={title}
-              href={href}
-              className="group rounded-2xl border border-surface-border bg-white p-6 hover:border-brand-200 hover:shadow-md transition-all"
-            >
-              <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center mb-4 group-hover:bg-brand-100 transition-colors">
-                <Icon size={22} className="text-brand-600" />
-              </div>
-              <h2 className="text-lg font-bold mb-2">{title}</h2>
-              <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
-              <span className="text-sm font-medium text-brand-600 inline-flex items-center gap-1">
-                Más información <ArrowRight size={14} />
-              </span>
-            </Link>
-          ))}
+      <section className="py-12 px-4 sm:px-6 bg-brand-50/40 border-b border-surface-border">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-text-secondary leading-relaxed">
+            {RDPR_DIFFERENTIATION.body}
+          </p>
+        </div>
+      </section>
+
+      <AdvisoryAreasSection />
+
+      <section className="py-16 px-4 sm:px-6 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-xl font-bold mb-6 text-center">Servicios disponibles hoy</h2>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {SERVICES.map(({ icon: Icon, title, description, href }) => (
+              <Link
+                key={title}
+                href={href}
+                className="group rounded-2xl border border-surface-border bg-white p-6 hover:border-brand-200 hover:shadow-md transition-all"
+              >
+                <div className="w-11 h-11 rounded-xl bg-brand-50 flex items-center justify-center mb-4 group-hover:bg-brand-100 transition-colors">
+                  <Icon size={22} className="text-brand-600" />
+                </div>
+                <h3 className="text-lg font-bold mb-2">{title}</h3>
+                <p className="text-sm text-text-secondary leading-relaxed mb-4">{description}</p>
+                <span className="text-sm font-medium text-brand-600 inline-flex items-center gap-1">
+                  Más información <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

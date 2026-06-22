@@ -23,13 +23,22 @@ const ICONS: Record<string, typeof Home> = {
 type SiteSidebarProps = {
   className?: string
   onNavigate?: () => void
+  /** drawer = menú móvil; desktop = barra lateral fija */
+  variant?: "desktop" | "drawer"
 }
 
-export function SiteSidebar({ className, onNavigate }: SiteSidebarProps) {
+export function SiteSidebar({ className, onNavigate, variant = "desktop" }: SiteSidebarProps) {
   const pathname = usePathname()
+  const isDrawer = variant === "drawer"
 
   return (
-    <aside className={cn("w-60 shrink-0 border-r border-surface-border bg-white hidden lg:flex flex-col", className)}>
+    <aside
+      className={cn(
+        "shrink-0 border-r border-surface-border bg-white flex flex-col",
+        isDrawer ? "flex-1 w-full border-0 min-h-0" : "w-60 hidden lg:flex",
+        className
+      )}
+    >
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         <p className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-3">
           Explorar

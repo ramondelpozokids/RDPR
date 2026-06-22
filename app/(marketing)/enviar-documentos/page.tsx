@@ -2,22 +2,21 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { SecureUploadForm } from "@/components/site/SecureUploadForm"
-import { SecurityLayers } from "@/components/site/SecurityLayers"
 import { ShieldCheck } from "lucide-react"
 
 export const metadata: Metadata = {
-  title: "Enviar documentos cifrados",
-  description: "Portal seguro para enviar documentación confidencial a RDPR Digital S.L. Cifrado AES-256-GCM.",
-  keywords: ["envío documentos seguro", "documentación cifrada", "portal cliente gestoría"],
+  title: "Enviar documentos",
+  description: "Portal seguro para enviar documentación confidencial a RDPR Digital S.L.",
+  keywords: ["envío documentos seguro", "documentación gestoría", "portal cliente"],
 }
 
 export default function EnviarDocumentosPage() {
   return (
     <>
       <MarketingPageHeader
-        eyebrow="Documentación segura"
-        title="Envíe sus documentos de forma cifrada"
-        description="Portal funcional para clientes. Sus archivos se cifran antes de almacenarse. PDF, imágenes y Office hasta 15 MB."
+        eyebrow="Documentación"
+        title="Envíe sus documentos con tranquilidad"
+        description="Canal reservado para clientes. PDF, imágenes y Office hasta 15 MB. Tratamiento confidencial."
       />
 
       <section className="py-16 px-4 sm:px-6">
@@ -25,7 +24,7 @@ export default function EnviarDocumentosPage() {
           <div className="rounded-2xl border border-surface-border bg-white p-6 sm:p-8 shadow-sm">
             <div className="flex items-center gap-2 mb-6 text-brand-700">
               <ShieldCheck size={20} />
-              <span className="text-sm font-semibold">Canal cifrado de documentación</span>
+              <span className="text-sm font-semibold">Envío de documentación</span>
             </div>
             <SecureUploadForm />
           </div>
@@ -35,8 +34,6 @@ export default function EnviarDocumentosPage() {
           </p>
         </div>
       </section>
-
-      <SecurityLayers />
     </>
   )
 }
