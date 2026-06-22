@@ -191,7 +191,7 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
   {
     slug: "accounting",
     icon: Calculator,
-    name: "RDPR Accounting",
+    name: "RDPR Contabilidad",
     tagline: "Contabilidad PGC, diario, mayor e informes.",
     status: "live",
     highlights: ["Libro diario y mayor", "Balance y PyG", "Conciliación bancaria"],
@@ -199,15 +199,15 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
   {
     slug: "tax",
     icon: Receipt,
-    name: "RDPR Tax",
-    tagline: "Modelos AEAT, vencimientos y Tax Intelligence.",
+    name: "RDPR Fiscal",
+    tagline: "Modelos AEAT, vencimientos e inteligencia fiscal.",
     status: "live",
     highlights: ["303, 390, 111, 130, 200, 347", "Calendario fiscal", "Exportación orientativa"],
   },
   {
     slug: "finance",
     icon: Landmark,
-    name: "RDPR Finance",
+    name: "RDPR Finanzas",
     tagline: "Facturación, eFactura, Verifactu y tesorería.",
     status: "live",
     highlights: ["Facturae", "Cobros y gastos", "Banca conectada"],
@@ -215,23 +215,23 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
   {
     slug: "crm",
     icon: Users,
-    name: "RDPR CRM",
+    name: "RDPR Clientes",
     tagline: "Clientes, embudo comercial y expedientes.",
     status: "live",
-    highlights: ["Pipeline visual", "Datos fiscales del cliente", "Seguimiento comercial"],
+    highlights: ["Embudo visual", "Datos fiscales del cliente", "Seguimiento comercial"],
   },
   {
     slug: "documents",
     icon: FolderOpen,
-    name: "RDPR Documents",
+    name: "RDPR Documentos",
     tagline: "Archivo digital, envío seguro y gestión documental.",
     status: "beta",
-    highlights: ["Carpetas por expediente", "Etiquetas y búsqueda", "OCR v1 heurístico"],
+    highlights: ["Carpetas por expediente", "Etiquetas y búsqueda", "Clasificación automática v1"],
   },
   {
     slug: "intelligence",
     icon: Brain,
-    name: "RDPR Intelligence",
+    name: "RDPR Inteligencia",
     tagline: "IA empresarial integrada.",
     status: "live",
     highlights: ["Consultas en lenguaje natural", "Fiscal y operaciones", "Gráficos y acciones"],
@@ -239,26 +239,26 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
   {
     slug: "banking",
     icon: Wallet,
-    name: "RDPR Banking",
-    tagline: "Bancos, conciliación y cash flow.",
+    name: "RDPR Banca",
+    tagline: "Bancos, conciliación y flujo de caja.",
     status: "live",
-    highlights: ["Importación bancaria", "Conciliación", "Roadmap: forecasting"],
+    highlights: ["Importación bancaria", "Conciliación", "Hoja de ruta: previsión de tesorería"],
   },
   {
     slug: "payroll",
     icon: FileText,
-    name: "RDPR Payroll",
+    name: "RDPR Nóminas",
     tagline: "Laboral, nóminas y Seguridad Social.",
     status: "beta",
-    highlights: ["Plantilla y altas", "Nóminas mensuales", "Recibo PDF (MVP)"],
+    highlights: ["Plantilla y altas", "Nóminas mensuales", "Recibo PDF (versión inicial)"],
   },
   {
     slug: "legal",
     icon: Scale,
-    name: "RDPR Legal",
+    name: "RDPR Jurídico",
     tagline: "Jurídico, contratos y cumplimiento.",
     status: "beta",
-    highlights: ["Expedientes jurídicos", "Plantillas contractuales", "Roadmap: firma y RGPD"],
+    highlights: ["Expedientes jurídicos", "Plantillas contractuales", "Hoja de ruta: firma y RGPD"],
   },
   {
     slug: "portal",
@@ -266,62 +266,36 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     name: "RDPR Portal",
     tagline: "Portal del cliente moderno.",
     status: "beta",
-    highlights: ["Documentos", "Mensajes con asesoría", "Roadmap: firma y chat en vivo"],
+    highlights: ["Documentos", "Mensajes con asesoría", "Hoja de ruta: firma y chat en vivo"],
   },
   {
     slug: "signature",
     icon: PenLine,
-    name: "RDPR Signature",
+    name: "RDPR Firma",
     tagline: "Firma electrónica integrada.",
     status: "beta",
-    highlights: ["Solicitudes de firma", "Webhook proveedor", "Roadmap: XAdES y Autofirma"],
+    highlights: ["Solicitudes de firma", "Avisos del proveedor", "Hoja de ruta: XAdES y Autofirma"],
   },
   {
     slug: "compliance",
     icon: ShieldCheck,
-    name: "RDPR Compliance",
-    tagline: "RGPD, compliance y auditoría.",
+    name: "RDPR Cumplimiento",
+    tagline: "RGPD, cumplimiento normativo y auditoría.",
     status: "beta",
-    highlights: ["Registro de tratamientos", "Solicitudes ARSOP", "Roadmap: consentimientos"],
+    highlights: ["Registro de tratamientos", "Solicitudes ARSOP", "Hoja de ruta: consentimientos"],
   },
 ]
 
 export const RDPR_DIFFERENTIATION = {
   headline: "Gestión empresarial integrada en un solo entorno",
   body: "RDPR OS concentra finanzas, clientes, documentación y cumplimiento normativo con una experiencia clara y coherente. Pensado para asesorías y empresas que valoran el orden, la trazabilidad y la respuesta ágil.",
-  stack: ["Finance", "Tax", "Payroll", "Legal", "Documents", "AI"] as const,
-}
-
-/** Etiquetas del stack en español (página principal y marketing). */
-export const STACK_LABELS_ES: Record<(typeof RDPR_DIFFERENTIATION.stack)[number], string> = {
-  Finance: "Finanzas",
-  Tax: "Fiscal",
-  Payroll: "Nóminas",
-  Legal: "Jurídico",
-  Documents: "Documentos",
-  AI: "IA",
-}
-
-/** Nombres de módulo en español por slug. */
-export const MODULE_NAMES_ES: Record<string, string> = {
-  accounting: "RDPR Contabilidad",
-  tax: "RDPR Fiscal",
-  finance: "RDPR Finanzas",
-  crm: "RDPR CRM",
-  documents: "RDPR Documentos",
-  intelligence: "RDPR Inteligencia",
-  banking: "RDPR Banca",
-  payroll: "RDPR Nóminas",
-  legal: "RDPR Jurídico",
-  portal: "RDPR Portal",
-  signature: "RDPR Firma",
-  compliance: "RDPR Cumplimiento",
+  stack: ["Finanzas", "Fiscal", "Nóminas", "Jurídico", "Documentos", "IA"] as const,
 }
 
 export const STATUS_LABELS: Record<RoadmapStatus, string> = {
   live: "Disponible",
   beta: "En desarrollo",
-  planned: "Roadmap",
+  planned: "Próximamente",
 }
 
 export const STATUS_STYLES: Record<RoadmapStatus, string> = {

@@ -8,7 +8,7 @@ import type { StockImageKey } from "@/lib/site/stock-images"
 export const metadata: Metadata = {
   title: "Módulos",
   description:
-    "RDPR Accounting, Tax, Finance, CRM, Documents, Intelligence, Payroll, Legal, Portal y más — gestoría + ERP + IA.",
+    "Contabilidad, fiscal, finanzas, clientes, documentos, inteligencia, nóminas, jurídico, portal y más — gestoría + ERP + IA.",
 }
 
 /** Módulos con demo visual en profundidad (disponibles hoy). */
@@ -21,35 +21,35 @@ const FEATURED: Array<{
 }> = [
   {
     icon: Wallet,
-    title: "RDPR Finance & Tax",
+    title: "RDPR Finanzas y Fiscal",
     desc: "Facturación, eFactura, Verifactu, contabilidad PGC, banca y modelos AEAT en un solo flujo.",
-    image: "accountingDesk",
-    anchor: "finance",
+    image: "accountingArea",
+    anchor: "finanzas",
   },
   {
     icon: Users,
-    title: "RDPR CRM",
+    title: "RDPR Clientes",
     desc: "Expediente del cliente: datos fiscales, facturas, incidencias, tareas y documentación.",
-    image: "handshakeDeal",
-    anchor: "crm",
+    image: "consultationCall",
+    anchor: "clientes",
   },
   {
     icon: Layers,
-    title: "RDPR Projects",
+    title: "RDPR Proyectos",
     desc: "Tareas por fases, costes, rentabilidad y control de recursos del equipo.",
-    image: "projectPlanning",
+    image: "modulesArea",
   },
   {
     icon: FolderOpen,
-    title: "RDPR Documents",
+    title: "RDPR Documentos",
     desc: "Archivo digital, envío seguro desde el portal y clasificación documental.",
-    image: "secureDocuments",
+    image: "fiscalArea",
   },
   {
     icon: Brain,
-    title: "RDPR Intelligence",
+    title: "RDPR Inteligencia",
     desc: "Pregunte en lenguaje natural: IVA del trimestre, facturas pendientes, márgenes y gastos deducibles.",
-    image: "dataAnalytics",
+    image: "taxBanner",
   },
 ]
 
@@ -65,7 +65,7 @@ export default function ModulosPage() {
       <section className="py-16 px-4 sm:px-6 space-y-16 max-w-5xl mx-auto">
         <div className="text-center">
           <h2 className="text-xl font-bold mb-2">En profundidad</h2>
-          <p className="text-sm text-text-muted">Módulos activos con acceso en RDPR OS</p>
+          <p className="text-sm text-text-muted">Módulos activos con acceso en la plataforma</p>
         </div>
         {FEATURED.map(({ icon: Icon, title, desc, image, anchor }, i) => (
           <div

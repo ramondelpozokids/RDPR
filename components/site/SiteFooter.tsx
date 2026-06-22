@@ -81,7 +81,7 @@ export function SiteFooter() {
           <div className="relative w-20 h-20 rounded-2xl overflow-hidden border border-white/15 shrink-0 bg-white/10">
             <Image
               src={SITE_IMAGES.chatAssistant}
-              alt="Asistente RDPR Intelligence"
+              alt="Asistente RDPR Inteligencia"
               fill
               className="object-cover"
               sizes="80px"
@@ -90,7 +90,7 @@ export function SiteFooter() {
           <div className="flex-1 text-center sm:text-left">
             <p className="text-sm font-semibold text-white flex items-center justify-center sm:justify-start gap-2">
               <MessageCircle size={16} className="text-brand-300" />
-              Asistente RDPR Intelligence
+              Asistente RDPR Inteligencia
             </p>
             <p className="text-sm text-white/70 mt-1 max-w-md">
               Pregunta a tu negocio en lenguaje natural: facturación, cobros, alertas fiscales y más.

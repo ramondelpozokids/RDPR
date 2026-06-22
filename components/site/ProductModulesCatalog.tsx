@@ -4,8 +4,6 @@ import { MarketingAccordionItem } from "@/components/site/MarketingAccordionItem
 import {
   RDPR_PRODUCT_MODULES,
   RDPR_DIFFERENTIATION,
-  STACK_LABELS_ES,
-  MODULE_NAMES_ES,
   STATUS_LABELS,
   STATUS_STYLES,
 } from "@/lib/site/gestoria-vision"
@@ -13,15 +11,9 @@ import {
 type ProductModulesCatalogProps = {
   compact?: boolean
   accordion?: boolean
-  /** Etiquetas y nombres de módulo en español (p. ej. inicio). */
-  spanish?: boolean
 }
 
-export function ProductModulesCatalog({
-  compact = false,
-  accordion = false,
-  spanish = false,
-}: ProductModulesCatalogProps) {
+export function ProductModulesCatalog({ compact = false, accordion = false }: ProductModulesCatalogProps) {
   return (
     <section
       className={
@@ -30,7 +22,7 @@ export function ProductModulesCatalog({
           : "py-16 px-4 sm:px-6 bg-surface-muted/30 border-y border-surface-border"
       }
     >
-      <div className={compact ? "max-w-5xl mx-auto" : "max-w-5xl mx-auto"}>
+      <div className="max-w-5xl mx-auto">
         {!compact && (
           <div className="text-center max-w-2xl mx-auto mb-10">
             <p className="text-xs font-semibold uppercase tracking-wider text-brand-600 mb-2">Ecosistema RDPR</p>
@@ -47,7 +39,7 @@ export function ProductModulesCatalog({
               key={pill}
               className="text-xs font-semibold px-3 py-1 rounded-full bg-brand-500 text-white"
             >
-              {spanish ? STACK_LABELS_ES[pill] : pill}
+              {pill}
             </span>
           ))}
         </div>
@@ -57,7 +49,7 @@ export function ProductModulesCatalog({
             {RDPR_PRODUCT_MODULES.map(({ slug, icon: Icon, name, tagline, status, highlights }) => (
               <MarketingAccordionItem
                 key={slug}
-                title={spanish ? (MODULE_NAMES_ES[slug] ?? name) : name}
+                title={name}
                 summary={tagline}
                 icon={
                   <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center">
@@ -91,7 +83,7 @@ export function ProductModulesCatalog({
                     {STATUS_LABELS[status]}
                   </span>
                 </div>
-                <h3 className="font-bold mb-1">{spanish ? (MODULE_NAMES_ES[slug] ?? name) : name}</h3>
+                <h3 className="font-bold mb-1">{name}</h3>
                 <p className="text-sm text-text-muted mb-3">{tagline}</p>
                 <ul className="space-y-1 flex-1">
                   {highlights.map((h) => (
@@ -106,7 +98,7 @@ export function ProductModulesCatalog({
         {!compact && (
           <div className="text-center mt-10">
             <Link href="/contacto" className="btn-primary inline-flex text-sm">
-              Hablar del roadmap
+              Consultar planificación
               <ArrowRight size={14} />
             </Link>
           </div>

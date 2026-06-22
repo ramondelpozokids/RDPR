@@ -8,41 +8,41 @@ import { SITE_IMAGES } from "@/lib/site/config"
 
 export const metadata: Metadata = {
   title: "Precios",
-  description: "Planes Starter, Business, Enterprise e Intelligence para RDPR OS.",
+  description: "Planes Inicial, Empresa, Corporativo e Inteligencia para RDPR OS.",
 }
 
 /** Orden ascendente por precio: 49 → 99 → 149 → 499 */
 const PLANS = [
   {
-    name: "Starter",
+    name: "Inicial",
     tagline: "Para emprendedores",
     price: "49",
-    features: ["1 empresa", "CRM y facturación", "Proyectos básicos", "1 usuario", "Soporte email"],
+    features: ["1 empresa", "Clientes y facturación", "Proyectos básicos", "1 usuario", "Soporte por correo"],
     cta: "Empezar",
     highlight: false,
   },
   {
-    name: "Intelligence",
-    tagline: "Add-on IA avanzada",
+    name: "Inteligencia",
+    tagline: "Complemento de IA avanzada",
     price: "99",
     suffix: "+",
-    features: ["RDPR Intelligence", "Predicciones IA", "Alertas contables", "Flujo de caja", "Conciliación inteligente"],
+    features: ["RDPR Inteligencia", "Predicciones IA", "Alertas contables", "Flujo de caja", "Conciliación inteligente"],
     cta: "Añadir IA",
     highlight: false,
   },
   {
-    name: "Business",
+    name: "Empresa",
     tagline: "Para empresas en crecimiento",
     price: "149",
-    features: ["Hasta 10 usuarios", "Finanzas completas", "Informes avanzados", "Multi-equipo", "Soporte prioritario"],
+    features: ["Hasta 10 usuarios", "Finanzas completas", "Informes avanzados", "Varios equipos", "Soporte prioritario"],
     cta: "Solicitar demo",
     highlight: true,
   },
   {
-    name: "Enterprise",
+    name: "Corporativo",
     tagline: "Para grupos empresariales",
     price: "499",
-    features: ["Multi-empresa", "Consolidación holding", "SSO y API", "Auditoría", "Account manager"],
+    features: ["Multi-empresa", "Consolidación holding", "Acceso corporativo y API", "Auditoría", "Gestor de cuenta"],
     cta: "Contactar",
     highlight: false,
   },

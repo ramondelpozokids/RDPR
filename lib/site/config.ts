@@ -33,7 +33,7 @@ export type SiteNavItem = {
 export const SITE_NAV: SiteNavItem[] = [
   { href: "/", label: "Inicio", description: "Asesoría y gestión empresarial" },
   { href: "/servicios", label: "Servicios", description: "Contable, fiscal y documentos" },
-  { href: "/modulos", label: "Plataforma", description: "Finanzas, CRM y proyectos" },
+  { href: "/modulos", label: "Plataforma", description: "Finanzas, clientes y proyectos" },
   { href: "/modelos-fiscales", label: "Modelos fiscales", description: "Descargas oficiales AEAT" },
   { href: "/precios", label: "Precios", description: "Planes desde 49 €/mes" },
   { href: "/contacto", label: "Contacto", description: "Consulta gratuita" },
@@ -49,9 +49,9 @@ export type NavModuleItem = {
 export const NAV_MODULES: NavModuleItem[] = [
   { href: "/modulos", label: "Contabilidad" },
   { href: "/modelos-fiscales", label: "Fiscal" },
-  { href: "/modulos#finance", label: "Finanzas" },
-  { href: "/modulos#crm", label: "CRM" },
-  { href: "/modulos", label: "ERP" },
+  { href: "/modulos#finanzas", label: "Finanzas" },
+  { href: "/modulos#clientes", label: "Clientes" },
+  { href: "/modulos", label: "Gestión empresarial" },
 ]
 
 export const FOOTER_LINKS = {
