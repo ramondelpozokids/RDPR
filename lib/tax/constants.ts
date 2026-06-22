@@ -13,6 +13,9 @@ export const DEFAULT_IRPF_FRACTIONAL_RATE = 0.2
 /** Retención profesionales por defecto si no se indica en factura. */
 export const DEFAULT_PROFESSIONAL_WITHHOLDING_RATE = 0.15
 
+/** Retención arrendamientos urbanos (modelo 115) — orientativo V1. */
+export const DEFAULT_RENTAL_WITHHOLDING_RATE = 0.19
+
 export const MODEL_347_OPERATION_TYPES = {
   PURCHASE: "B",
   SALE: "A",

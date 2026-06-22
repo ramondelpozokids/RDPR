@@ -103,6 +103,42 @@ export async function exportTaxModelCsv(
         )
       break
     }
+    case "115": {
+      const d = result.data
+      csv =
+        metaRows(model.name, d.period.label, d.disclaimer) +
+        "\n" +
+        rowsToCsv(
+          ["Arrendador", "NIF", "Base", "Tipo %", "Retención", "Concepto", "Fecha"],
+          d.lines.map((l) => [
+            l.landlordName,
+            l.landlordTaxId ?? "",
+            l.baseAmount.toFixed(2),
+            l.withholdingRate.toFixed(2),
+            l.withholdingAmount.toFixed(2),
+            l.description,
+            l.issueDate.toISOString().slice(0, 10),
+          ])
+        )
+      break
+    }
+    case "180": {
+      const d = result.data
+      csv =
+        metaRows(model.name, d.period.label, d.disclaimer) +
+        "\n" +
+        rowsToCsv(
+          ["Arrendador", "NIF", "Base total", "Retenciones", "Nº pagos"],
+          d.landlords.map((l) => [
+            l.name,
+            l.taxId ?? "",
+            l.totalBase.toFixed(2),
+            l.totalRetenciones.toFixed(2),
+            l.expenseCount,
+          ])
+        )
+      break
+    }
     case "190": {
       const d = result.data
       csv =

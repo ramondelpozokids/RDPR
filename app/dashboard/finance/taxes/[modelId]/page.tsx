@@ -164,6 +164,47 @@ export default async function TaxModelPage({ params, searchParams }: Props) {
         </>
       )}
 
+      {result.modelId === "115" && (
+        <>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <MetricCard label="Base alquileres" value={formatCurrency(result.data.totalBase)} icon={Users} iconColor="text-violet-600" iconBg="bg-violet-50" />
+            <MetricCard label="Retenciones" value={formatCurrency(result.data.totalRetenciones)} icon={Calculator} iconColor="text-primary" iconBg="bg-accent" />
+          </div>
+          <LinesTable
+            headers={["Arrendador", "NIF", "Base", "Tipo %", "Retención", "Concepto", "Fecha"]}
+            rows={result.data.lines.map((l) => [
+              l.landlordName,
+              l.landlordTaxId ?? "—",
+              formatCurrency(l.baseAmount),
+              `${l.withholdingRate.toFixed(1)}%`,
+              formatCurrency(l.withholdingAmount),
+              l.description,
+              formatDate(l.issueDate),
+            ])}
+            empty="Sin retenciones de alquiler. Registra gastos con categoría Alquileres."
+          />
+        </>
+      )}
+
+      {result.modelId === "180" && (
+        <>
+          <div className="mb-6 max-w-sm">
+            <MetricCard label="Total retenciones anuales" value={formatCurrency(result.data.totalRetenciones)} icon={Calculator} iconColor="text-primary" iconBg="bg-accent" />
+          </div>
+          <LinesTable
+            headers={["Arrendador", "NIF", "Base", "Retenciones", "Pagos"]}
+            rows={result.data.landlords.map((l) => [
+              l.name,
+              l.taxId ?? "—",
+              formatCurrency(l.totalBase),
+              formatCurrency(l.totalRetenciones),
+              String(l.expenseCount),
+            ])}
+            empty="Sin datos de alquileres en el ejercicio."
+          />
+        </>
+      )}
+
       {result.modelId === "190" && (
         <>
           <div className="mb-6 max-w-sm">

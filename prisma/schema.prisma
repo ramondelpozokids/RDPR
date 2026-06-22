@@ -91,6 +91,10 @@ model Company {
   brands       Brand[]
   documentFolders DocumentFolder[]
   portalAccesses ClientPortalAccess[]
+  employees      Employee[]
+  payrollRuns    PayrollRun[]
+  legalTemplates LegalTemplate[]
+  legalCases     LegalCase[]
 
   @@map("companies")
 }
@@ -237,6 +241,8 @@ model Customer {
   documents Document[]
   folders   DocumentFolder[]
   portalAccess ClientPortalAccess[]
+  employees Employee[]
+  legalCases LegalCase[]
 
   @@map("customers")
 }
@@ -402,6 +408,7 @@ model Document {
   customerId String?
   projectId  String?
   folderId   String?
+  legalCaseId String?
   name       String
   fileUrl    String
   fileType   String
@@ -413,6 +420,7 @@ model Document {
   customer Customer?       @relation(fields: [customerId], references: [id])
   project  Project?        @relation(fields: [projectId], references: [id])
   folder   DocumentFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  legalCase LegalCase?     @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
 
   @@map("documents")
 }
@@ -557,6 +565,8 @@ model Expense {
   taxRate     Float           @default(21)
   taxAmount   Float
   total       Float
+  withholdingRate   Float?
+  withholdingAmount Float?
   notes       String?         @db.Text
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
@@ -570,6 +580,7 @@ enum ExpenseCategory {
   SERVICES
   SUPPLIES
   BANK_FEES
+  RENT
   OTHER
 }
 
@@ -619,6 +630,109 @@ enum BankTxStatus {
   UNMATCHED
   MATCHED
   IGNORED
+}
+
+// ─────────────────────────────────────────────
+// PAYROLL (Sprint 2 — Q4 MVP)
+// ─────────────────────────────────────────────
+model Employee {
+  id           String    @id @default(cuid())
+  companyId    String
+  customerId   String?
+  firstName    String
+  lastName     String
+  nif          String
+  contractType String    @default("INDEFINIDO")
+  startDate    DateTime
+  endDate      DateTime?
+  baseSalary   Float
+  active       Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer     Customer?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  payrollLines PayrollLine[]
+
+  @@map("employees")
+}
+
+enum PayrollStatus {
+  DRAFT
+  CONFIRMED
+  PAID
+}
+
+model PayrollRun {
+  id        String        @id @default(cuid())
+  companyId String
+  period    String
+  status    PayrollStatus @default(DRAFT)
+  notes     String?       @db.Text
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  company Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  lines   PayrollLine[]
+
+  @@unique([companyId, period])
+  @@map("payroll_runs")
+}
+
+model PayrollLine {
+  id           String  @id @default(cuid())
+  payrollRunId String
+  employeeId   String
+  gross        Float
+  deductions   Float   @default(0)
+  net          Float
+  notes        String?
+
+  payrollRun PayrollRun @relation(fields: [payrollRunId], references: [id], onDelete: Cascade)
+  employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([payrollRunId, employeeId])
+  @@map("payroll_lines")
+}
+
+// ─────────────────────────────────────────────
+// LEGAL (Sprint 2 — v0)
+// ─────────────────────────────────────────────
+enum LegalCaseStatus {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
+
+model LegalTemplate {
+  id        String   @id @default(cuid())
+  companyId String
+  title     String
+  category  String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("legal_templates")
+}
+
+model LegalCase {
+  id         String          @id @default(cuid())
+  companyId  String
+  customerId String?
+  title      String
+  status     LegalCaseStatus @default(OPEN)
+  notes      String?         @db.Text
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer  Customer?  @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  documents Document[]
+
+  @@map("legal_cases")
 }
 
 // ─────────────────────────────────────────────

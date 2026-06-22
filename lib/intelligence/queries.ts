@@ -17,6 +17,8 @@ export type IntelligenceQueryId =
   | "cashflow_forecast"
   | "accounting_alerts"
   | "ledger_balance"
+  | "payroll_cost_month"
+  | "payroll_employees"
 
 export type IntelligenceLink = { href: string; label: string }
 export type IntelligenceHighlight = { label: string; value: string }
@@ -32,7 +34,7 @@ export type IntelligenceResult = {
 export const PREDEFINED_QUERIES: Array<{
   id: IntelligenceQueryId
   label: string
-  category: "finanzas" | "crm" | "proyectos"
+  category: "finanzas" | "crm" | "proyectos" | "laboral"
 }> = [
   { id: "billed_month", label: "¿Cuánto he facturado este mes?", category: "finanzas" },
   { id: "paid_month", label: "¿Cuánto he cobrado este mes?", category: "finanzas" },
@@ -46,6 +48,8 @@ export const PREDEFINED_QUERIES: Array<{
   { id: "cashflow_forecast", label: "¿Cómo está mi tesorería proyectada?", category: "finanzas" },
   { id: "accounting_alerts", label: "¿Hay alertas contables?", category: "finanzas" },
   { id: "ledger_balance", label: "¿Cuál es el saldo de clientes (430)?", category: "finanzas" },
+  { id: "payroll_cost_month", label: "¿Cuál es el coste de nómina este mes?", category: "laboral" },
+  { id: "payroll_employees", label: "¿Cuántos empleados tengo en plantilla?", category: "laboral" },
 ]
 
 function monthStart(d = new Date()) {
@@ -80,6 +84,8 @@ export function matchQueryFromText(text: string): IntelligenceQueryId | null {
   if (t.includes("tesorer") || t.includes("caja") || t.includes("flujo")) return "cashflow_forecast"
   if (t.includes("alert") || t.includes("anomal") || t.includes("concili")) return "accounting_alerts"
   if (t.includes("430") || (t.includes("cliente") && t.includes("saldo"))) return "ledger_balance"
+  if ((t.includes("nomina") || t.includes("sueldo") || t.includes("salario")) && t.includes("mes")) return "payroll_cost_month"
+  if (t.includes("empleado") || t.includes("plantilla") || t.includes("trabajador")) return "payroll_employees"
 
   return null
 }
@@ -427,6 +433,52 @@ export async function executeIntelligenceQuery(
           { label: "Movimientos", value: String(ledger.movements.length) },
         ],
         links: [{ href: "/dashboard/finance/ledger/430", label: "Ver libro mayor 430" }],
+      }
+    }
+
+    case "payroll_cost_month": {
+      const period = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
+      const run = await prisma.payrollRun.findUnique({
+        where: { companyId_period: { companyId, period } },
+        include: { lines: true },
+      })
+      if (!run || run.lines.length === 0) {
+        return {
+          queryId,
+          question: meta.label,
+          answer: `No hay nómina generada para **${period}** en **${companyName}**. Crea una desde Payroll.`,
+          links: [{ href: "/dashboard/payroll/runs", label: "Generar nómina" }],
+        }
+      }
+      const gross = run.lines.reduce((s, l) => s + l.gross, 0)
+      const net = run.lines.reduce((s, l) => s + l.net, 0)
+      return {
+        queryId,
+        question: meta.label,
+        answer: `Coste de nómina **${period}** en **${companyName}**: **${formatCurrency(gross)}** bruto · **${formatCurrency(net)}** neto (${run.lines.length} empleado(s)).`,
+        highlights: [
+          { label: "Bruto", value: formatCurrency(gross) },
+          { label: "Neto", value: formatCurrency(net) },
+          { label: "Empleados", value: String(run.lines.length) },
+        ],
+        links: [{ href: "/dashboard/payroll/runs", label: "Ver nóminas" }],
+      }
+    }
+
+    case "payroll_employees": {
+      const [active, total] = await Promise.all([
+        prisma.employee.count({ where: { companyId, active: true } }),
+        prisma.employee.count({ where: { companyId } }),
+      ])
+      return {
+        queryId,
+        question: meta.label,
+        answer: `**${companyName}** tiene **${active}** empleado(s) activo(s) de **${total}** registrados en plantilla.`,
+        highlights: [
+          { label: "Activos", value: String(active) },
+          { label: "Total", value: String(total) },
+        ],
+        links: [{ href: "/dashboard/payroll/employees", label: "Ver plantilla" }],
       }
     }
 

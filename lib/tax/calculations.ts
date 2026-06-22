@@ -6,6 +6,7 @@ import {
   DEFAULT_CORPORATE_FRACTIONAL_RATE,
   DEFAULT_IRPF_FRACTIONAL_RATE,
   DEFAULT_PROFESSIONAL_WITHHOLDING_RATE,
+  DEFAULT_RENTAL_WITHHOLDING_RATE,
   MODEL_347_THRESHOLD,
   MODEL_347_OPERATION_TYPES,
 } from "@/lib/tax/constants"
@@ -281,6 +282,147 @@ export async function calculateModel111(
   }
 }
 
+export type RentalWithholdingLine = {
+  landlordName: string
+  landlordTaxId: string | null
+  baseAmount: number
+  withholdingRate: number
+  withholdingAmount: number
+  description: string
+  issueDate: Date
+}
+
+export type Model115Result = {
+  period: TaxPeriod
+  lines: RentalWithholdingLine[]
+  totalBase: number
+  totalRetenciones: number
+  disclaimer: string
+}
+
+function rentalWithholdingFromExpense(exp: {
+  description: string
+  vendor: string | null
+  vendorTaxId: string | null
+  subtotal: number
+  withholdingRate: number | null
+  withholdingAmount: number | null
+  issueDate: Date
+}): RentalWithholdingLine | null {
+  const rate = exp.withholdingRate ?? DEFAULT_RENTAL_WITHHOLDING_RATE * 100
+  const amount =
+    exp.withholdingAmount ??
+    exp.subtotal * (exp.withholdingRate != null ? exp.withholdingRate / 100 : DEFAULT_RENTAL_WITHHOLDING_RATE)
+  if (amount <= 0) return null
+  return {
+    landlordName: exp.vendor ?? "Arrendador",
+    landlordTaxId: exp.vendorTaxId,
+    baseAmount: exp.subtotal,
+    withholdingRate: rate,
+    withholdingAmount: amount,
+    description: exp.description,
+    issueDate: exp.issueDate,
+  }
+}
+
+export async function calculateModel115(
+  companyId: string,
+  periodParam?: string
+): Promise<Model115Result> {
+  const period = parsePeriodParam(periodParam)
+
+  const expenses = await prisma.expense.findMany({
+    where: {
+      companyId,
+      issueDate: { gte: period.start, lte: period.end },
+      status: { not: "CANCELLED" },
+      OR: [
+        { category: "RENT" },
+        { withholdingAmount: { gt: 0 } },
+        { withholdingRate: { gt: 0 } },
+      ],
+    },
+    orderBy: { issueDate: "desc" },
+  })
+
+  const lines = expenses
+    .map(rentalWithholdingFromExpense)
+    .filter((l): l is RentalWithholdingLine => l !== null)
+
+  return {
+    period,
+    lines,
+    totalBase: lines.reduce((s, l) => s + l.baseAmount, 0),
+    totalRetenciones: lines.reduce((s, l) => s + l.withholdingAmount, 0),
+    disclaimer:
+      lines.length === 0
+        ? "Sin retenciones de alquiler. Registre gastos con categoría Alquileres o indique retención IRPF."
+        : "Retenciones estimadas desde gastos de alquiler (19% por defecto si no se indica tipo).",
+  }
+}
+
+export type Model180Result = {
+  period: TaxPeriod
+  landlords: Array<{
+    name: string
+    taxId: string | null
+    totalBase: number
+    totalRetenciones: number
+    expenseCount: number
+  }>
+  totalRetenciones: number
+  disclaimer: string
+}
+
+export async function calculateModel180(companyId: string, year?: number): Promise<Model180Result> {
+  const y = year ?? new Date().getFullYear()
+  const period = getYearPeriod(y)
+
+  const expenses = await prisma.expense.findMany({
+    where: {
+      companyId,
+      issueDate: { gte: period.start, lte: period.end },
+      status: { not: "CANCELLED" },
+      OR: [
+        { category: "RENT" },
+        { withholdingAmount: { gt: 0 } },
+        { withholdingRate: { gt: 0 } },
+      ],
+    },
+  })
+
+  const map = new Map<
+    string,
+    { name: string; taxId: string | null; totalBase: number; totalRetenciones: number; expenseCount: number }
+  >()
+
+  for (const exp of expenses) {
+    const line = rentalWithholdingFromExpense(exp)
+    if (!line) continue
+    const key = line.landlordTaxId ?? line.landlordName
+    const prev = map.get(key) ?? {
+      name: line.landlordName,
+      taxId: line.landlordTaxId,
+      totalBase: 0,
+      totalRetenciones: 0,
+      expenseCount: 0,
+    }
+    prev.totalBase += line.baseAmount
+    prev.totalRetenciones += line.withholdingAmount
+    prev.expenseCount += 1
+    map.set(key, prev)
+  }
+
+  const landlords = [...map.values()].sort((a, b) => b.totalRetenciones - a.totalRetenciones)
+
+  return {
+    period,
+    landlords,
+    totalRetenciones: landlords.reduce((s, l) => s + l.totalRetenciones, 0),
+    disclaimer: "Resumen anual de retenciones por arrendamientos. Debe cuadrar con las liquidaciones 115 del ejercicio.",
+  }
+}
+
 export type Model190Result = {
   period: TaxPeriod
   recipients: Array<{
@@ -515,6 +657,8 @@ export type TaxModelCalculation =
   | { modelId: "390"; data: Model390Result }
   | { modelId: "130"; data: Model130Result }
   | { modelId: "111"; data: Model111Result }
+  | { modelId: "115"; data: Model115Result }
+  | { modelId: "180"; data: Model180Result }
   | { modelId: "190"; data: Model190Result }
   | { modelId: "200"; data: Model200Result }
   | { modelId: "202"; data: Model202Result }
@@ -537,6 +681,13 @@ export async function calculateTaxModel(
       return { modelId: "130", data: await calculateModel130(companyId, periodParam) }
     case "111":
       return { modelId: "111", data: await calculateModel111(companyId, periodParam) }
+    case "115":
+      return { modelId: "115", data: await calculateModel115(companyId, periodParam) }
+    case "180":
+      return {
+        modelId: "180",
+        data: await calculateModel180(companyId, periodParam ? Number(periodParam) : undefined),
+      }
     case "190":
       return {
         modelId: "190",

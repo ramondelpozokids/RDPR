@@ -30,6 +30,7 @@ export const EXPENSE_CATEGORY_ACCOUNTS: Record<string, string> = {
   SERVICES: "629",
   SUPPLIES: "600",
   BANK_FEES: "626",
+  RENT: "621",
   OTHER: "629",
 }
 
@@ -37,6 +38,7 @@ export const EXPENSE_CATEGORY_LABELS: Record<string, string> = {
   SERVICES: "Servicios",
   SUPPLIES: "Compras / material",
   BANK_FEES: "Comisiones bancarias",
+  RENT: "Alquileres",
   OTHER: "Otros gastos",
 }
 

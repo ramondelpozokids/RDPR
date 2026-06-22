@@ -21,6 +21,7 @@ export default function NewExpensePage() {
   const [status, setStatus] = useState("PENDING")
   const [subtotal, setSubtotal] = useState("")
   const [taxRate, setTaxRate] = useState(21)
+  const [withholdingRate, setWithholdingRate] = useState(19)
   const [notes, setNotes] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -48,6 +49,7 @@ export default function NewExpensePage() {
         subtotal: base,
         taxRate,
         notes: notes.trim() || undefined,
+        ...(category === "RENT" ? { withholdingRate } : {}),
       }),
     })
     const json = await res.json()
@@ -101,6 +103,18 @@ export default function NewExpensePage() {
           <Input label="Base imponible (€) *" type="number" min="0" step="0.01" value={subtotal} onChange={(e) => setSubtotal(e.target.value)} />
           <Input label="IVA (%)" type="number" min="0" max="100" value={taxRate} onChange={(e) => setTaxRate(Number(e.target.value))} />
         </div>
+
+        {category === "RENT" && (
+          <Input
+            label="Retención IRPF alquiler (%)"
+            type="number"
+            min="0"
+            max="100"
+            value={withholdingRate}
+            onChange={(e) => setWithholdingRate(Number(e.target.value))}
+            hint="Modelo 115 · 19% por defecto"
+          />
+        )}
 
         <Textarea label="Notas" value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} />
 

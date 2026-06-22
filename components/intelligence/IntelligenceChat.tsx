@@ -215,4 +215,6 @@ const PREDEFINED_LABELS: Record<IntelligenceQueryId, string> = {
   cashflow_forecast: "¿Cómo está mi tesorería proyectada?",
   accounting_alerts: "¿Hay alertas contables?",
   ledger_balance: "¿Cuál es el saldo de clientes (430)?",
+  payroll_cost_month: "¿Cuál es el coste de nómina este mes?",
+  payroll_employees: "¿Cuántos empleados tengo en plantilla?",
 }

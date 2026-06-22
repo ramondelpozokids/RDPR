@@ -137,10 +137,10 @@ export const TAX_MODELS: TaxModelDefinition[] = [
     description: "Retenciones por arrendamientos de inmuebles urbanos",
     category: "alquileres",
     icon: Home,
-    status: "planned",
+    status: "active",
     entities: ["AUTONOMO", "SL", "SA", "OTHER"],
     frequency: "trimestral",
-    v1: false,
+    v1: true,
   },
   {
     id: "180",
@@ -150,10 +150,10 @@ export const TAX_MODELS: TaxModelDefinition[] = [
     description: "Resumen anual del modelo 115",
     category: "alquileres",
     icon: FileSpreadsheet,
-    status: "planned",
+    status: "active",
     entities: ["AUTONOMO", "SL", "SA", "OTHER"],
     frequency: "anual",
-    v1: false,
+    v1: true,
   },
   {
     id: "200",
@@ -228,7 +228,7 @@ export const RDPR_TAX_INTELLIGENCE_TAGLINE =
 
 export const TAX_INTELLIGENCE_ROADMAP = [
   { label: "Presentación AEAT con certificado digital", status: "planned" as const },
-  { label: "Modelos 115/180 alquileres", status: "planned" as const },
+  { label: "Modelos 115/180 alquileres", status: "active" as const },
   { label: "Modelo 349 intracomunitario", status: "planned" as const },
   { label: "Modelo 131 módulos IRPF", status: "planned" as const },
   { label: "Modelo 202 pagos fraccionados IS", status: "planned" as const },

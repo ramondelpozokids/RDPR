@@ -15,6 +15,11 @@ const bodySchema = z.object({
       "vat_quarter",
       "top_customers",
       "expenses_month",
+      "cashflow_forecast",
+      "accounting_alerts",
+      "ledger_balance",
+      "payroll_cost_month",
+      "payroll_employees",
     ] as [IntelligenceQueryId, ...IntelligenceQueryId[]])
     .optional(),
   message: z.string().max(500).optional(),

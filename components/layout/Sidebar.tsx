@@ -9,6 +9,7 @@ import { signOut } from "next-auth/react"
 import {
   LayoutDashboard, Users, FolderKanban,
   FolderOpen, Settings, LogOut, Menu, X, ChevronRight, Sparkles, Wallet,
+  Briefcase, Scale,
 } from "lucide-react"
 import { cn, getInitials } from "@/lib/utils"
 import CompanySwitcher from "@/components/layout/CompanySwitcher"
@@ -22,6 +23,8 @@ const NAV_ITEMS = [
   { href: "/dashboard/crm",       icon: Users,           label: "CRM"         },
   { href: "/dashboard/projects",  icon: FolderKanban,    label: "Proyectos"   },
   { href: "/dashboard/finance",   icon: Wallet,          label: "RDPR Finance" },
+  { href: "/dashboard/payroll",   icon: Briefcase,       label: "Payroll"      },
+  { href: "/dashboard/legal",     icon: Scale,           label: "Legal"        },
   { href: "/dashboard/intelligence", icon: Sparkles,    label: "Intelligence" },
   { href: "/dashboard/documents", icon: FolderOpen,      label: "Documentos"  },
   { href: "/dashboard/settings",  icon: Settings,        label: "Ajustes"     },
