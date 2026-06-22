@@ -75,5 +75,14 @@ export async function POST(req: NextRequest) {
     },
   })
 
+  void import("@/lib/notifications/portal-upload").then(({ notifyPortalDocumentUpload }) =>
+    notifyPortalDocumentUpload({
+      companyId: ctx.companyId,
+      customerId: ctx.customerId,
+      customerName: ctx.customer.name,
+      fileName: file.name,
+    })
+  )
+
   return NextResponse.json({ success: true, data: document }, { status: 201 })
 }

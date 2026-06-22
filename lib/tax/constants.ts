@@ -10,6 +10,9 @@ export const DEFAULT_CORPORATE_FRACTIONAL_RATE = 0.18
 /** Pagos fraccionados IRPF estimación directa (orientativo). */
 export const DEFAULT_IRPF_FRACTIONAL_RATE = 0.2
 
+/** Rendimiento neto orientativo sobre ingresos — estimación objetiva / módulos (131). */
+export const DEFAULT_MODULE_YIELD_RATE = 0.05
+
 /** Retención profesionales por defecto si no se indica en factura. */
 export const DEFAULT_PROFESSIONAL_WITHHOLDING_RATE = 0.15
 

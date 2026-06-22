@@ -98,10 +98,10 @@ export const TAX_MODELS: TaxModelDefinition[] = [
     description: "Pagos fraccionados IRPF — estimación objetiva (módulos)",
     category: "irpf",
     icon: Calculator,
-    status: "planned",
+    status: "active",
     entities: ["AUTONOMO"],
     frequency: "trimestral",
-    v1: false,
+    v1: true,
   },
   {
     id: "111",
@@ -230,7 +230,7 @@ export const TAX_INTELLIGENCE_ROADMAP = [
   { label: "Presentación AEAT con certificado digital", status: "planned" as const },
   { label: "Modelos 115/180 alquileres", status: "active" as const },
   { label: "Modelo 349 intracomunitario", status: "active" as const },
-  { label: "Modelo 131 módulos IRPF", status: "planned" as const },
+  { label: "Modelo 131 módulos IRPF", status: "active" as const },
   { label: "Modelo 202 pagos fraccionados IS", status: "planned" as const },
   { label: "Simulación fiscal avanzada con IA", status: "planned" as const },
 ] as const

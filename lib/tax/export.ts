@@ -84,6 +84,21 @@ export async function exportTaxModelCsv(
         )
       break
     }
+    case "131": {
+      const d = result.data
+      csv =
+        metaRows(model.name, d.period.label, d.disclaimer) +
+        "\n" +
+        rowsToCsv(
+          ["Concepto", "Importe"],
+          [
+            ["Ingresos facturados", d.ingresos.toFixed(2)],
+            [`Rendimiento neto (${d.tipoRendimiento * 100}%)`, d.rendimientoNeto.toFixed(2)],
+            [`Pago fraccionado (${d.tipoFraccionado * 100}%)`, d.pagoFraccionado.toFixed(2)],
+          ]
+        )
+      break
+    }
     case "111": {
       const d = result.data
       csv =

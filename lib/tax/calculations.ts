@@ -5,6 +5,7 @@ import {
   DEFAULT_CORPORATE_TAX_RATE,
   DEFAULT_CORPORATE_FRACTIONAL_RATE,
   DEFAULT_IRPF_FRACTIONAL_RATE,
+  DEFAULT_MODULE_YIELD_RATE,
   DEFAULT_PROFESSIONAL_WITHHOLDING_RATE,
   DEFAULT_RENTAL_WITHHOLDING_RATE,
   MODEL_347_THRESHOLD,
@@ -215,6 +216,54 @@ export async function calculateModel130(
     tipoAplicado: DEFAULT_IRPF_FRACTIONAL_RATE,
     disclaimer:
       "Estimación directa simplificada (20% sobre rendimiento neto). No incluye retenciones soportadas ni cuotas SS. Consulte con asesor fiscal.",
+  }
+}
+
+export type Model131Result = {
+  period: TaxPeriod
+  ingresos: number
+  rendimientoNeto: number
+  pagoFraccionado: number
+  tipoRendimiento: number
+  tipoFraccionado: number
+  disclaimer: string
+}
+
+export async function calculateModel131(
+  companyId: string,
+  periodParam?: string
+): Promise<Model131Result> {
+  const period = parsePeriodParam(periodParam)
+  const profile = await getTaxCompanyProfile(companyId)
+
+  const invoices = await prisma.invoice.findMany({
+    where: {
+      companyId,
+      issueDate: { gte: period.start, lte: period.end },
+      status: { not: "CANCELLED" },
+      documentType: "INVOICE",
+    },
+    select: { subtotal: true },
+  })
+
+  const ingresos = invoices.reduce((s, i) => s + i.subtotal, 0)
+  const rendimientoNeto = Math.max(0, ingresos * DEFAULT_MODULE_YIELD_RATE)
+  const pagoFraccionado = rendimientoNeto * DEFAULT_IRPF_FRACTIONAL_RATE
+
+  const regimeNote =
+    profile?.irpfRegime === "OBJECTIVE_MODULES"
+      ? ""
+      : " Perfil fiscal no configurado como módulos — resultado orientativo."
+
+  return {
+    period,
+    ingresos,
+    rendimientoNeto,
+    pagoFraccionado,
+    tipoRendimiento: DEFAULT_MODULE_YIELD_RATE,
+    tipoFraccionado: DEFAULT_IRPF_FRACTIONAL_RATE,
+    disclaimer:
+      `Estimación V1: ${DEFAULT_MODULE_YIELD_RATE * 100}% rendimiento neto sobre ingresos facturados × ${DEFAULT_IRPF_FRACTIONAL_RATE * 100}% pago fraccionado.${regimeNote} No sustituye índices oficiales de módulos AEAT.`,
   }
 }
 
@@ -755,6 +804,7 @@ export type TaxModelCalculation =
   | { modelId: "303"; data: Model303Result }
   | { modelId: "390"; data: Model390Result }
   | { modelId: "130"; data: Model130Result }
+  | { modelId: "131"; data: Model131Result }
   | { modelId: "111"; data: Model111Result }
   | { modelId: "115"; data: Model115Result }
   | { modelId: "180"; data: Model180Result }
@@ -779,6 +829,8 @@ export async function calculateTaxModel(
       }
     case "130":
       return { modelId: "130", data: await calculateModel130(companyId, periodParam) }
+    case "131":
+      return { modelId: "131", data: await calculateModel131(companyId, periodParam) }
     case "111":
       return { modelId: "111", data: await calculateModel111(companyId, periodParam) }
     case "115":
