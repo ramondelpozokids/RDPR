@@ -1,6 +1,6 @@
 // app/(dashboard)/projects/page.tsx
 import { prisma }  from "@/lib/prisma/client"
-import { auth }    from "@/lib/auth/config"
+import { getActiveCompanyId } from "@/lib/company/context"
 import { formatDate, PROJECT_STATUS_LABELS } from "@/lib/utils"
 import { FolderPlus } from "lucide-react"
 import Link from "next/link"
@@ -13,15 +13,11 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export default async function ProjectsPage() {
-  const session = await auth()
-  const uc      = await prisma.userCompany.findFirst({
-    where: { userId: session!.user!.id as string },
-    select: { companyId: true },
-  })
+  const companyId = await getActiveCompanyId()
 
-  const projects = uc
+  const projects = companyId
     ? await prisma.project.findMany({
-        where:   { companyId: uc.companyId },
+        where:   { companyId },
         include: { customer: true, tasks: true },
         orderBy: { createdAt: "desc" },
       })

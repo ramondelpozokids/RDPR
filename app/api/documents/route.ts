@@ -1,21 +1,11 @@
 // app/api/documents/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
-
-async function getCompanyId(): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
+import { requireCompanyId } from "@/lib/company/context"
 
 // GET /api/documents
 export async function GET(req: NextRequest) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const { searchParams } = new URL(req.url)
@@ -37,7 +27,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/documents  — recibe multipart/form-data
 export async function POST(req: NextRequest) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const formData   = await req.formData()

@@ -1,6 +1,6 @@
 // app/(dashboard)/invoices/page.tsx
 import { prisma }  from "@/lib/prisma/client"
-import { auth }    from "@/lib/auth/config"
+import { getActiveCompanyId } from "@/lib/company/context"
 import { formatDate, formatCurrency, INVOICE_STATUS_LABELS } from "@/lib/utils"
 import { FilePlus } from "lucide-react"
 import Link from "next/link"
@@ -14,15 +14,11 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 export default async function InvoicesPage() {
-  const session = await auth()
-  const uc      = await prisma.userCompany.findFirst({
-    where: { userId: session!.user!.id as string },
-    select: { companyId: true },
-  })
+  const companyId = await getActiveCompanyId()
 
-  const invoices = uc
+  const invoices = companyId
     ? await prisma.invoice.findMany({
-        where:   { companyId: uc.companyId },
+        where:   { companyId },
         include: { customer: true, items: true },
         orderBy: { createdAt: "desc" },
       })

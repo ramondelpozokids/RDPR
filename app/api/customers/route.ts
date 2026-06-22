@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
+import { requireCompanyId } from "@/lib/company/context"
 
 const customerSchema = z.object({
   name:          z.string().min(1),
@@ -15,20 +15,9 @@ const customerSchema = z.object({
   pipelineStage: z.enum(["NEW_CONTACT","QUOTE_SENT","CLIENT_WON","CLIENT_LOST"]).optional(),
 })
 
-async function getCompanyId(req: NextRequest): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
-
 // GET /api/customers
 export async function GET(req: NextRequest) {
-  const companyId = await getCompanyId(req)
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const { searchParams } = new URL(req.url)
@@ -52,7 +41,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/customers
 export async function POST(req: NextRequest) {
-  const companyId = await getCompanyId(req)
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const body   = await req.json()

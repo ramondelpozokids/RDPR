@@ -1,6 +1,6 @@
 // app/(dashboard)/page.tsx
 import { prisma }         from "@/lib/prisma/client"
-import { auth }           from "@/lib/auth/config"
+import { getActiveCompanyContext } from "@/lib/company/context"
 import { formatCurrency, formatDate, INVOICE_STATUS_LABELS } from "@/lib/utils"
 import { StatCard }       from "@/components/ui/StatCard"
 import { Users, FolderKanban, FileText, TrendingUp, Plus, ArrowRight } from "lucide-react"
@@ -65,13 +65,8 @@ const INV_COLORS: Record<string, string> = {
 }
 
 export default async function DashboardPage() {
-  const session    = await auth()
-  const userCompany = await prisma.userCompany.findFirst({
-    where:   { userId: session!.user!.id as string },
-    include: { company: true },
-  })
-
-  if (!userCompany) {
+  const ctx = await getActiveCompanyContext()
+  if (!ctx) {
     return (
       <div className="card text-center py-16">
         <p className="text-text-secondary text-sm">No tienes ninguna empresa asociada.</p>
@@ -80,7 +75,7 @@ export default async function DashboardPage() {
     )
   }
 
-  const stats = await getStats(userCompany.companyId)
+  const stats = await getStats(ctx.companyId)
 
   return (
     <div className="space-y-6">
@@ -89,7 +84,11 @@ export default async function DashboardPage() {
         <div>
           <h1>Inicio</h1>
           <p className="text-sm text-text-secondary mt-0.5">
-            {userCompany.company.name} · Bienvenido de vuelta
+            {ctx.company.name}
+            {ctx.organization && ctx.companies.length > 1 && (
+              <span className="text-text-muted"> · {ctx.organization.name}</span>
+            )}
+            {" · "}Bienvenido de vuelta
           </p>
         </div>
         <div className="flex gap-2">

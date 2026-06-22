@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
+import { requireCompanyId } from "@/lib/company/context"
 
 const taskSchema = z.object({
   title:       z.string().min(1),
@@ -13,18 +13,8 @@ const taskSchema = z.object({
   assignedTo:  z.string().optional(),
 })
 
-async function getCompanyId(): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
-
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const project = await prisma.project.findFirst({ where: { id: params.id, companyId } })
@@ -40,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const project = await prisma.project.findFirst({ where: { id: params.id, companyId } })

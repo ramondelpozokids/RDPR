@@ -50,6 +50,15 @@ export function getInitials(name?: string | null): string {
     .toUpperCase()
 }
 
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+}
+
 // ── Etiquetas de estado ───────────────────────
 export const PIPELINE_LABELS: Record<string, string> = {
   NEW_CONTACT:  "Nuevo contacto",

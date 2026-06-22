@@ -2,17 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
-
-async function getCompanyId(): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
+import { requireCompanyId } from "@/lib/company/context"
 
 async function verifyAccess(projectId: string, companyId: string) {
   return prisma.project.findFirst({ where: { id: projectId, companyId } })
@@ -23,7 +13,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string; taskId: string } }
 ) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const project = await verifyAccess(params.id, companyId)
@@ -64,7 +54,7 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string; taskId: string } }
 ) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const project = await verifyAccess(params.id, companyId)

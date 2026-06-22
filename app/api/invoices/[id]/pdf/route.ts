@@ -1,26 +1,21 @@
 // app/api/invoices/[id]/pdf/route.ts
 import { NextRequest, NextResponse } from "next/server"
 import { prisma }  from "@/lib/prisma/client"
-import { auth }    from "@/lib/auth/config"
+import { requireCompanyId } from "@/lib/company/context"
 import { formatCurrency, formatDate } from "@/lib/utils"
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+  const companyId = await requireCompanyId()
+  if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
-  const invoice = await prisma.invoice.findUnique({
-    where:   { id: params.id },
+  const invoice = await prisma.invoice.findFirst({
+    where:   { id: params.id, companyId },
     include: { customer: true, items: true, company: true },
   })
   if (!invoice) return NextResponse.json({ error: "Factura no encontrada" }, { status: 404 })
-
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string, companyId: invoice.companyId },
-  })
-  if (!uc) return NextResponse.json({ error: "No autorizado" }, { status: 403 })
 
   const download  = new URL(req.url).searchParams.get("download") === "1"
   const statusMap: Record<string, string> = {

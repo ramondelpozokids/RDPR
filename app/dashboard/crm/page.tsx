@@ -1,6 +1,6 @@
 // app/(dashboard)/crm/page.tsx
 import { prisma }  from "@/lib/prisma/client"
-import { auth }    from "@/lib/auth/config"
+import { getActiveCompanyId } from "@/lib/company/context"
 import { formatDate, PIPELINE_LABELS } from "@/lib/utils"
 import { UserPlus } from "lucide-react"
 import Link from "next/link"
@@ -13,15 +13,11 @@ const STAGE_COLORS: Record<string, string> = {
 }
 
 export default async function CRMPage() {
-  const session = await auth()
-  const uc      = await prisma.userCompany.findFirst({
-    where: { userId: session!.user!.id as string },
-    select: { companyId: true },
-  })
+  const companyId = await getActiveCompanyId()
 
-  const customers = uc
+  const customers = companyId
     ? await prisma.customer.findMany({
-        where:   { companyId: uc.companyId },
+        where:   { companyId },
         orderBy: { createdAt: "desc" },
         include: { _count: { select: { projects: true, invoices: true } } },
       })

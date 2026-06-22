@@ -18,7 +18,11 @@ interface Company {
 }
 interface UserRow { id: string; name: string | null; email: string; role: string }
 interface Props {
-  company: Company; currentUserId: string; currentRole: string; users: UserRow[]
+  company: Company
+  organization?: { id: string; name: string; slug: string; type: string } | null
+  currentUserId: string
+  currentRole: string
+  users: UserRow[]
 }
 
 const TABS = [
@@ -35,7 +39,7 @@ const CURRENCY_OPTIONS = [
   { value: "MXN", label: "Peso MX ($)"},
 ]
 
-export default function SettingsClient({ company, currentUserId, currentRole, users }: Props) {
+export default function SettingsClient({ company, organization, currentUserId, currentRole, users }: Props) {
   const router  = useRouter()
   const isAdmin = currentRole === "ADMIN"
   const [tab, setTab] = useState("company")
@@ -101,7 +105,9 @@ export default function SettingsClient({ company, currentUserId, currentRole, us
     <div className="max-w-3xl">
       <div className="mb-6">
         <h1>Configuración</h1>
-        <p className="text-sm text-text-secondary mt-0.5">Gestiona tu empresa, equipo y cuenta</p>
+        <p className="text-sm text-text-secondary mt-0.5">
+          {organization ? `${organization.name} · ` : ""}Gestiona tu empresa, equipo y cuenta
+        </p>
       </div>
 
       <Tabs tabs={TABS} active={tab} onChange={setTab} />

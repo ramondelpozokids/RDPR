@@ -1,6 +1,6 @@
 // app/(dashboard)/crm/[id]/page.tsx
 import { prisma }  from "@/lib/prisma/client"
-import { auth }    from "@/lib/auth/config"
+import { getActiveCompanyId } from "@/lib/company/context"
 import { notFound } from "next/navigation"
 import { formatDate, formatCurrency, PIPELINE_LABELS, PROJECT_STATUS_LABELS, INVOICE_STATUS_LABELS } from "@/lib/utils"
 import Link from "next/link"
@@ -22,15 +22,11 @@ const PROJECT_STATUS_COLORS: Record<string, string> = {
 }
 
 export default async function CustomerDetailPage({ params }: { params: { id: string } }) {
-  const session = await auth()
-  const uc      = await prisma.userCompany.findFirst({
-    where: { userId: session!.user!.id as string },
-    select: { companyId: true },
-  })
-  if (!uc) return notFound()
+  const companyId = await getActiveCompanyId()
+  if (!companyId) return notFound()
 
   const customer = await prisma.customer.findFirst({
-    where:   { id: params.id, companyId: uc.companyId },
+    where:   { id: params.id, companyId },
     include: {
       projects: { orderBy: { createdAt: "desc" } },
       invoices: { orderBy: { createdAt: "desc" }, include: { items: true } },

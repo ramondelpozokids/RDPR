@@ -2,21 +2,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
-
-async function getCompanyId(): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
+import { requireCompanyId } from "@/lib/company/context"
 
 // GET /api/invoices/:id
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const invoice = await prisma.invoice.findFirst({
@@ -30,7 +20,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
 // PATCH /api/invoices/:id  — cambiar estado
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const body   = await req.json()
@@ -57,7 +47,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 // DELETE /api/invoices/:id
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const invoice = await prisma.invoice.findFirst({ where: { id: params.id, companyId } })

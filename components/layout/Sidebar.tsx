@@ -10,6 +10,8 @@ import {
   FolderOpen, Settings, LogOut, Menu, X, ChevronRight,
 } from "lucide-react"
 import { cn, getInitials } from "@/lib/utils"
+import CompanySwitcher from "@/components/layout/CompanySwitcher"
+import type { CompanyOption } from "@/lib/company/context"
 
 const NAV_ITEMS = [
   { href: "/dashboard",           icon: LayoutDashboard, label: "Inicio"      },
@@ -22,9 +24,18 @@ const NAV_ITEMS = [
 
 interface SidebarProps {
   user: { name?: string | null; email?: string | null; image?: string | null }
+  companies: CompanyOption[]
+  activeCompanyId: string
+  organizationName?: string | null
 }
 
-function NavContent({ user, onClose }: SidebarProps & { onClose?: () => void }) {
+function NavContent({
+  user,
+  companies,
+  activeCompanyId,
+  organizationName,
+  onClose,
+}: SidebarProps & { onClose?: () => void }) {
   const pathname = usePathname()
 
   return (
@@ -46,6 +57,12 @@ function NavContent({ user, onClose }: SidebarProps & { onClose?: () => void }) 
           </button>
         )}
       </div>
+
+      <CompanySwitcher
+        companies={companies}
+        activeCompanyId={activeCompanyId}
+        organizationName={organizationName}
+      />
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">
@@ -97,7 +114,7 @@ function NavContent({ user, onClose }: SidebarProps & { onClose?: () => void }) 
   )
 }
 
-export default function Sidebar({ user }: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
@@ -124,12 +141,12 @@ export default function Sidebar({ user }: SidebarProps) {
         "transform transition-transform duration-200 md:hidden",
         mobileOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <NavContent user={user} onClose={() => setMobileOpen(false)} />
+        <NavContent {...props} onClose={() => setMobileOpen(false)} />
       </aside>
 
       {/* Desktop sidebar (static) */}
       <aside className="hidden md:flex w-60 shrink-0 bg-white border-r border-surface-border flex-col">
-        <NavContent user={user} />
+        <NavContent {...props} />
       </aside>
     </>
   )

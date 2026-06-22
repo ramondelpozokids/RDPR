@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
-import { auth }   from "@/lib/auth/config"
+import { requireCompanyId } from "@/lib/company/context"
 
 const invoiceItemSchema = z.object({
   description: z.string().min(1),
@@ -18,16 +18,6 @@ const invoiceSchema = z.object({
   items:      z.array(invoiceItemSchema).min(1),
 })
 
-async function getCompanyId(): Promise<string | null> {
-  const session = await auth()
-  if (!session?.user?.id) return null
-  const uc = await prisma.userCompany.findFirst({
-    where: { userId: session.user.id as string },
-    select: { companyId: true },
-  })
-  return uc?.companyId ?? null
-}
-
 async function nextInvoiceNumber(companyId: string): Promise<string> {
   const count = await prisma.invoice.count({ where: { companyId } })
   const year  = new Date().getFullYear()
@@ -36,7 +26,7 @@ async function nextInvoiceNumber(companyId: string): Promise<string> {
 
 // GET /api/invoices
 export async function GET(req: NextRequest) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const { searchParams } = new URL(req.url)
@@ -56,7 +46,7 @@ export async function GET(req: NextRequest) {
 
 // POST /api/invoices
 export async function POST(req: NextRequest) {
-  const companyId = await getCompanyId()
+  const companyId = await requireCompanyId()
   if (!companyId) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const body   = await req.json()

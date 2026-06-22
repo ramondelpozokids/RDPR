@@ -12,31 +12,55 @@ datasource db {
 }
 
 // ─────────────────────────────────────────────
+// ORGANIZACIÓN / HOLDING
+// ─────────────────────────────────────────────
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  type      OrgType  @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companies Company[]
+
+  @@map("organizations")
+}
+
+enum OrgType {
+  HOLDING
+  CLIENT
+}
+
+// ─────────────────────────────────────────────
 // EMPRESA / COMPANY
 // ─────────────────────────────────────────────
 model Company {
-  id          String   @id @default(cuid())
-  name        String
-  taxId       String?  // NIF / CIF
-  email       String?
-  phone       String?
-  address     String?
-  city        String?
-  postalCode  String?
-  country     String   @default("ES")
-  logoUrl     String?
-  website     String?
-  currency    String   @default("EUR")
-  taxRate     Float    @default(21)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  organizationId String?
+  name           String
+  slug           String?  @unique
+  brandColor     String?  @default("#6570f3")
+  taxId          String?  // NIF / CIF
+  email          String?
+  phone          String?
+  address        String?
+  city           String?
+  postalCode     String?
+  country        String   @default("ES")
+  logoUrl        String?
+  website        String?
+  currency       String   @default("EUR")
+  taxRate        Float    @default(21)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  // Relations
-  users       UserCompany[]
-  customers   Customer[]
-  projects    Project[]
-  invoices    Invoice[]
-  documents   Document[]
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  users        UserCompany[]
+  customers    Customer[]
+  projects     Project[]
+  invoices     Invoice[]
+  documents    Document[]
   activityLogs ActivityLog[]
 
   @@map("companies")

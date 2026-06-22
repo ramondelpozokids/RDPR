@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import { z } from "zod"
 import { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma/client"
+import { slugify } from "@/lib/utils"
 
 const registerSchema = z.object({
   name:        z.string().min(1),
@@ -44,8 +45,24 @@ export async function POST(req: NextRequest) {
         data: { name, email, passwordHash },
       })
 
+      const baseSlug = slugify(companyName) || "empresa"
+      const unique   = `${baseSlug}-${Date.now().toString(36).slice(-4)}`
+
+      const organization = await tx.organization.create({
+        data: {
+          name: companyName,
+          slug: `org-${unique}`,
+          type: "CLIENT",
+        },
+      })
+
       const company = await tx.company.create({
-        data: { name: companyName },
+        data: {
+          name:           companyName,
+          slug:           unique,
+          organizationId: organization.id,
+          brandColor:     "#6570f3",
+        },
       })
 
       await tx.userCompany.create({
