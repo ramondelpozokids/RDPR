@@ -14,24 +14,36 @@ export default function MapaDelSitioPage() {
     <div className="min-h-full">
       <section className="relative overflow-hidden bg-[#0A0A0B] text-white border-b border-white/10">
         <div className="absolute inset-0 opacity-30 pointer-events-none" aria-hidden>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-500/20 rounded-full blur-[100px]" />
+          <div className="absolute top-0 right-0 w-[480px] h-[480px] bg-brand-500/20 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-[320px] h-[320px] bg-violet-500/15 rounded-full blur-[100px]" />
         </div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20 relative text-center">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-white/50 hover:text-white mb-8 transition-colors">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20 relative">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs text-white/70 hover:text-white mb-8 transition-colors"
+          >
             <ArrowLeft size={12} /> Volver al inicio
           </Link>
-          <div className="inline-flex w-14 h-14 rounded-2xl bg-white/10 border border-white/10 items-center justify-center mb-6">
-            <Map size={26} className="text-brand-300" />
+          <div className="flex items-start gap-4">
+            <div className="hidden sm:flex w-12 h-12 rounded-xl bg-white/10 border border-white/10 items-center justify-center shrink-0">
+              <Map size={22} className="text-brand-300" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-200 mb-3">
+                Legal · Navegación
+              </p>
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight leading-tight mb-4 text-white">
+                Mapa del sitio
+              </h1>
+              <p className="text-lg text-white/85 leading-relaxed max-w-2xl">
+                Navegación estructurada de {LEGAL_ENTITY.tradeName}: producto, empresa, acceso y cumplimiento legal.
+              </p>
+            </div>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Mapa del sitio</h1>
-          <p className="text-lg text-white/60 max-w-xl mx-auto leading-relaxed">
-            Navegación estructurada de {LEGAL_ENTITY.tradeName}: producto, empresa, acceso y cumplimiento legal.
-          </p>
         </div>
       </section>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-        {/* Quick links hero grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
           {SITE_NAV.map(({ href, label, description }) => (
             <Link
@@ -48,11 +60,10 @@ export default function MapaDelSitioPage() {
           ))}
         </div>
 
-        {/* Legal highlight */}
         <div className="rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50/60 to-violet-50/40 p-6 sm:p-8 mb-16">
           <div className="flex items-center gap-3 mb-6">
             <Shield size={20} className="text-brand-600" />
-            <h2 className="text-lg font-bold">Legal y cumplimiento</h2>
+            <h2 className="text-lg font-bold text-text-primary">Legal y cumplimiento</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-3">
             {LEGAL_PAGES.filter((p) => p.href !== "/legal/mapa-del-sitio").map((p) => (
@@ -62,7 +73,7 @@ export default function MapaDelSitioPage() {
                 className="flex items-start justify-between gap-3 p-4 rounded-xl bg-white/90 border border-surface-border hover:border-brand-200 transition-colors"
               >
                 <div>
-                  <p className="font-medium text-sm">{p.label}</p>
+                  <p className="font-medium text-sm text-text-primary">{p.label}</p>
                   <p className="text-xs text-text-muted mt-0.5">{p.description}</p>
                 </div>
                 <ArrowUpRight size={14} className="text-text-muted shrink-0 mt-0.5" />
@@ -71,7 +82,6 @@ export default function MapaDelSitioPage() {
           </div>
         </div>
 
-        {/* Full sitemap sections */}
         <div className="grid sm:grid-cols-2 gap-10">
           {SITEMAP_SECTIONS.map(({ title, links }) => (
             <div key={title}>

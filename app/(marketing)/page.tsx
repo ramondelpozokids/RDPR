@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth/config"
 import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
 import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
 import { stockUrl } from "@/lib/site/stock-images"
+import { HeroDroneVideo } from "@/components/site/HeroDroneVideo"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
 import { SecurityLayers } from "@/components/site/SecurityLayers"
 import { SITE_KEYWORDS } from "@/lib/site/marketing-content"
@@ -23,46 +24,38 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero estilo gestoría */}
-      <section className="gestoria-hero relative overflow-hidden text-white">
+      {/* Hero con vídeo aéreo Madrid (estilo gestoría) */}
+      <section className="gestoria-hero relative overflow-hidden text-white flex items-center justify-center text-center">
         <div className="absolute inset-0 bg-[#0c1929]" aria-hidden />
-        <div className="absolute inset-0 opacity-40 hero-drone-overlay" aria-hidden>
-          <Image
-            src={stockUrl("heroAerial", 1600)}
-            alt=""
-            fill
-            className="object-cover hero-drone-pan"
-            priority
-            sizes="100vw"
-          />
+        <div className="absolute inset-0 hero-drone-overlay" aria-hidden>
+          <HeroDroneVideo />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c1929] via-[#0c1929]/92 to-[#0c1929]/75" aria-hidden />
+        <div className="absolute inset-0 bg-black/45" aria-hidden />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 mb-4">
-              {LEGAL_COMPANY_NAME}
-            </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.08] text-white mb-5">
-              Gestoría y asesoría con tecnología de verdad
-            </h1>
-            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8">
-              Calidad, eficacia y cercanía. Contabilidad, fiscalidad, facturación y gestión empresarial en una plataforma 100% operativa.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
-              <Link href="/contacto" className="btn-primary justify-center py-3 px-6 text-base bg-sky-600 hover:bg-sky-700 border-0 shadow-lg">
-                Consulta gratuita
-                <ArrowRight size={18} />
-              </Link>
-              <Link href="/register" className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-base font-medium border border-white/30 text-white hover:bg-white/10 transition-colors">
-                Acceder a RDPR OS
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
-              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Asesoría contable</span>
-              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Modelos AEAT</span>
-              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Documentos cifrados</span>
-            </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-28 relative">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/80 mb-6">
+            {LEGAL_COMPANY_NAME}
+          </p>
+          <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-tight text-white mb-6 [text-shadow:0_0_24px_rgba(0,0,0,0.45)]">
+            Gestoría y asesoría digital
+          </h1>
+          <div className="w-16 h-1 bg-white mx-auto mb-6 rounded-full" aria-hidden />
+          <p className="text-lg sm:text-2xl text-white/95 font-normal tracking-wide mb-10 [text-shadow:0_4px_16px_rgba(0,0,0,0.35)]">
+            Confíe en asesores expertos con tecnología de verdad
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+            <Link href="/contacto" className="btn-primary justify-center py-3 px-6 text-base bg-sky-600 hover:bg-sky-700 border-0 shadow-lg">
+              Consulta gratuita
+              <ArrowRight size={18} />
+            </Link>
+            <Link href="/register" className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-base font-medium border border-white/40 text-white hover:bg-white/10 transition-colors">
+              Acceder a RDPR OS
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/90 justify-center">
+            <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-300" /> Asesoría contable</span>
+            <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-300" /> Modelos AEAT</span>
+            <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-300" /> Documentos cifrados</span>
           </div>
         </div>
       </section>

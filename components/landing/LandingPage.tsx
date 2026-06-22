@@ -54,6 +54,7 @@ const MODULES = [
   },
 ]
 
+/** Orden ascendente por precio: 49 → 99 → 149 → 499 */
 const PLANS = [
   {
     name: "Starter",
@@ -64,14 +65,6 @@ const PLANS = [
     highlight: false,
   },
   {
-    name: "Business",
-    tagline: "Para empresas en crecimiento",
-    price: "149",
-    features: ["Hasta 10 usuarios", "Finanzas completas", "Informes avanzados", "Multi-equipo", "Soporte prioritario"],
-    cta: "Solicitar demo",
-    highlight: true,
-  },
-  {
     name: "Intelligence",
     tagline: "Add-on IA avanzada",
     price: "99",
@@ -79,6 +72,14 @@ const PLANS = [
     features: ["RDPR Intelligence", "Predicciones IA", "Clasificación contable", "Agentes autónomos", "RAG empresarial"],
     cta: "Añadir IA",
     highlight: false,
+  },
+  {
+    name: "Business",
+    tagline: "Para empresas en crecimiento",
+    price: "149",
+    features: ["Hasta 10 usuarios", "Finanzas completas", "Informes avanzados", "Multi-equipo", "Soporte prioritario"],
+    cta: "Solicitar demo",
+    highlight: true,
   },
   {
     name: "Enterprise",
@@ -308,10 +309,10 @@ export default function LandingPage() {
                     Recomendado
                   </span>
                 )}
-                <p className="text-lg font-bold">RDPR {name}</p>
+                <p className="text-lg font-bold text-text-primary">RDPR {name}</p>
                 <p className="text-xs text-text-muted mb-4">{tagline}</p>
                 <div className="mb-6">
-                  <span className="text-3xl font-bold tabular-nums">{price}€</span>
+                  <span className="text-3xl font-bold tabular-nums text-text-primary">{price}€</span>
                   {suffix && <span className="text-text-muted text-sm">{suffix}</span>}
                   <span className="text-text-muted text-sm">/mes</span>
                 </div>
