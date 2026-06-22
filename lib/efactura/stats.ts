@@ -7,18 +7,20 @@ export type EFacturaStats = {
   signed: number
   registered: number
   withHash: number
+  verifactuRegistered: number
   missingCompanyTaxId: boolean
   missingCustomerTaxId: number
   complianceScore: number
 }
 
 export async function getEFacturaStats(companyId: string): Promise<EFacturaStats> {
-  const [company, invoices] = await Promise.all([
+  const [company, invoices, verifactuAccepted] = await Promise.all([
     prisma.company.findUnique({ where: { id: companyId }, select: { taxId: true } }),
     prisma.invoice.findMany({
       where: { companyId, status: { not: "CANCELLED" }, documentType: "INVOICE" },
       include: { customer: { select: { taxId: true } } },
     }),
+    prisma.verifactuRegistryEntry.count({ where: { companyId, status: "ACCEPTED" } }),
   ])
 
   const total = invoices.length
@@ -30,13 +32,15 @@ export async function getEFacturaStats(companyId: string): Promise<EFacturaStats
   const registered = invoices.filter((i) => i.electronicStatus === "REGISTERED").length
   const withHash = invoices.filter((i) => i.complianceHash).length
   const missingCustomerTaxId = invoices.filter((i) => !i.customer.taxId).length
+  const verifactuRegistered = verifactuAccepted
 
   let score = 0
   if (company?.taxId) score += 25
-  if (total > 0 && withHash === total) score += 25
-  if (total > 0 && missingCustomerTaxId === 0) score += 25
-  if (sent > 0) score += 15
+  if (total > 0 && withHash === total) score += 20
+  if (total > 0 && missingCustomerTaxId === 0) score += 20
+  if (sent > 0) score += 10
   if (registered > 0) score += 10
+  if (verifactuRegistered > 0) score += 15
 
   return {
     total,
@@ -45,6 +49,7 @@ export async function getEFacturaStats(companyId: string): Promise<EFacturaStats
     signed,
     registered,
     withHash,
+    verifactuRegistered,
     missingCompanyTaxId: !company?.taxId,
     missingCustomerTaxId,
     complianceScore: Math.min(100, score),
@@ -93,13 +98,23 @@ export async function getEFacturaComplianceIssues(companyId: string): Promise<Co
     })
   }
 
-  issues.push({
-    id: "verifactu-roadmap",
-    type: "info",
-    title: "Registro AEAT Verifactu",
-    description: "Integración certificada con AEAT en roadmap. Actualmente: export Facturae + huella interna.",
-    href: "/dashboard/finance/efactura",
-  })
+  if (stats.verifactuRegistered === 0 && stats.total > 0) {
+    issues.push({
+      id: "verifactu-register",
+      type: "info",
+      title: "Registro Verifactu disponible (modo test)",
+      description: "Registra facturas en AEAT desde acciones de factura o Presentación AEAT.",
+      href: "/dashboard/finance/aeat",
+    })
+  } else if (stats.verifactuRegistered > 0) {
+    issues.unshift({
+      id: "verifactu-ok",
+      type: "info",
+      title: `${stats.verifactuRegistered} factura(s) en registro Verifactu`,
+      description: "Registro AEAT activo en modo test/simulación.",
+      href: "/dashboard/finance/aeat",
+    })
+  }
 
   if (issues.filter((i) => i.type === "danger" || i.type === "warning").length === 0 && stats.total > 0) {
     issues.unshift({

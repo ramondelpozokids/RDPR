@@ -100,6 +100,12 @@ model Company {
   legalTemplates LegalTemplate[]
   legalCases     LegalCase[]
   portalMessages PortalMessage[]
+  verifactuConfig CompanyVerifactuConfig?
+  verifactuEntries VerifactuRegistryEntry[]
+  aeatTaxFilings AeatTaxFiling[]
+  signatureRequests SignatureRequest[]
+  dataProcessingRecords DataProcessingRecord[]
+  dataSubjectRequests DataSubjectRequest[]
 
   @@map("companies")
 }
@@ -250,6 +256,9 @@ model Customer {
   employees Employee[]
   legalCases LegalCase[]
   portalMessages PortalMessage[]
+  signatureRequests SignatureRequest[]
+  dataProcessingRecords DataProcessingRecord[]
+  dataSubjectRequests DataSubjectRequest[]
 
   @@map("customers")
 }
@@ -359,6 +368,7 @@ model Invoice {
   brand    Brand?        @relation(fields: [brandId], references: [id], onDelete: SetNull)
   customer Customer      @relation(fields: [customerId], references: [id])
   items    InvoiceItem[]
+  verifactuEntry VerifactuRegistryEntry?
 
   @@map("invoices")
 }
@@ -430,6 +440,7 @@ model Document {
   folder   DocumentFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
   legalCase LegalCase?     @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
   ocrResult DocumentOcrResult?
+  signatureRequests SignatureRequest[]
 
   @@map("documents")
 }
@@ -776,8 +787,156 @@ model LegalCase {
   company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   customer  Customer?  @relation(fields: [customerId], references: [id], onDelete: SetNull)
   documents Document[]
+  signatureRequests SignatureRequest[]
 
   @@map("legal_cases")
+}
+
+// ─────────────────────────────────────────────
+// VERIFACTU + AEAT (Sprint 7)
+// ─────────────────────────────────────────────
+enum AeatSubmissionStatus {
+  PENDING
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
+
+model CompanyVerifactuConfig {
+  id              String   @id @default(cuid())
+  companyId       String   @unique
+  softwareName    String   @default("RDPR OS")
+  softwareVersion String   @default("1.0")
+  mode            String   @default("test")
+  certificateRef  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@map("company_verifactu_configs")
+}
+
+model VerifactuRegistryEntry {
+  id              String               @id @default(cuid())
+  companyId       String
+  invoiceId       String               @unique
+  recordType      String               @default("ALTA")
+  hash            String
+  previousHash    String?
+  qrPayload       String?
+  aeatCsv         String?
+  status          AeatSubmissionStatus @default(PENDING)
+  submittedAt     DateTime?
+  rejectionReason String?
+  responsePayload Json?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("verifactu_registry_entries")
+}
+
+model AeatTaxFiling {
+  id              String               @id @default(cuid())
+  companyId       String
+  modelId         String
+  periodYear      Int
+  periodQuarter   Int?
+  periodMonth     Int?
+  status          AeatSubmissionStatus @default(PENDING)
+  mode            String               @default("test")
+  certificateRef  String?
+  aeatCsv         String?
+  rejectionReason String?
+  submittedAt     DateTime?
+  payload         Json?
+  responsePayload Json?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, modelId])
+  @@map("aeat_tax_filings")
+}
+
+// ─────────────────────────────────────────────
+// SIGNATURE + COMPLIANCE (Sprint 8)
+// ─────────────────────────────────────────────
+enum SignatureStatus {
+  PENDING
+  SIGNED
+  REJECTED
+  EXPIRED
+  CANCELLED
+}
+
+model SignatureRequest {
+  id          String          @id @default(cuid())
+  companyId   String
+  documentId  String
+  customerId  String?
+  legalCaseId String?
+  title       String
+  status      SignatureStatus @default(PENDING)
+  externalId  String?
+  signerEmail String
+  signerName  String?
+  requestedBy String?
+  signedAt    DateTime?
+  expiresAt   DateTime?
+  notes       String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  company   Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  document  Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  customer  Customer?  @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  legalCase LegalCase? @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
+
+  @@map("signature_requests")
+}
+
+model DataProcessingRecord {
+  id               String   @id @default(cuid())
+  companyId        String
+  customerId       String?
+  activity         String
+  purpose          String
+  legalBasis       String
+  dataCategories   String[] @default([])
+  recipients       String?
+  retention        String
+  securityMeasures String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  @@map("data_processing_records")
+}
+
+model DataSubjectRequest {
+  id             String    @id @default(cuid())
+  companyId      String
+  customerId     String?
+  type           String
+  status         String    @default("OPEN")
+  requesterName  String
+  requesterEmail String
+  notes          String?   @db.Text
+  resolvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  @@map("data_subject_requests")
 }
 
 // ─────────────────────────────────────────────

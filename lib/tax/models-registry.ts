@@ -227,10 +227,11 @@ export const RDPR_TAX_INTELLIGENCE_TAGLINE =
   "Modelos AEAT · IA fiscal · Verifactu · Cumplimiento España"
 
 export const TAX_INTELLIGENCE_ROADMAP = [
-  { label: "Presentación AEAT con certificado digital", status: "planned" as const },
+  { label: "Presentación AEAT con certificado digital", status: "active" as const },
   { label: "Modelos 115/180 alquileres", status: "active" as const },
   { label: "Modelo 349 intracomunitario", status: "active" as const },
   { label: "Modelo 131 módulos IRPF", status: "active" as const },
-  { label: "Modelo 202 pagos fraccionados IS", status: "planned" as const },
+  { label: "Modelo 202 pagos fraccionados IS", status: "active" as const },
+  { label: "Registro Verifactu (modo test)", status: "active" as const },
   { label: "Simulación fiscal avanzada con IA", status: "planned" as const },
 ] as const

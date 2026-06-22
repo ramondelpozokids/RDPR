@@ -3,6 +3,7 @@ import { z } from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import { generateComplianceHash } from "@/lib/efactura/compliance-hash"
+import { registerInvoiceVerifactu } from "@/lib/verifactu/submit"
 
 const bodySchema = z.object({
   action: z.enum(["sign", "send", "register", "regenerate_hash"]),
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const now = new Date()
   let data: Record<string, unknown> = {}
+  let registry: unknown = null
 
   switch (parsed.data.action) {
     case "regenerate_hash": {
@@ -62,16 +64,29 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         electronicFormat: invoice.electronicFormat ?? "FACTURAE_3_2",
       }
       break
-    case "register":
-      data = { electronicStatus: "REGISTERED" }
-      break
+    case "register": {
+      try {
+        const result = await registerInvoiceVerifactu(params.id, companyId)
+        registry = result.entry
+        const updated = await prisma.invoice.findUnique({
+          where: { id: params.id },
+          include: { customer: true, items: true, verifactuEntry: true },
+        })
+        return NextResponse.json({ success: true, data: updated, registry: result.entry, aeat: result.aeat })
+      } catch (e) {
+        return NextResponse.json(
+          { error: e instanceof Error ? e.message : "Error al registrar en AEAT" },
+          { status: 400 }
+        )
+      }
+    }
   }
 
   const updated = await prisma.invoice.update({
     where: { id: params.id },
     data,
-    include: { customer: true, items: true },
+    include: { customer: true, items: true, verifactuEntry: true },
   })
 
-  return NextResponse.json({ success: true, data: updated })
+  return NextResponse.json({ success: true, data: updated, registry })
 }

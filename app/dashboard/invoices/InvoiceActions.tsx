@@ -84,7 +84,7 @@ export default function InvoiceActions({
     setBusy(false)
   }
 
-  async function electronicAction(action: "sign" | "send" | "regenerate_hash", label: string) {
+  async function electronicAction(action: "sign" | "send" | "register" | "regenerate_hash", label: string) {
     setBusy(true)
     const res = await fetch(`/api/invoices/${invoiceId}/electronic`, {
       method: "POST",
@@ -114,6 +114,11 @@ export default function InvoiceActions({
       label: "Marcar envío electrónico",
       icon: <Send size={14} className="text-primary" />,
       onClick: () => electronicAction("send", "Envío electrónico registrado"),
+    },
+    {
+      label: "Registrar en AEAT (Verifactu)",
+      icon: <ShieldCheck size={14} className="text-emerald-600" />,
+      onClick: () => electronicAction("register", "Factura registrada en Verifactu (AEAT test)"),
     },
     {
       label: "Regenerar huella cumplimiento",

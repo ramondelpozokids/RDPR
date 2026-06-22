@@ -153,7 +153,10 @@ export default function LegalPage() {
       </div>
 
       <p className="text-xs text-muted-foreground mt-8">
-        Vincula documentos a expedientes desde el módulo Documentos (próxima iteración). Firma electrónica en roadmap Q1 2027.
+        Vincula documentos a expedientes desde el módulo Documentos. Solicita firmas desde{" "}
+        <Link href="/dashboard/signatures" className="text-primary hover:underline">RDPR Signature</Link>.
+        Registro RGPD en{" "}
+        <Link href="/dashboard/compliance" className="text-primary hover:underline">Compliance</Link>.
       </p>
     </div>
   )

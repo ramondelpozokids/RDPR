@@ -50,6 +50,7 @@ export const RDPR_FINANCE_GROUPS: FinanceNavGroup[] = [
     items: [
       { href: "/dashboard/finance/invoicing", label: "Facturas", icon: FileText },
       { href: "/dashboard/finance/efactura", label: "eFactura", icon: FileCheck2, badge: "España" },
+      { href: "/dashboard/finance/aeat", label: "Presentación AEAT", icon: Receipt, badge: "Beta" },
     ],
   },
   {
@@ -108,7 +109,7 @@ export const EFactura_CAPABILITIES = [
 export const EFactura_ROADMAP = [
   { label: "Firma electrónica XAdES", status: "planned" as const },
   { label: "Recepción facturas proveedor", status: "planned" as const },
-  { label: "Registro AEAT Verifactu", status: "planned" as const },
+  { label: "Registro AEAT Verifactu", status: "active" as const },
   { label: "Facturas recurrentes", status: "planned" as const },
   { label: "Presupuestos y albaranes", status: "planned" as const },
   { label: "Modelos 303/390 automáticos", status: "active" as const },

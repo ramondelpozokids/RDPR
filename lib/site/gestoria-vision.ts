@@ -226,7 +226,7 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     name: "RDPR Documents",
     tagline: "Archivo digital, envío seguro y gestión documental.",
     status: "beta",
-    highlights: ["Carpetas por expediente", "Etiquetas y búsqueda", "Roadmap: OCR e IA"],
+    highlights: ["Carpetas por expediente", "Etiquetas y búsqueda", "OCR v1 heurístico"],
   },
   {
     slug: "intelligence",
@@ -273,16 +273,16 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     icon: PenLine,
     name: "RDPR Signature",
     tagline: "Firma electrónica integrada.",
-    status: "planned",
-    highlights: ["Contratos", "Actas", "Flujos de aprobación"],
+    status: "beta",
+    highlights: ["Solicitudes de firma", "Webhook proveedor", "Roadmap: XAdES y Autofirma"],
   },
   {
     slug: "compliance",
     icon: ShieldCheck,
     name: "RDPR Compliance",
     tagline: "RGPD, compliance y auditoría.",
-    status: "planned",
-    highlights: ["Registro de tratamientos", "Controles", "Evidencias"],
+    status: "beta",
+    highlights: ["Registro de tratamientos", "Solicitudes ARSOP", "Roadmap: consentimientos"],
   },
 ]
 
