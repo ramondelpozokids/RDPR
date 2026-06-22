@@ -66,8 +66,8 @@ export const STOCK: Record<StockImageKey, StockEntry> = {
     alt: "Consultoría profesional por videollamada",
   },
   companyBuilding: {
-    id: "photo-1486325217747-1999470798e8",
-    alt: "Sede corporativa y entorno empresarial",
+    local: "/business.webp",
+    alt: "Entorno empresarial y gestión profesional",
   },
   aiWorkspace: {
     local: "/futurista.webp",

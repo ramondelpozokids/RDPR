@@ -33,7 +33,7 @@ export const SITE_NAV: SiteNavItem[] = [
   { href: "/", label: "Inicio", description: "Asesoría y gestión empresarial" },
   { href: "/servicios", label: "Servicios", description: "Contable, fiscal y documentos" },
   { href: "/modulos", label: "Plataforma", description: "Finanzas, CRM y proyectos" },
-  { href: "/modelos-fiscales", label: "Modelos fiscales", description: "Catálogo AEAT completo" },
+  { href: "/modelos-fiscales", label: "Modelos fiscales", description: "Descargas oficiales AEAT" },
   { href: "/precios", label: "Precios", description: "Planes desde 49 €/mes" },
   { href: "/contacto", label: "Contacto", description: "Consulta gratuita" },
   { href: "/nosotros", label: "Nosotros", description: "CEO y fundador" },
@@ -43,7 +43,7 @@ export const FOOTER_LINKS = {
   producto: [
     { href: "/servicios", label: "Servicios" },
     { href: "/modulos", label: "Plataforma" },
-    { href: "/modelos-fiscales", label: "Modelos fiscales" },
+    { href: "/modelos-fiscales", label: "Modelos fiscales AEAT" },
     { href: "/inteligencia", label: "Inteligencia IA" },
     { href: "/precios", label: "Precios" },
   ],

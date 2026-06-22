@@ -1,0 +1,1087 @@
+[
+  {
+    "code": "01",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G304.shtml",
+    "description": "Certificados tributarios. Expedición de certificados tributarios. Estar al corriente de obligaciones tributarias."
+  },
+  {
+    "code": "01C",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G303.shtml",
+    "description": "Solicitud de Certificado de Contratistas y Subcontratistas."
+  },
+  {
+    "code": "04",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ13.shtml",
+    "description": "Solicitud de aplicación del tipo del 4% a vehículos destinados a transportar habitualmente a personas con discapacidad en silla de ruedas o con movilidad reducida"
+  },
+  {
+    "code": "05",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ17.shtml",
+    "description": "Reconocimiento previo de determinados supuestos de no sujeción, exención o reducción en el Impuesto de Matriculación."
+  },
+  {
+    "code": "06",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G503.shtml",
+    "description": "Impuesto Especial sobre determinados medios de transporte. Exenciones y no sujeción sin reconocimiento previo."
+  },
+  {
+    "code": "030",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G321.shtml",
+    "description": "Censo de obligados tributarios-Declaración censal de alta, cambio de domicilio y/o de variación de datos personales."
+  },
+  {
+    "code": "035",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G333.shtml",
+    "description": "Registro Censal de los regímenes especiales aplicables a las prestaciones de servicios, ventas a distancia de bienes y determinadas entregas interiores."
+  },
+  {
+    "code": "036",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G322.shtml",
+    "description": "Censo de empresarios, profesionales y retenedores - Declaración censal de alta, modificación y baja."
+  },
+  {
+    "code": "038",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI29.shtml",
+    "description": "Declaración informativa en euros. Relación de operaciones realizadas por entidades inscritas en Registros públicos."
+  },
+  {
+    "code": "039",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ33.shtml",
+    "description": "Comprobación censal del régimen especial del grupo de entidades en el IVA."
+  },
+  {
+    "code": "040",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G335.shtml",
+    "description": "Registro de Operadores de Plataforma."
+  },
+  {
+    "code": "043",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC09.shtml",
+    "description": "Tasa fiscal sobre el juego. Salas de bingo. Solicitud liquidación."
+  },
+  {
+    "code": "044",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC10.shtml",
+    "description": "Tasa fiscal sobre el juego. Casas de juego."
+  },
+  {
+    "code": "045",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC11.shtml",
+    "description": "Tasa fiscal sobre el juego. Máquinas o aparatos automáticos. Declaración-liquidación."
+  },
+  {
+    "code": "100",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G229.shtml",
+    "description": "Impuesto sobre la Renta de las Personas Físicas. Declaración y documentos de ingreso o devolución."
+  },
+  {
+    "code": "102",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G229.shtml",
+    "description": "Documento de ingreso o devolución de la declaración del Impuesto sobre la Renta de las Personas Físicas."
+  },
+  {
+    "code": "111",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH01.shtml",
+    "description": "Retenciones e ingresos a cuenta. Rendimientos del trabajo, de actividades profesionales, de actividades agrícolas y ganaderas y premios. Empresas. Documento de ingreso."
+  },
+  {
+    "code": "113",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G614.shtml",
+    "description": "Comunicación de datos relativos a las ganancias patrimoniales por cambio de residencia cuando se produzca a otro Estado Miembro de la Unión Europea o del Espacio Económico Europeo con efectivo intercambio de información tributaria."
+  },
+  {
+    "code": "115",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH02.shtml",
+    "description": "Retenciones e ingresos a cuenta. Rentas o rendimientos procedentes del arrendamiento o subarrendamiento de inmuebles urbanos."
+  },
+  {
+    "code": "117",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH03.shtml",
+    "description": "Retenciones e ingresos a cuenta en Impuesto sobre la renta de las personas físicas, Impuesto sobre Sociedades e Impuesto sobre la renta de no residentes. Rentas procedentes de transmisión o reembolso de acciones o participaciones en Instituciones de Inversión Colectiva."
+  },
+  {
+    "code": "121",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G616.shtml",
+    "description": "Impuesto sobre la Renta de las Personas Físicas. Deducciones por familia numerosa o por personas con discapacidad a cargo. Comunicación de la cesión del derecho a la deducción por contribuyentes no obligados a presentar declaración"
+  },
+  {
+    "code": "122",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G617.shtml",
+    "description": "Impuesto sobre la Renta de las Personas Físicas. Deducciones por familia numerosa, por personas con discapacidad a cargo o por ascendiente con dos hijos separado legalmente o sin vínculo matrimonial. Regularización del derecho a la deducción por contribuyentes no obligados a presentar declaración"
+  },
+  {
+    "code": "123",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH04.shtml",
+    "description": "Retenciones e ingresos a cuenta del Impuesto sobre la Renta de las Personas Físicas, Impuesto sobre Sociedades y del Impuesto sobre la Renta de no Residentes (establecimientos permanentes). Determinados rendimientos del capital mobiliario o determinadas rentas."
+  },
+  {
+    "code": "124",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH05.shtml",
+    "description": "Retenciones e ingresos a cuenta. Rentas y rendimientos del capital mobiliario derivadas de la transmisión, amortización, reembolso, canje o conversión de cualquier tipo de activo representativos de la captación y utilización de capitales ajenos."
+  },
+  {
+    "code": "126",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH06.shtml",
+    "description": "Retenciones e ingresos a cuenta. Rendimientos del capital mobiliario obtenidos por la contraprestación derivada de cuentas en toda clase de instituciones financieras."
+  },
+  {
+    "code": "128",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH07.shtml",
+    "description": "Retenciones e ingresos a cuenta. Rentas o rendimientos del capital mobiliario procedentes de operaciones de capitalización y de contratos de seguro de vida e invalidez."
+  },
+  {
+    "code": "130",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G601.shtml",
+    "description": "IRPF. Empresarios y profesionales en Estimación Directa. Pago fraccionado."
+  },
+  {
+    "code": "131",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G602.shtml",
+    "description": "IRPF. Empresarios y profesionales en Estimación Objetiva. Pago fraccionado."
+  },
+  {
+    "code": "136",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH09.shtml",
+    "description": "Impuesto sobre la Renta de las Personas Físicas e Impuesto sobre la Renta de no Residentes. Gravamen Especial sobre los Premios de determinadas Loterías y Apuestas. Autoliquidación."
+  },
+  {
+    "code": "140",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ25.shtml",
+    "description": "IRPF. Deducción por maternidad. Solicitud de abono anticipado de la deducción."
+  },
+  {
+    "code": "143",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G613.shtml",
+    "description": "IRPF. Abono anticipado deducción de familia numerosa, por ascendiente con dos hijos o por personas con discapacidad a cargo."
+  },
+  {
+    "code": "145",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G603.shtml",
+    "description": "Retenciones sobre rendimientos del trabajo. Comunicación de datos al pagador."
+  },
+  {
+    "code": "146",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G604.shtml",
+    "description": "IRPF. Pensionistas con dos o más pagadores. Solicitud de determinación del importe de las retenciones."
+  },
+  {
+    "code": "147",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G605.shtml",
+    "description": "IRPF. Comunicación del desplazamiento a territorio español efectuado por trabajadores por cuenta ajena"
+  },
+  {
+    "code": "149",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G606.shtml",
+    "description": "IRPF. Régimen especial aplicable a los trabajadores, profesionales, emprendedores e inversores desplazados a territorio español. Comunicación de la opción, renuncia, exclusión y fin del desplazamiento"
+  },
+  {
+    "code": "150",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G607.shtml",
+    "description": "IRPF. Régimen especial aplicable a los trabajadores desplazados a territorio español (para contribuyentes que hayan optado por este régimen con anterioridad a 1 de enero de 2015)"
+  },
+  {
+    "code": "151",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G615.shtml",
+    "description": "Declaración del Impuesto sobre la Renta de las Personas Físicas del régimen especial aplicable a los trabajadores, profesionales, emprendedores e inversores, desplazados a territorio español."
+  },
+  {
+    "code": "156",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G608.shtml",
+    "description": "Declaración Informativa. Cotizaciones de afiliados y mutualidades a efectos de la deducción por maternidad. Resumen anual."
+  },
+  {
+    "code": "159",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI31.shtml",
+    "description": "Declaración Informativa. Declaración anual de consumo de energía eléctrica."
+  },
+  {
+    "code": "165",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI35.shtml",
+    "description": "Declaración informativa de certificaciones individuales emitidas a los socios o partícipes de entidades de nueva o reciente creación."
+  },
+  {
+    "code": "170",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI32.shtml",
+    "description": "Declaración anual de las operaciones realizadas por los empresarios o profesionales adheridos al sistema de gestión de cobros a través de tarjetas de crédito o de débito."
+  },
+  {
+    "code": "171",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI33.shtml",
+    "description": "Declaración anual de imposiciones, disposiciones de fondos y de los cobros de cualquier documento."
+  },
+  {
+    "code": "172",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI53.shtml",
+    "description": "Declaración informativa sobre saldos en monedas virtuales"
+  },
+  {
+    "code": "173",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI54.shtml",
+    "description": "Declaración informativa sobre operaciones con monedas virtuales"
+  },
+  {
+    "code": "179",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI44.shtml",
+    "description": "Declaración informativa anual de la cesión de uso de viviendas con fines turísticos"
+  },
+  {
+    "code": "180",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI00.shtml",
+    "description": "Declaración informativa. Retenciones e ingresos a cuenta sobre determinadas rentas o rendimientos procedentes del arrendamiento o subarrendamiento de inmuebles urbanos."
+  },
+  {
+    "code": "181",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI01.shtml",
+    "description": "Declaración informativa de préstamos y créditos, y operaciones financieras relacionadas con bienes inmuebles."
+  },
+  {
+    "code": "182",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI02.shtml",
+    "description": "Declaración informativa de donativos, donaciones y aportaciones recibidas."
+  },
+  {
+    "code": "184",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI04.shtml",
+    "description": "Declaración informativa. Entidades en régimen de atribución de rentas. Declaración anual."
+  },
+  {
+    "code": "185",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI05.shtml",
+    "description": "Declaración Informativa. Declaración informativa mensual de los órganos y entidades gestores de la Seguridad Social y Mutualidades."
+  },
+  {
+    "code": "186",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI06.shtml",
+    "description": "Declaración Informativa. Suministro de información relativa a nacimientos y defunciones."
+  },
+  {
+    "code": "187",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI07.shtml",
+    "description": "Declaración informativa de acciones y participaciones representativas del capital o del patrimonio de las instituciones de inversión colectiva y resumen anual de retenciones e ingresos a cuenta del Impuesto sobre la Renta de las Personas Físicas, Impuesto sobre Sociedades e Impuesto sobre la Renta de no Residentes en relación con las rentas o ganancias patrimoniales obtenidas como consecuencia de las transmisiones o reembolsos de esas acciones y participaciones."
+  },
+  {
+    "code": "188",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI08.shtml",
+    "description": "Declaración Informativa de retenciones e ingresos a cuenta . Rentas o rendimientos del capital mobiliario procedentes de operaciones de capitalización y de contratos de seguro de vida o invalidez. Resumen anual."
+  },
+  {
+    "code": "189",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI09.shtml",
+    "description": "Declaración informativa anual de valores, seguros y rentas."
+  },
+  {
+    "code": "190",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI10.shtml",
+    "description": "Declaración Informativa. Retenciones e ingresos a cuenta. Rendimientos del trabajo y de actividades económicas, premios y determinadas ganancias patrimoniales e imputaciones de rentas. Resumen anual."
+  },
+  {
+    "code": "192",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI11.shtml",
+    "description": "Declaración informativa anual de operaciones con Letras del Tesoro."
+  },
+  {
+    "code": "193",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI12.shtml",
+    "description": "Declaración Informativa. Retenciones e ingresos a cuenta del Impuesto sobre la Renta de las Personas Físicas sobre determinados rendimientos del capital mobiliario. Retenciones e ingresos a cuenta del Impuesto sobre Sociedades e Impuesto sobre la Renta de no residentes (establecimientos permanentes) sobre determinadas rentas. Resumen anual."
+  },
+  {
+    "code": "194",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI13.shtml",
+    "description": "Declaración Informativa. Retenciones e ingresos a cuenta del Impuesto sobre la Renta de las Personas Físicas, Impuesto sobre Sociedades e Impuesto sobre la Renta de no residentes (establecimientos permanentes) sobre rendimientos del capital mobiliario y rentas derivadas de la transmisión, amortización, reembolso, canje o conversión de cualquier clase de activos representativos de la captación y utilización de capitales ajenos. Resumen anual."
+  },
+  {
+    "code": "195",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI14.shtml",
+    "description": "Declaración informativa. Declaración trimestral de cuentas u operaciones cuyos titulares no han facilitado el NIF a las Entidades de Crédito en el plazo establecido."
+  },
+  {
+    "code": "196",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI15.shtml",
+    "description": "Declaración informativa. Resumen anual de retenciones e ingresos a cuenta sobre rendimientos del capital mobiliario y rentas obtenidas por la contraprestación derivada de cuentas en toda clase de instituciones financieras, incluyendo las basadas en operaciones sobre activos financieros, y declaración informativa anual de personas autorizadas y de saldos en cuentas de toda clase de instituciones financieras."
+  },
+  {
+    "code": "198",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI17.shtml",
+    "description": "Declaración informativa. Declaración anual de operaciones con activos financieros y otros valores mobiliarios."
+  },
+  {
+    "code": "199",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI18.shtml",
+    "description": "Declaración Informativa anual de identificación de las operaciones con cheques de las Entidades de Crédito."
+  },
+  {
+    "code": "200",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE04.shtml",
+    "description": "IS. Impuesto sobre Sociedades e Impuesto sobre la Renta de no Residentes (establecimientos permanentes y entidades en régimen de atribución de rentas constituidas en el extranjero con presencia en territorio español). Declaración (Mod. 200). Documentos de ingreso o devolución: Impuesto sobre Sociedades (Mod. 200); Impuesto sobre la Renta de no Residentes (establecimientos permanentes y entidades en régimen de atribución de rentas constituidas en el extranjero con presencia en territorio español) (Mod.206)."
+  },
+  {
+    "code": "202",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE00.shtml",
+    "description": "IS. Impuesto sobre Sociedades e Impuesto sobre la Renta de no residentes (establecimientos permanentes y entidades en régimen de atribución de rentas constituidas en el extranjero con presencia en territorio español). Pago Fraccionado."
+  },
+  {
+    "code": "206",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE04.shtml",
+    "description": "Documento de ingreso o devolución del Impuesto sobre la Renta de no Residentes (establecimientos permanentes y entidades en régimen de atribución de rentas constituidas en el extranjero con presencia en territorio español)."
+  },
+  {
+    "code": "210",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF00.shtml",
+    "description": "IRNR- Impuesto sobre la Renta de no residentes sin establecimiento permanente. Declaración ordinaria."
+  },
+  {
+    "code": "211",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF01.shtml",
+    "description": "IRNR- Impuesto sobre la Renta de no Residentes. Retención en la adquisición de bienes inmuebles a no residentes sin establecimiento permanente."
+  },
+  {
+    "code": "213",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF03.shtml",
+    "description": "IRNR. Gravamen especial sobre bienes inmuebles de entidades no residentes."
+  },
+  {
+    "code": "216",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF05.shtml",
+    "description": "IRNR. Impuesto sobre la Renta de no Residentes. Rentas obtenidas sin mediación de establecimiento permanente. Retenciones e ingresos a cuenta (declaración - documento de ingreso)."
+  },
+  {
+    "code": "217",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE06.shtml",
+    "description": "Gravamen especial SOCIMI"
+  },
+  {
+    "code": "220",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE02.shtml",
+    "description": "Impuesto sobre Sociedades. Régimen de consolidación fiscal correspondiente a los grupos fiscales. Declaración. (Mod. 220). Documento de ingreso o devolución"
+  },
+  {
+    "code": "221",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE07.shtml",
+    "description": "Prestación patrimonial por conversión de activos por impuesto diferido en crédito exigible frente a la Administración tributaria."
+  },
+  {
+    "code": "222",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE03.shtml",
+    "description": "IS. Régimen de Tributación de los Grupos de Sociedades. Pago fraccionado."
+  },
+  {
+    "code": "226",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF08.shtml",
+    "description": "Solicitud de aplicación del régimen opcional para contribuyentes personas físicas residentes en otros Estados miembros de la Unión Europea o del Espacio Económico Europeo con efectivo intercambio de información tributaria."
+  },
+  {
+    "code": "228",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF07.shtml",
+    "description": "Solicitud de devolución por exención por reinversión en vivienda habitual para contribuyentes de la Unión Europea y del Espacio Económico Europeo con efectivo intercambio de información tributaria."
+  },
+  {
+    "code": "230",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G235.shtml",
+    "description": "Impuesto sobre la Renta de las Personas Físicas e Impuesto sobre la Renta de No Residentes: Retenciones e ingresos a cuenta del gravamen especial sobre los premios de determinadas loterías y apuestas; Impuesto sobre Sociedades: Retenciones e ingresos a cuenta sobre los premios de determinadas loterías y apuestas. Autoliquidación."
+  },
+  {
+    "code": "231",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI41.shtml",
+    "description": "Declaración Informativa. Declaración de información país por país (CBC/DAC4)."
+  },
+  {
+    "code": "232",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI43.shtml",
+    "description": "Declaración informativa de operaciones vinculadas y de operaciones y situaciones relacionadas con países o territorios calificados como paraísos fiscales."
+  },
+  {
+    "code": "233",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI45.shtml",
+    "description": "Declaración informativa por gastos en guarderías o centros de educación infantil autorizados"
+  },
+  {
+    "code": "234",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI46.shtml",
+    "description": "Declaración informativa de mecanismos transfronterizos"
+  },
+  {
+    "code": "235",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI47.shtml",
+    "description": "Declaración de información de actualización de mecanismos transfronterizos comercializables"
+  },
+  {
+    "code": "236",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI48.shtml",
+    "description": "Declaración de información de la utilización de determinados mecanismos transfronterizos"
+  },
+  {
+    "code": "237",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE08.shtml",
+    "description": "Gravamen especial sobre beneficios no distribuidos por SOCIMI."
+  },
+  {
+    "code": "238",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI52.shtml",
+    "description": "Declaración informativa para la comunicación de información por parte de operadores de plataformas"
+  },
+  {
+    "code": "239",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI57.shtml",
+    "description": "Declaración informativa de mecanismos de planificación fiscal en el ámbito del AMAC sobre intercambio automático relativo a los mecanismos de elusión del estándar común de comunicación de información y las estructuras extraterritoriales opacas"
+  },
+  {
+    "code": "240",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI60.shtml",
+    "description": "Comunicación de la entidad constitutiva declarante de la declaración informativa del Impuesto Complementario."
+  },
+  {
+    "code": "241",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI59.shtml",
+    "description": "Declaración informativa del Impuesto Complementario por parte de grupos multinacionales o grupos nacionales de gran magnitud"
+  },
+  {
+    "code": "242",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GE09.shtml",
+    "description": "Autoliquidación del Impuesto Complementario"
+  },
+  {
+    "code": "247",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GF06.shtml",
+    "description": "IRNR. Impuesto sobre la Renta de no Residentes. Comunicación del desplazamiento al extranjero efectuada por trabajadores por cuenta ajena"
+  },
+  {
+    "code": "270",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI36.shtml",
+    "description": "Resumen anual de retenciones e ingresos a cuenta del gravamen especial sobre los premios de determinadas loterías y apuestas."
+  },
+  {
+    "code": "280",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI39.shtml",
+    "description": "Declaración informativa anual de Planes de Ahorro a Largo Plazo"
+  },
+  {
+    "code": "281",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI56.shtml",
+    "description": "Declaración informativa trimestral de operaciones de comercio de bienes corporales realizadas en la Zona Especial Canaria sin que las mercancías transiten por territorio canario."
+  },
+  {
+    "code": "282",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI40.shtml",
+    "description": "Declaración informativa anual de ayudas recibidas en el marco del Régimen Económico y Fiscal de Canarias y otras ayudas de estado, derivadas de la aplicación del Derecho de la Unión Europea."
+  },
+  {
+    "code": "283",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI58.shtml",
+    "description": "Declaración informativa anual de ayudas recibidas en el marco del Régimen Fiscal Especial de las Illes Balears"
+  },
+  {
+    "code": "289",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI42.shtml",
+    "description": "Declaración informativa anual de cuentas financieras en el ámbito de la asistencia mutua."
+  },
+  {
+    "code": "290",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI38.shtml",
+    "description": "Declaración informativa anual de cuentas financieras de determinadas personas estadounidenses (FATCA)"
+  },
+  {
+    "code": "291",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI19.shtml",
+    "description": "Declaración Informativa. Impuesto sobre la Renta de no Residentes. Cuentas de no residentes sin establecimiento permanente."
+  },
+  {
+    "code": "294",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI20.shtml",
+    "description": "Declaración informativa. Relación individualizada de los clientes perceptores de beneficios distribuidos por Instituciones de Inversión Colectiva españolas, así como de aquellos por cuenta de los cuales la entidad comercializadora haya efectuado reembolsos o transmisiones de acciones o participaciones, en los supuestos de comercializacion transfronteriza de acciones o participaciones de instituciones de inversión colectiva españolas."
+  },
+  {
+    "code": "295",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI21.shtml",
+    "description": "Declaración informativa. Relación anual individualizada de los clientes con la posición inversora en las Instituciones de Inversión Colectiva españolas, referida a fecha 31 de diciembre del ejercicio, en los supuestos de comercialización transfronteriza de acciones o participaciones en Instituciones de Inversión Colectiva españolas."
+  },
+  {
+    "code": "296",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI22.shtml",
+    "description": "Declaración informativa. Retenciones e ingresos a cuenta del Impuesto sobre la Renta de no Residentes (sin establecimiento permanente). Resumen anual."
+  },
+  {
+    "code": "303",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G414.shtml",
+    "description": "IVA. Autoliquidación."
+  },
+  {
+    "code": "308",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G403.shtml",
+    "description": "IVA. Régimen Especial del Recargo Equivalencia, artículo 30 bis del Reglamento del IVA y sujetos pasivos ocasionales. Solicitud de devolución."
+  },
+  {
+    "code": "309",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G404.shtml",
+    "description": "IVA. Declaración - Liquidación no periódica."
+  },
+  {
+    "code": "318",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G419.shtml",
+    "description": "IVA. Regularización de las proporciones de tributación de los períodos de liquidación anteriores al inicio de la realización habitual de entregas de bienes o prestaciones de servicios."
+  },
+  {
+    "code": "319",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC68.shtml",
+    "description": "Pago a cuenta del IVA correspondiente a las entregas de gasolinas, gasóleos y biocarburantes posteriores a la ultimación del régimen de depósito distinto del aduanero"
+  },
+  {
+    "code": "322",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G407.shtml",
+    "description": "IVA. Grupos de entidades. Modelo individual. Autoliquidación mensual."
+  },
+  {
+    "code": "341",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ10.shtml",
+    "description": "Solicitud de reintegro compensaciones en el Régimen especial de agricultura, ganadería y pesca."
+  },
+  {
+    "code": "345",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI25.shtml",
+    "description": "Declaración Informativa. Planes, fondos de pensiones y sistemas alternativos. Mutualidades de Previsión Social, Planes de Previsión Asegurados, Planes individuales de Ahorro Sistemático, Planes de Previsión Social Empresarial y Seguros de Dependencia. Declaración anual partícipes y aportaciones."
+  },
+  {
+    "code": "346",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI26.shtml",
+    "description": "IRPF. Declaración Informativa de Subvenciones e indemnizaciones satisfechas por Entidades Públicas/privadas a agricultores o ganaderos."
+  },
+  {
+    "code": "347",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI27.shtml",
+    "description": "Declaración Informativa anual de operaciones con terceras personas"
+  },
+  {
+    "code": "349",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI28.shtml",
+    "description": "IVA. Declaración recapitulativa de operaciones intracomunitarias."
+  },
+  {
+    "code": "353",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G408.shtml",
+    "description": "IVA. Grupo de entidades. Modelo agregado. Autoliquidación mensual."
+  },
+  {
+    "code": "360 - 361",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ09.shtml",
+    "description": "IVA. Gestión de devoluciones de IVA a empresarios o profesionales no establecidos en el territorio de aplicación del impuesto."
+  },
+  {
+    "code": "364",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ86.shtml",
+    "description": "Impuesto sobre el Valor Añadido. Solicitud de reembolso de las cuotas tributarias soportadas relativas a la Organización del Tratado del Atlántico Norte, a los Cuarteles Generales Internacionales de dicha Organización y a los Estados parte en dicho Tratado."
+  },
+  {
+    "code": "365",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ87.shtml",
+    "description": "Impuesto sobre el Valor Añadido. Solicitud de reconocimiento previo de las exenciones relativas a la Organización del Tratado del Atlántico Norte, a los Cuarteles Generales Internacionales de dicha Organización y a los Estados parte en dicho Tratado."
+  },
+  {
+    "code": "368",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G330.shtml",
+    "description": "Declaración de IVA de los regímenes especiales de servicios de telecomunicaciones, de radiodifusión o de televisión o electrónicos."
+  },
+  {
+    "code": "369",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G420.shtml",
+    "description": "Declaraciones de IVA del régimen One Stop Shop (OSS)"
+  },
+  {
+    "code": "379",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI51.shtml",
+    "description": "Declaración informativa pagos operaciones transfronterizas"
+  },
+  {
+    "code": "380",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DB06.shtml",
+    "description": "Declaración-liquidación en operaciones asimiliadas a las importaciones."
+  },
+  {
+    "code": "381",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GZ92.shtml",
+    "description": "Solicitud de reembolso de las cuotas tributarias relativas a las Fuerzas Armadas de cualquier Estado miembro distinto de España."
+  },
+  {
+    "code": "390",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G412.shtml",
+    "description": "IVA. Declaración Resumen Anual."
+  },
+  {
+    "code": "410",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GH10.shtml",
+    "description": "Pago a cuenta del Impuesto sobre los Depósitos de las Entidades de Crédito."
+  },
+  {
+    "code": "411",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC38.shtml",
+    "description": "Impuesto sobre los Depósitos en las Entidades de Crédito"
+  },
+  {
+    "code": "430",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC03.shtml",
+    "description": "Primas de seguros. Declaración-liquidación."
+  },
+  {
+    "code": "480",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC04.shtml",
+    "description": "Primas de seguros. Declaración Resumen anual."
+  },
+  {
+    "code": "490",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC45.shtml",
+    "description": "Impuesto sobre Determinados Servicios Digitales. Autoliquidación"
+  },
+  {
+    "code": "504/505",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DN05.shtml",
+    "description": "II. EE. Modelo 504/505. Recepción de productos sujetos a Impuestos Especiales procedentes de la U.E.para Operadores no Registrados, receptores en el sistema de envíos garantizados y representantes fiscales en el sistema de ventas a distancia"
+  },
+  {
+    "code": "506",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ01.shtml",
+    "description": "II. EE. Solicitud de devolución por introducción en depósito fiscal."
+  },
+  {
+    "code": "507",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ02.shtml",
+    "description": "II. EE. Solicitud de devolución en el sistema de envíos garantizados."
+  },
+  {
+    "code": "508",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ03.shtml",
+    "description": "II. EE. Solicitud de devolución por el sistema de ventas a distancia."
+  },
+  {
+    "code": "510",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF01.shtml",
+    "description": "II. EE. Declaración de operaciones de recepción del resto de la UE."
+  },
+  {
+    "code": "512",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DE03.shtml",
+    "description": "II. EE. Destinatarios de productos de tarifa segunda."
+  },
+  {
+    "code": "515 y 517",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DE04.shtml",
+    "description": "II. EE. Petición de marcas fiscales a la Oficina Gestora de Impuestos Especiales."
+  },
+  {
+    "code": "518/519/520",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DG01.shtml",
+    "description": "II. EE. Declaraciones de trabajo."
+  },
+  {
+    "code": "521",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF13.shtml",
+    "description": "II. EE. Relación trimestral de primeras materias entregadas."
+  },
+  {
+    "code": "522",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF12.shtml",
+    "description": "II. EE. Parte trimestral de productos a que se refiere el artículo 108 ter del Reglamento de los Impuestos Especiales."
+  },
+  {
+    "code": "523",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DN01.shtml",
+    "description": "Aplicación del beneficio de devolución de los IIEE sobre el alcohol y bebidas alcohólicas."
+  },
+  {
+    "code": "524",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ04.shtml",
+    "description": "II. EE. Solicitud de devolución sobre el alcohol y las bebidas alcohólicas."
+  },
+  {
+    "code": "544",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DH01.shtml",
+    "description": "II. EE. Pagos efectuados mediante cheque o tarjetas de gasóleo bonificado."
+  },
+  {
+    "code": "545",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ05.shtml",
+    "description": "II. EE. Suministros de carburantes para relaciones internacionales con devolución del impuesto sobre hidrocarburos."
+  },
+  {
+    "code": "546",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ06.shtml",
+    "description": "II. EE. Avituallamiento de gasóleo a embarcaciones con derecho a la devolución del impuesto sobre hidrocarburos."
+  },
+  {
+    "code": "547",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DH02.shtml",
+    "description": "II. EE. Relación de abonos realizados a detallistas de gasóleo bonificado."
+  },
+  {
+    "code": "548",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF15.shtml",
+    "description": "Declaración informativa de cuotas repercutidas."
+  },
+  {
+    "code": "553",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF02.shtml",
+    "description": "II. EE. Declaración de operaciones en fábricas y depósitos de vino y bebidas fermentadas."
+  },
+  {
+    "code": "559",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI01.shtml",
+    "description": "II. EE. Impuesto sobre el alcohol y bebidas derivadas. Regímenes de destilación artesanal y de cosechero."
+  },
+  {
+    "code": "560",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI02.shtml",
+    "description": "Impuestos sobre la electricidad."
+  },
+  {
+    "code": "561",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI03.shtml",
+    "description": "Impuestos sobre la cerveza."
+  },
+  {
+    "code": "562",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI04.shtml",
+    "description": "Impuestos sobre productos intermedios."
+  },
+  {
+    "code": "563",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI05.shtml",
+    "description": "Impuestos sobre alcohol y bebidas derivadas."
+  },
+  {
+    "code": "566",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI07.shtml",
+    "description": "Impuestos sobre labores del tabaco."
+  },
+  {
+    "code": "568",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G501.shtml",
+    "description": "Impuesto sobre Determinados Medios de Transporte. Solicitud de devolución por reventa y envío de medios de transporte fuera del territorio."
+  },
+  {
+    "code": "571",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DN02.shtml",
+    "description": "Aplicación del beneficio devolución de los impuestos especiales hidrocarburos."
+  },
+  {
+    "code": "572",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ07.shtml",
+    "description": "II. EE. Solicitud de devolución del Impuesto sobre Hidrocarburos."
+  },
+  {
+    "code": "573",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI10.shtml",
+    "description": "II. EE. Impuesto sobre los líquidos para cigarrillos electrónicos y otros productos relacionados con el tabaco"
+  },
+  {
+    "code": "576",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G502.shtml",
+    "description": "Impuesto Especial sobre Determinados Medios de Transporte. Autoliquidación"
+  },
+  {
+    "code": "581",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI06.shtml",
+    "description": "Impuesto sobre Hidrocarburos. Declaración-liquidación."
+  },
+  {
+    "code": "582",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI06.shtml",
+    "description": "Impuesto sobre Hidrocarburos. Regularización por reexpedición de productos a otra Comunidad Autónoma."
+  },
+  {
+    "code": "583",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR01.shtml",
+    "description": "Impuesto sobre el valor de la producción de la energía eléctrica. Autoliquidación y Pagos Fraccionados."
+  },
+  {
+    "code": "584",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR02.shtml",
+    "description": "Impuesto sobre la producción de combustible nuclear gastado y residuos radioactivos resultantes de la generación de energía nucleoeléctrica. Autoliquidación y pagos fraccionados."
+  },
+  {
+    "code": "585",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR03.shtml",
+    "description": "Impuesto sobre el almacenamiento de combustible nuclear gastado y residuos radioactivos en instalaciones centralizadas. Autoliquidación y pagos fraccionados."
+  },
+  {
+    "code": "586",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR08.shtml",
+    "description": "Declaración Informativa. Gases Fluorados"
+  },
+  {
+    "code": "587",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR10.shtml",
+    "description": "Declaración-Liquidación Gases Fluorados Efecto Invernadero."
+  },
+  {
+    "code": "588",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR01.shtml",
+    "description": "Impuesto sobre el valor de la producción de la energía eléctrica. Autoliquidación por cese de actividad de enero a octubre"
+  },
+  {
+    "code": "589",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR13.shtml",
+    "description": "Impuesto sobre el valor de la extracción de gas, petróleo y condensación. Autoliquidación y pago fraccionado."
+  },
+  {
+    "code": "590",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ08.shtml",
+    "description": "IIEE. Solicitud de devolución por exportación o expedición."
+  },
+  {
+    "code": "591",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR12.shtml",
+    "description": "Impuesto sobre el valor de la producción de la energía eléctrica. Declaración anual de operaciones."
+  },
+  {
+    "code": "592",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR14.shtml",
+    "description": "Declaración-Liquidación Impuesto especial sobre los envases de plástico no reutilizables. Autoliquidación"
+  },
+  {
+    "code": "593",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR15.shtml",
+    "description": "Impuesto sobre el depósito de residuos en vertederos, la incineración y la coincineración de residuos. Autoliquidación."
+  },
+  {
+    "code": "595",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DI09.shtml",
+    "description": "II. EE. Impuesto sobre el carbón."
+  },
+  {
+    "code": "596",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DF10.shtml",
+    "description": "II. EE. Declaración anual de operaciones realizadas. Impuesto sobre el carbón."
+  },
+  {
+    "code": "600-610-615-620-630",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC12.shtml",
+    "description": "Transmisiones Patrimoniales y Actos Jurídicos Documentados - Autoliquidación del Impuesto (tramitación ante la Agencia Estatal de Administración Tributaria: Ceuta y Melilla y otros supuestos)."
+  },
+  {
+    "code": "602",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC43.shtml",
+    "description": "Tasa por la gestión administrativa del juego."
+  },
+  {
+    "code": "604",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC44.shtml",
+    "description": "Impuesto sobre las Transacciones Financieras. Autoliquidación"
+  },
+  {
+    "code": "611",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC05.shtml",
+    "description": "Declaración Informativa. Pagos en metálico del impuesto que grava los documentos negociados por Entidades Colaboradoras. Declaración Resumen Anual."
+  },
+  {
+    "code": "616",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC06.shtml",
+    "description": "Declaración Informativa. Pagos en metálico del impuesto que grava la emisión de documentos que lleven aparejada acción cambiaria o sean endosables a la orden. Declaración Resumen Anual."
+  },
+  {
+    "code": "650",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G702.shtml",
+    "description": "Impuesto sobre Sucesiones y Donaciones. Autoliquidación adquisición &ldquo;mortis causa&rdquo;."
+  },
+  {
+    "code": "651",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G703.shtml",
+    "description": "Impuesto sobre Sucesiones y Donaciones. Autoliquidación adquisición &ldquo;inter vivos&rdquo;."
+  },
+  {
+    "code": "655",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G704.shtml",
+    "description": "Impuesto sobre Sucesiones y Donaciones. Consolidación de dominio por extinción de usufructo."
+  },
+  {
+    "code": "681",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC13.shtml",
+    "description": "Tasa por la prestación de servicios de gestión de residuos radiactivos a que se refiere el apartado 3 de la disposición adicional sexta de la Ley 54/1997."
+  },
+  {
+    "code": "682",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC14.shtml",
+    "description": "Tasa por la prestación de servicios de gestión de residuos radiactivos a que se refiere el apartado 3 de la disposición adicional sexta de la Ley 54/1997."
+  },
+  {
+    "code": "683",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC15.shtml",
+    "description": "Tasa por la prestación de servicios de gestión de residuos radiactivos derivados de la fabricación de elementos combustibles, incluido desmantelamiento de instalaciones de fabricación."
+  },
+  {
+    "code": "684",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC16.shtml",
+    "description": "Tasa por la prestación de servicios de gestión de residuos radiactivos generados en otras instalaciones."
+  },
+  {
+    "code": "685",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC17.shtml",
+    "description": "Tasa sobre apuestas y combinaciones aleatorias, autoliquidación."
+  },
+  {
+    "code": "695",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC26.shtml",
+    "description": "Solicitud de devolución tasa judicial."
+  },
+  {
+    "code": "696",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC07.shtml",
+    "description": "Tasa por el Ejercicio de la Potestad Jurisdiccional en los Órdenes Civil y Contencioso-Administrativo."
+  },
+  {
+    "code": "714",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G611.shtml",
+    "description": "Impuesto sobre el Patrimonio"
+  },
+  {
+    "code": "718",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC62.shtml",
+    "description": "Impuesto temporal de Solidaridad de las Grandes Fortunas."
+  },
+  {
+    "code": "720",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI34.shtml",
+    "description": "Declaración informativa sobre bienes y derechos situados en el extranjero."
+  },
+  {
+    "code": "721",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI55.shtml",
+    "description": "Declaración informativa sobre monedas virtuales situadas en el extranjero"
+  },
+  {
+    "code": "763",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC18.shtml",
+    "description": "Autoliquidación del Impuesto sobre actividades de juego en los supuestos de actividades anuales o plurianuales."
+  },
+  {
+    "code": "770",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC41.shtml",
+    "description": "Autoliquidación de intereses de demora y recargos para la regularización voluntaria prevista en el artículo 252 de la Ley General Tributaria"
+  },
+  {
+    "code": "771",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC42.shtml",
+    "description": "Autoliquidación de cuotas de conceptos y ejercicios sin modelo disponible en la Sede electrónica de la AEAT para la regularización voluntaria prevista en el artículo 252 de la Ley General Tributaria"
+  },
+  {
+    "code": "780",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC66.shtml",
+    "description": "Impuesto sobre el margen de intereses y comisiones de determinadas entidades financieras. Autoliquidación"
+  },
+  {
+    "code": "781",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC67.shtml",
+    "description": "Impuesto sobre el margen de intereses y comisiones de determinadas entidades financieras. Pago fraccionado."
+  },
+  {
+    "code": "791",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/B201.shtml",
+    "description": "Empleo Público. Presentación instancias oposiciones."
+  },
+  {
+    "code": "792",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC59.shtml",
+    "description": "Autoliquidación de la aportación a realizar por los prestadores del servicio de comunicación audiovisual televisivo y por los prestadores del servicio de intercambio de vídeos a través de plataforma de ámbito geográfico estatal o superior al de una Comunidad Autónoma."
+  },
+  {
+    "code": "793",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC60.shtml",
+    "description": "Pagos a cuenta de la aportación a realizar por los prestadores del servicio de comunicación audiovisual televisivo y por los prestadores del servicio de intercambio de vídeos a través de plataforma de ámbito geográfico estatal o superior al de una Comunidad Autónoma."
+  },
+  {
+    "code": "795",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC55.shtml",
+    "description": "Gravamen temporal energético. Declaración del ingreso de la prestación"
+  },
+  {
+    "code": "796",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC56.shtml",
+    "description": "Gravamen temporal energético. Pago anticipado"
+  },
+  {
+    "code": "797",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC57.shtml",
+    "description": "Gravamen temporal de entidades de crédito y establecimientos financieros de crédito. Declaración del ingreso de la prestación."
+  },
+  {
+    "code": "798",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC58.shtml",
+    "description": "Gravamen temporal de entidades de crédito y establecimientos financieros de crédito. Pago anticipado"
+  },
+  {
+    "code": "840 - 848",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G323.shtml",
+    "description": "IAE. Declaración de alta, variación o baja en el Impuesto sobre Actividades Económicas (IAE) y comunicación del importe neto de la cifra de negocios a efectos de IAE (tramitación ante la Agencia Estatal de Administración Tributaria). Cuando la gestión censal está delegada (en Ayuntamientos, Diputaciones, Comunidades Autónomas, ...) las declaraciones se presentan en la entidad que tiene delegada la gestión censal y con sus propios modelos (esto sólo afecta a las cuotas municipales)."
+  },
+  {
+    "code": "901",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC46.shtml",
+    "description": "Información de las CC.AA. sobre datos consignados en el certificado de eficiencia energética"
+  },
+  {
+    "code": "933",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC40.shtml",
+    "description": "Información de las CC. AA. sobre guarderías y centros de educación infantil autorizados"
+  },
+  {
+    "code": "952",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/G416.shtml",
+    "description": "IVA. Comunicación de la modificación de la base imponible en supuestos de concurso y por crédito incobrable."
+  },
+  {
+    "code": "980",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/ZA23.shtml",
+    "description": "Información de los intereses de demora pagados a los contribuyentes por las CC. AA."
+  },
+  {
+    "code": "981",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC39.shtml",
+    "description": "Suministro de información sobre la prestación por maternidad/paternidad"
+  },
+  {
+    "code": "990",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC32.shtml",
+    "description": "Información mensual por parte de las CC. AA. sobre familias numerosas o con personas con discapacidad a cargo"
+  },
+  {
+    "code": "991",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GI49.shtml",
+    "description": "Declaración informativa de fianzas derivadas del arrendamiento de inmuebles"
+  },
+  {
+    "code": "992",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC30.shtml",
+    "description": "Tributos cedidos sobre el Juego de Comunidades Autónomas"
+  },
+  {
+    "code": "993",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/GC22.shtml",
+    "description": "Control de deducciones autonómicas"
+  },
+  {
+    "code": "995",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/ZA06.shtml",
+    "description": "Cesión de Información Urbanística por Entidades Locales."
+  },
+  {
+    "code": "996",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/ZA07.shtml",
+    "description": "Embargo de devoluciones gestionadas por la AEAT."
+  },
+  {
+    "code": "997",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/ZA09.shtml",
+    "description": "Embargo de pagos presupuestarios de otras Administraciones Públicas."
+  },
+  {
+    "code": "A22",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR20.shtml",
+    "description": "Impuesto especial sobre los envases de plástico no reutilizables. Solicitud de devolución."
+  },
+  {
+    "code": "A23",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DR19.shtml",
+    "description": "Impuesto sobre los Gases Fluorados de Efecto Invernadero. Solicitud de devolución"
+  },
+  {
+    "code": "A24",
+    "url": "https://sede.agenciatributaria.gob.es/Sede/procedimientoini/DJ28.shtml",
+    "description": "II. EE. Solicitud de devolución del impuesto sobre líquidos para cigarrillos electrónicos y otros productos relacionados con el tabaco."
+  }
+]

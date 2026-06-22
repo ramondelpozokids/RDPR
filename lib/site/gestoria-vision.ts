@@ -166,7 +166,7 @@ export const ADVISORY_AREAS: AdvisoryArea[] = [
     id: "ia",
     icon: Brain,
     title: "IA para asesorías",
-    summary: "Respuestas en lenguaje natural con datos reales de cada empresa.",
+    summary: "Respuestas en lenguaje natural sobre la actividad de cada empresa.",
     items: [
       "¿Cuánto IVA voy a pagar este trimestre?",
       "¿Qué facturas me faltan?",
@@ -232,7 +232,7 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
     slug: "intelligence",
     icon: Brain,
     name: "RDPR Intelligence",
-    tagline: "IA empresarial con datos reales.",
+    tagline: "IA empresarial integrada.",
     status: "live",
     highlights: ["Consultas en lenguaje natural", "Fiscal y operaciones", "Gráficos y acciones"],
   },
@@ -287,8 +287,8 @@ export const RDPR_PRODUCT_MODULES: ProductModule[] = [
 ]
 
 export const RDPR_DIFFERENTIATION = {
-  headline: "Gestoría + ERP + jurídico + IA en un solo ecosistema",
-  body: "Odoo, Holded, Sage, A3, Cegid o Wolters Kluwer cubren piezas sueltas. RDPR apunta a integrar de forma nativa contabilidad, asesoría, documentación, laboral, jurídico e inteligencia artificial — el combo que casi ninguna plataforma une en un único sistema.",
+  headline: "Gestión empresarial integrada en un solo entorno",
+  body: "RDPR OS concentra finanzas, clientes, documentación y cumplimiento normativo con una experiencia clara y coherente. Pensado para asesorías y empresas que valoran el orden, la trazabilidad y la respuesta ágil.",
   stack: ["Finance", "Tax", "Payroll", "Legal", "Documents", "AI"] as const,
 }
 

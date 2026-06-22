@@ -2,12 +2,14 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
+import { AeatOfficialDownloads } from "@/components/site/AeatOfficialDownloads"
 import { TAX_MODEL_CATEGORIES, TAX_MODELS } from "@/lib/tax/models-registry"
 
 export const metadata: Metadata = {
   title: "Modelos fiscales AEAT",
-  description: "Catálogo de modelos AEAT en RDPR Tax Intelligence: IVA, IRPF, retenciones, sociedades e intracomunitario.",
-  keywords: ["modelo 303", "modelo 390", "modelo 200", "impuesto sociedades", "modelo 347"],
+  description:
+    "Catálogo de modelos fiscales AEAT con acceso público a la Sede electrónica de la Agencia Tributaria.",
+  keywords: ["modelo 303", "modelo 390", "modelo 200", "impuesto sociedades", "modelo 347", "AEAT"],
 }
 
 export default function ModelosFiscalesPage() {
@@ -15,11 +17,13 @@ export default function ModelosFiscalesPage() {
     <>
       <MarketingPageHeader
         eyebrow="Fiscal · AEAT"
-        title="Modelos fiscales con datos reales"
-        description="RDPR Tax Intelligence calcula modelos orientativos desde su contabilidad y facturación. Exportación CSV y calendario de vencimientos."
+        title="Modelos fiscales y acceso oficial"
+        description="Consulte el catálogo de modelos AEAT y acceda directamente a la Sede electrónica para presentar declaraciones y descargar documentación oficial."
       />
 
-      <TaxModelsShowcase compact />
+      <TaxModelsShowcase compact linkToOfficial />
+
+      <AeatOfficialDownloads />
 
       <section className="py-16 px-4 sm:px-6 max-w-4xl mx-auto space-y-8">
         {(Object.keys(TAX_MODEL_CATEGORIES) as Array<keyof typeof TAX_MODEL_CATEGORIES>).map((cat) => {
@@ -43,8 +47,10 @@ export default function ModelosFiscalesPage() {
       </section>
 
       <section className="py-12 px-4 sm:px-6 bg-surface-muted/50 border-t text-center">
-        <p className="text-text-secondary mb-4">Acceso completo tras registro en RDPR OS</p>
-        <Link href="/register" className="btn-primary inline-flex">Solicitar acceso</Link>
+        <p className="text-text-secondary mb-4">¿Necesita asesoramiento personalizado?</p>
+        <Link href="/contacto" className="btn-primary inline-flex">
+          Solicitar consulta
+        </Link>
       </section>
     </>
   )

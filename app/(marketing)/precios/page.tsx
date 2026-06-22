@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Check } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
-import { SITE_IMAGES, LEGAL_COMPANY_NAME } from "@/lib/site/config"
+import { SITE_IMAGES } from "@/lib/site/config"
 
 export const metadata: Metadata = {
   title: "Precios",
@@ -100,8 +100,7 @@ export default function PreciosPage() {
       <section className="py-12 px-4 sm:px-6 bg-surface-muted/50 border-t border-surface-border">
         <div className="max-w-3xl mx-auto text-center text-sm text-text-secondary space-y-3">
           <p>
-            Planes transparentes sin permanencia. El pago online con <strong className="text-text-primary">Stripe</strong> se activará
-            cuando la constitución de {LEGAL_COMPANY_NAME} esté completada. Hasta entonces, solicite acceso o contacte para presupuesto.
+            Planes transparentes sin permanencia. Para contratar o ampliar su plan, solicite acceso o contacte con nosotros.
           </p>
           <p>
             <a href="mailto:info@ramondelpozorott.es" className="text-brand-600 hover:underline">info@ramondelpozorott.es</a>

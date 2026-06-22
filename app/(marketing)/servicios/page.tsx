@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { AdvisoryAreasSection } from "@/components/site/AdvisoryAreasSection"
 import { SERVICES } from "@/lib/site/marketing-content"
-import { RDPR_DIFFERENTIATION } from "@/lib/site/gestoria-vision"
 import { stockUrl } from "@/lib/site/stock-images"
 
 export const metadata: Metadata = {
@@ -20,18 +19,10 @@ export default function ServiciosPage() {
       <MarketingPageHeader
         eyebrow="Servicios"
         title="Toda la vida administrativa de su empresa"
-        description={RDPR_DIFFERENTIATION.headline}
+        description="Asesoría fiscal, contable, laboral, mercantil, jurídica, financiera y documental con el respaldo de RDPR OS."
         image={stockUrl("consultationCall", 1200)}
         imageAlt="Consultoría profesional a empresas"
       />
-
-      <section className="py-12 px-4 sm:px-6 bg-brand-50/40 border-b border-surface-border">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-text-secondary leading-relaxed">
-            {RDPR_DIFFERENTIATION.body}
-          </p>
-        </div>
-      </section>
 
       <AdvisoryAreasSection />
 

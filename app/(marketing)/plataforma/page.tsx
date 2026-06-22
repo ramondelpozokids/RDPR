@@ -20,7 +20,7 @@ export default function PlataformaPage() {
       <MarketingPageHeader
         eyebrow="Plataforma"
         title={RDPR_DIFFERENTIATION.headline}
-        description="Contabilidad, fiscal, laboral, mercantil, jurídico, financiero y documental — con IA que responde con datos reales."
+        description="Contabilidad, fiscal, laboral, mercantil, jurídico, financiero y documental — con apoyo inteligente integrado."
         image={stockUrl("modernOffice", 1200)}
         imageAlt="Oficina moderna con tecnología de gestión"
       />
@@ -34,7 +34,6 @@ export default function PlataformaPage() {
               </span>
             ))}
           </div>
-          <p className="text-text-secondary leading-relaxed">{RDPR_DIFFERENTIATION.body}</p>
         </div>
       </section>
 
@@ -48,15 +47,15 @@ export default function PlataformaPage() {
           <div className="space-y-6 order-1 md:order-2">
             <h2 className="text-2xl font-bold">Diseñada para asesorías y empresas reales</h2>
             <p className="text-text-secondary leading-relaxed">
-              No es solo contabilidad: es la operativa completa de una gestoría moderna con software propio,
-              portal del cliente e inteligencia artificial integrada.
+              Herramienta pensada para asesorías y empresas que necesitan operar con claridad: clientes, documentación,
+              cumplimiento y apoyo en la toma de decisiones.
             </p>
             <ul className="space-y-3">
               {[
                 "Varias empresas o marcas en un mismo entorno",
-                "Modelos AEAT conectados a la contabilidad",
-                "Expediente 360° por cliente",
-                "Consultas IA sobre fiscal, nóminas y tesorería",
+                "Información fiscal y contable centralizada",
+                "Expediente completo por cliente",
+                "Consultas inteligentes sobre su actividad",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-text-secondary">
                   <Check size={16} className="text-brand-500 shrink-0 mt-0.5" />

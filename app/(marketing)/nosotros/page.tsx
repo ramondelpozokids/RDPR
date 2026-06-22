@@ -16,8 +16,8 @@ export default function NosotrosPage() {
     <>
       <MarketingPageHeader
         eyebrow="Empresa"
-        title="Construido por quien dirige empresas de verdad"
-        description={`${LEGAL_COMPANY_NAME} desarrolla RDPR OS para unificar finanzas, clientes y fiscalidad en un solo sistema — pensado para gestorías y empresas de servicios.`}
+        title="Personas y tecnología al servicio de su negocio"
+        description={`${LEGAL_COMPANY_NAME} desarrolla RDPR OS para acompañar la gestión diaria de asesorías y empresas de servicios con una plataforma clara y fiable.`}
       />
 
       <section id="ceo" className="py-16 px-4 sm:px-6 bg-white border-y border-surface-border scroll-mt-20">
@@ -39,10 +39,10 @@ export default function NosotrosPage() {
               <p className="text-text-muted mt-1">{CEO_TITLE}</p>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              Experiencia directiva en gestión de operaciones, finanzas y equipos. RDPR OS reúne en un solo lugar lo que antes exigía varias herramientas.
+              Experiencia directiva en gestión de operaciones, finanzas y equipos. RDPR OS nace para simplificar el trabajo diario de quienes dirigen empresas.
             </p>
             <p className="text-text-secondary leading-relaxed">
-              Objetivo: que cualquier empresario abra una sola plataforma por la mañana y tenga la misma claridad que una gestoría bien organizada.
+              Objetivo: ofrecer una visión clara del negocio desde el primer acceso del día, con la misma tranquilidad que transmite una gestión bien organizada.
             </p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="btn-secondary inline-flex">
               Contactar con el CEO
@@ -57,7 +57,7 @@ export default function NosotrosPage() {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">{LEGAL_COMPANY_NAME}</h2>
             <p className="text-text-secondary leading-relaxed">
-              Una razón social, múltiples marcas comerciales. RDPR OS conecta contabilidad, facturación electrónica, modelos AEAT e inteligencia artificial.
+              Una razón social, múltiples marcas comerciales. RDPR OS acompaña la actividad contable, fiscal y documental de nuestros clientes.
             </p>
             <Link href="/servicios" className="text-sm font-medium text-brand-600 hover:underline inline-flex items-center gap-1">
               Ver servicios <ArrowRight size={14} />
@@ -67,6 +67,7 @@ export default function NosotrosPage() {
             name="companyBuilding"
             className="aspect-[4/3] rounded-2xl border border-surface-border shadow-lg"
             width={900}
+            priority
           />
         </div>
       </section>

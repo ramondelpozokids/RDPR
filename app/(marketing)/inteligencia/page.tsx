@@ -7,7 +7,7 @@ import { stockUrl } from "@/lib/site/stock-images"
 
 export const metadata: Metadata = {
   title: "Inteligencia IA",
-  description: "RDPR Intelligence y asistente empresarial con datos reales de tu negocio.",
+  description: "RDPR Intelligence — asistente empresarial integrado en RDPR OS.",
 }
 
 const QUESTIONS = [
@@ -25,7 +25,7 @@ export default function InteligenciaPage() {
       <MarketingPageHeader
         eyebrow="Inteligencia artificial"
         title="Finanzas, operaciones e IA trabajando juntas"
-        description="Pregunta en lenguaje natural. RDPR consulta tu base de datos y responde con cifras reales, alertas y acciones recomendadas."
+        description="Pregunte en lenguaje natural y obtenga respuestas claras sobre finanzas, operaciones y cumplimiento."
         image={stockUrl("aiWorkspace", 1200)}
         imageAlt="Espacio de trabajo con inteligencia artificial"
         dark
@@ -37,7 +37,7 @@ export default function InteligenciaPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Asistente empresarial</h2>
             <p className="text-white/70 leading-relaxed">
-              Entiende contabilidad, facturas, gastos y proyectos. Responde con números de su empresa, no respuestas genéricas.
+              Asistente pensado para directivos y equipos de gestión que necesitan respuestas rápidas y comprensibles.
             </p>
             <ul className="space-y-2.5">
               {QUESTIONS.map((q) => (

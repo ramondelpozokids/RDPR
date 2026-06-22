@@ -19,7 +19,9 @@ export function ProductModulesCatalog({ compact = false }: ProductModulesCatalog
           <div className="text-center max-w-2xl mx-auto mb-10">
             <p className="text-xs font-semibold uppercase tracking-wider text-brand-600 mb-2">Ecosistema RDPR</p>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">Módulos de una asesoría premium</h2>
-            <p className="text-text-secondary leading-relaxed">{RDPR_DIFFERENTIATION.body}</p>
+            <p className="text-text-secondary leading-relaxed">
+              Herramientas conectadas para operar el día a día con claridad: finanzas, fiscal, clientes, documentos y apoyo inteligente.
+            </p>
           </div>
         )}
 

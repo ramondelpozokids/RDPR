@@ -48,7 +48,7 @@ const MODULES = [
   {
     icon: Brain,
     title: "RDPR Intelligence",
-    desc: "IA que consulta tu negocio y responde con datos reales.",
+    desc: "Asistente inteligente integrado en su entorno de trabajo.",
     className: "md:col-span-2",
     accent: "from-violet-500/10 to-brand-500/10",
   },

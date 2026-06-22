@@ -5,7 +5,6 @@ import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
 import { StockImage } from "@/components/site/StockImage"
 import type { StockImageKey } from "@/lib/site/stock-images"
-import { RDPR_DIFFERENTIATION } from "@/lib/site/gestoria-vision"
 
 export const metadata: Metadata = {
   title: "Módulos",
@@ -60,8 +59,8 @@ export default function ModulosPage() {
     <>
       <MarketingPageHeader
         eyebrow="Módulos"
-        title={RDPR_DIFFERENTIATION.headline}
-        description="Finance + Tax + Payroll + Legal + Documents + AI. Un ecosistema pensado para asesorías y empresas exigentes."
+        title="Plataforma modular para su gestión diaria"
+        description="Finanzas, clientes, documentos y cumplimiento normativo en un entorno unificado, pensado para asesorías y empresas exigentes."
       />
 
       <ProductModulesCatalog />

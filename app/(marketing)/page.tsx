@@ -68,7 +68,7 @@ export default async function HomePage() {
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               { icon: Calculator, label: "CONTABLE", title: "Asesoría contable", desc: "PGC, diario, mayor y conciliación bancaria." },
-              { icon: Receipt, label: "FISCAL", title: "Asesoría fiscal", desc: "Modelos AEAT, vencimientos y avisos orientativos." },
+              { icon: Receipt, label: "FISCAL", title: "Asesoría fiscal", desc: "Modelos AEAT y calendario de obligaciones." },
               { icon: Users, label: "COMERCIAL", title: "Gestión de clientes", desc: "Embudo de ventas y seguimiento claro." },
             ].map(({ icon: Icon, label, title, desc }) => (
               <div key={label} className="p-6 rounded-2xl border border-surface-border hover:border-sky-200 hover:shadow-sm transition-all">
@@ -87,7 +87,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <TaxModelsShowcase />
+      <TaxModelsShowcase linkToOfficial />
 
       <TestimonialsSection />
 

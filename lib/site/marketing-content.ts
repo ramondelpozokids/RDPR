@@ -71,7 +71,7 @@ export const SERVICES: ServiceItem[] = [
   {
     icon: Brain,
     title: "Inteligencia artificial",
-    description: "Consultas sobre IVA, márgenes, facturas pendientes y gastos deducibles.",
+    description: "Consultas inteligentes sobre su actividad empresarial.",
     href: "/inteligencia",
   },
 ]
