@@ -49,6 +49,13 @@ export const FOOTER_LINKS = {
     { href: "/nosotros#ceo", label: "Ramón del Pozo Rott" },
     { href: `mailto:${CONTACT_EMAIL}`, label: "Contacto" },
   ],
+  legal: [
+    { href: "/legal/aviso-legal", label: "Aviso legal" },
+    { href: "/legal/privacidad", label: "Política de privacidad" },
+    { href: "/legal/cookies", label: "Política de cookies" },
+    { href: "/legal/proteccion-datos", label: "Protección de datos" },
+    { href: "/legal/mapa-del-sitio", label: "Mapa del sitio" },
+  ],
   acceso: [
     { href: "/login", label: "Iniciar sesión" },
     { href: "/register", label: "Solicitar demo" },

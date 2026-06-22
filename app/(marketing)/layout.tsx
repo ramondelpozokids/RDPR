@@ -1,6 +1,7 @@
 import { SiteNavbar } from "@/components/site/SiteNavbar"
 import { SiteSidebar } from "@/components/site/SiteSidebar"
 import { SiteFooter } from "@/components/site/SiteFooter"
+import { CookieBanner } from "@/components/site/CookieBanner"
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
           <SiteFooter />
         </div>
       </div>
+      <CookieBanner />
     </div>
   )
 }
