@@ -3,14 +3,17 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { auth } from "@/lib/auth/config"
-import { ArrowRight, Check, Sparkles } from "lucide-react"
-import { SITE_IMAGES } from "@/lib/site/config"
-import DashboardPreview from "@/components/landing/DashboardPreview"
+import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
+import { SITE_IMAGES, LEGAL_COMPANY_NAME } from "@/lib/site/config"
+import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
+import { SecurityLayers } from "@/components/site/SecurityLayers"
+import { SITE_KEYWORDS } from "@/lib/site/marketing-content"
 
 export const metadata: Metadata = {
-  title: "RDPR OS — La plataforma inteligente para dirigir empresas",
+  title: "Gestoría y asesoría digital para empresas",
   description:
-    "Gestiona operaciones, contabilidad, proyectos, clientes y crecimiento empresarial con inteligencia artificial avanzada.",
+    "Asesoría contable, fiscal y laboral apoyada en RDPR OS. Facturación electrónica, modelos AEAT, documentos cifrados e inteligencia artificial.",
+  keywords: [...SITE_KEYWORDS],
 }
 
 export default async function HomePage() {
@@ -19,82 +22,121 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="landing-hero relative overflow-hidden">
-        <div className="landing-mesh absolute inset-0 pointer-events-none" aria-hidden />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 text-xs font-medium text-brand-700 bg-brand-50 border border-brand-100 rounded-full px-3 py-1.5">
-                <Sparkles size={12} />
-                Business Operating System
-              </div>
-              <div className="space-y-4">
-                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.08]">
-                  Dirige tu empresa con inteligencia operativa
-                </h1>
-                <p className="text-lg text-text-secondary leading-relaxed">
-                  Finanzas, CRM, proyectos y IA en una sola plataforma. Diseñada por empresarios para empresarios que gestionan holdings y múltiples negocios.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link href="/register" className="btn-primary justify-center py-3 px-6 text-base shadow-lg shadow-brand-500/20">
-                  Solicitar demostración
-                  <ArrowRight size={18} />
-                </Link>
-                <Link href="/plataforma" className="btn-secondary justify-center py-3 px-6 text-base">
-                  Ver plataforma
-                </Link>
-              </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-text-muted">
-                <span className="flex items-center gap-1.5"><Check size={14} className="text-emerald-500" /> Multi-empresa</span>
-                <span className="flex items-center gap-1.5"><Check size={14} className="text-emerald-500" /> PGC español</span>
-                <span className="flex items-center gap-1.5"><Check size={14} className="text-emerald-500" /> IA integrada</span>
-              </div>
+      {/* Hero estilo gestoría */}
+      <section className="gestoria-hero relative overflow-hidden text-white">
+        <div className="absolute inset-0 bg-[#0c1929]" aria-hidden />
+        <div className="absolute inset-0 opacity-40 hero-drone-overlay" aria-hidden>
+          <Image
+            src={SITE_IMAGES.negocio}
+            alt=""
+            fill
+            className="object-cover hero-drone-pan"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0c1929] via-[#0c1929]/92 to-[#0c1929]/75" aria-hidden />
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 relative">
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 mb-4">
+              {LEGAL_COMPANY_NAME}
+            </p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.08] text-white mb-5">
+              Gestoría y asesoría con tecnología de verdad
+            </h1>
+            <p className="text-lg sm:text-xl text-white/90 leading-relaxed mb-8">
+              Calidad, eficacia y cercanía. Contabilidad, fiscalidad, facturación y gestión empresarial en una plataforma 100% operativa.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              <Link href="/contacto" className="btn-primary justify-center py-3 px-6 text-base bg-sky-600 hover:bg-sky-700 border-0 shadow-lg">
+                Consulta gratuita
+                <ArrowRight size={18} />
+              </Link>
+              <Link href="/register" className="inline-flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-base font-medium border border-white/30 text-white hover:bg-white/10 transition-colors">
+                Acceder a RDPR OS
+              </Link>
             </div>
-            <div className="relative landing-float">
-              <div className="absolute -inset-4 bg-gradient-to-br from-brand-500/20 via-violet-500/10 to-transparent rounded-3xl blur-2xl" aria-hidden />
-              <div className="relative rounded-2xl overflow-hidden border border-surface-border shadow-2xl aspect-[4/3]">
-                <Image src={SITE_IMAGES.hero} alt="RDPR OS — dashboard empresarial" fill className="object-cover" priority sizes="(max-width: 1024px) 100vw, 50vw" />
-              </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
+              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Asesoría contable</span>
+              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Modelos AEAT</span>
+              <span className="flex items-center gap-1.5"><Check size={14} className="text-sky-400" /> Documentos cifrados</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-surface-border bg-white py-10 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto grid sm:grid-cols-2 gap-8 items-center">
-          <div className="relative aspect-video rounded-xl overflow-hidden border border-surface-border shadow-lg">
-            <Image src={SITE_IMAGES.presentacion} alt="Presentación RDPR OS" fill className="object-cover" sizes="(max-width: 640px) 100vw, 50vw" />
+      {/* Servicios principales */}
+      <section className="py-14 px-4 sm:px-6 bg-white border-b border-surface-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { icon: Calculator, label: "CONTABLE", title: "Asesoría contable", desc: "PGC, diario, mayor y conciliación bancaria." },
+              { icon: Receipt, label: "FISCAL", title: "Asesoría fiscal", desc: "Modelos 303, 390, 200, 347 y vencimientos." },
+              { icon: Users, label: "COMERCIAL", title: "Gestión de clientes", desc: "Embudo de ventas y seguimiento claro." },
+            ].map(({ icon: Icon, label, title, desc }) => (
+              <div key={label} className="p-6 rounded-2xl border border-surface-border hover:border-sky-200 hover:shadow-sm transition-all">
+                <p className="text-[10px] font-bold tracking-widest text-sky-700 mb-2">{label}</p>
+                <Icon size={24} className="text-sky-600 mb-3" />
+                <h2 className="font-bold text-lg mb-2">{title}</h2>
+                <p className="text-sm text-text-secondary leading-relaxed">{desc}</p>
+              </div>
+            ))}
           </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight mb-3">Una vista, todo el negocio</h2>
-            <p className="text-text-secondary leading-relaxed">
-              Abre RDPR por la mañana y ve finanzas, ventas, proyectos y alertas importantes. Sin saltar entre Excel, CRM y banca.
-            </p>
-            <Link href="/modulos" className="inline-flex items-center gap-1.5 text-sm text-brand-600 font-medium mt-4 hover:underline">
-              Explorar módulos <ArrowRight size={14} />
+          <div className="text-center mt-8">
+            <Link href="/servicios" className="text-sm font-semibold text-brand-600 hover:underline inline-flex items-center gap-1">
+              Ver todos los servicios <ArrowRight size={14} />
             </Link>
           </div>
         </div>
       </section>
 
+      <TaxModelsShowcase />
+
+      {/* Plataforma — una sola imagen, sin repetir dashboard */}
       <section className="py-16 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-10">Vista previa del dashboard</h2>
-          <DashboardPreview />
+        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-xl">
+            <Image
+              src={SITE_IMAGES.hero}
+              alt="Panel RDPR OS — finanzas y gestión"
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-brand-600 mb-2">Plataforma RDPR OS</p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">Una vista, todo el negocio</h2>
+            <p className="text-text-secondary leading-relaxed mb-6">
+              Software de gestión usado internamente antes de ofrecerse al mercado. Facturas, cobros, proyectos y alertas fiscales en un solo panel — sin Excel disperso.
+            </p>
+            <Link href="/modulos" className="btn-secondary inline-flex text-sm">
+              Explorar plataforma <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-brand-50 via-white to-violet-50 border-t border-surface-border">
+      <SecurityLayers />
+
+      {/* CTA contacto */}
+      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-sky-50 via-white to-slate-50 border-t border-surface-border">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">¿Listo para tomar el control?</h2>
+          <Shield size={28} className="mx-auto text-sky-600 mb-4" />
+          <h2 className="text-3xl font-bold tracking-tight mb-4">¿Hablamos de su empresa?</h2>
           <p className="text-text-secondary text-lg mb-8">
-            Solicita una demo personalizada con el equipo de Portfolio Ramón.
+            Solicite una consulta o envíe documentación de forma cifrada. Pago online con Stripe disponible próximamente, tras constitución de la SL.
           </p>
-          <Link href="/register" className="btn-primary justify-center py-3 px-8 text-base inline-flex">
-            Solicitar demostración
-            <ArrowRight size={18} />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/contacto" className="btn-primary justify-center py-3 px-8 text-base inline-flex">
+              Formulario de contacto
+              <ArrowRight size={18} />
+            </Link>
+            <Link href="/enviar-documentos" className="btn-secondary justify-center py-3 px-8 text-base inline-flex">
+              Enviar documentos cifrados
+            </Link>
+          </div>
         </div>
       </section>
     </>

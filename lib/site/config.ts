@@ -17,9 +17,10 @@ export const SITE_IMAGES = {
 } as const
 
 export const SITE_NAME = "RDPR OS"
-export const SITE_TAGLINE = "Business Operating System"
+export const SITE_TAGLINE = "Gestión empresarial y asesoría digital"
+export const LEGAL_COMPANY_NAME = "RDPR Digital S.L."
 export const CEO_NAME = "Ramón del Pozo Rott"
-export const CEO_TITLE = "Fundador · Portfolio Ramón"
+export const CEO_TITLE = "Fundador y CEO · RDPR Digital S.L."
 export const CONTACT_EMAIL = "info@ramondelpozorott.es"
 
 export type SiteNavItem = {
@@ -29,25 +30,28 @@ export type SiteNavItem = {
 }
 
 export const SITE_NAV: SiteNavItem[] = [
-  { href: "/", label: "Inicio", description: "Visión general de RDPR OS" },
-  { href: "/plataforma", label: "Plataforma", description: "Cómo funciona el sistema" },
-  { href: "/modulos", label: "Módulos", description: "Finanzas, CRM, proyectos y más" },
-  { href: "/inteligencia", label: "Inteligencia IA", description: "RDPR Intelligence y asistente" },
-  { href: "/precios", label: "Precios", description: "Planes Starter, Business y Enterprise" },
-  { href: "/nosotros", label: "Nosotros", description: "Equipo y liderazgo" },
+  { href: "/", label: "Inicio", description: "Asesoría y gestión empresarial" },
+  { href: "/servicios", label: "Servicios", description: "Contable, fiscal y documentos" },
+  { href: "/modulos", label: "Plataforma", description: "Finanzas, CRM y proyectos" },
+  { href: "/modelos-fiscales", label: "Modelos fiscales", description: "303, 390, 200, 347…" },
+  { href: "/precios", label: "Precios", description: "Planes desde 49 €/mes" },
+  { href: "/contacto", label: "Contacto", description: "Consulta gratuita" },
+  { href: "/nosotros", label: "Nosotros", description: "CEO y fundador" },
 ]
 
 export const FOOTER_LINKS = {
   producto: [
-    { href: "/plataforma", label: "Plataforma" },
-    { href: "/modulos", label: "Módulos" },
+    { href: "/servicios", label: "Servicios" },
+    { href: "/modulos", label: "Plataforma" },
+    { href: "/modelos-fiscales", label: "Modelos fiscales" },
     { href: "/inteligencia", label: "Inteligencia IA" },
     { href: "/precios", label: "Precios" },
   ],
   empresa: [
     { href: "/nosotros", label: "Sobre nosotros" },
-    { href: "/nosotros#ceo", label: "Ramón del Pozo Rott" },
-    { href: `mailto:${CONTACT_EMAIL}`, label: "Contacto" },
+    { href: "/nosotros#ceo", label: "CEO y Fundador" },
+    { href: "/contacto", label: "Contacto" },
+    { href: "/enviar-documentos", label: "Enviar documentos" },
   ],
   legal: [
     { href: "/legal/aviso-legal", label: "Aviso legal" },
@@ -58,6 +62,6 @@ export const FOOTER_LINKS = {
   ],
   acceso: [
     { href: "/login", label: "Iniciar sesión" },
-    { href: "/register", label: "Solicitar demo" },
+    { href: "/register", label: "Solicitar acceso" },
   ],
 }

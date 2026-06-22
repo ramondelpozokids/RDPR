@@ -1,13 +1,13 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Wallet, Users, Layers, BookOpen, Brain } from "lucide-react"
+import { ArrowRight, Wallet, Users, Layers, FolderOpen, Brain } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { SITE_IMAGES } from "@/lib/site/config"
 
 export const metadata: Metadata = {
   title: "Módulos",
-  description: "Finanzas, CRM, proyectos, facturación, editorial e inteligencia artificial en RDPR OS.",
+  description: "Finanzas, CRM, proyectos, documentos e inteligencia artificial en RDPR OS.",
 }
 
 const MODULES = [
@@ -20,19 +20,19 @@ const MODULES = [
   {
     icon: Users,
     title: "CRM comercial",
-    desc: "Pipeline Kanban, oportunidades y seguimiento de clientes.",
+    desc: "Embudo de ventas visual, oportunidades y seguimiento de clientes en cada fase.",
     image: SITE_IMAGES.negocio,
   },
   {
     icon: Layers,
     title: "Proyectos",
-    desc: "Kanban de tareas, costes, rentabilidad y control de recursos.",
+    desc: "Tareas por fases, costes, rentabilidad y control de recursos del equipo.",
     image: SITE_IMAGES.proyectos,
   },
   {
-    icon: BookOpen,
-    title: "Editorial",
-    desc: "Autores, libros, regalías e ISBN para BOOKIA Publisher.",
+    icon: FolderOpen,
+    title: "Documentos",
+    desc: "Archivo digital seguro, contratos, justificantes y documentación de clientes.",
     image: SITE_IMAGES.presentacion,
   },
   {
@@ -49,16 +49,19 @@ export default function ModulosPage() {
       <MarketingPageHeader
         eyebrow="Módulos"
         title="Todo el negocio. Un solo sistema."
-        description="Módulos diseñados para holdings, SaaS, editoriales y empresas de servicios. Cada pieza conectada con las demás."
+        description="Módulos diseñados para gestorías, asesorías, SaaS y empresas de servicios. Cada pieza conectada con las demás."
         image={SITE_IMAGES.negocio}
         imageAlt="Módulos de negocio RDPR"
       />
 
       <section className="py-16 px-4 sm:px-6 space-y-16 max-w-5xl mx-auto">
-        {MODULES.map(({ icon: Icon, title, desc, image }, i) => (
+        {MODULES.map(({ icon: Icon, title, desc, image }, i) => {
+          const sectionId = title.includes("Finance") ? "finance" : title.includes("CRM") ? "crm" : undefined
+          return (
           <div
             key={title}
-            className={`grid md:grid-cols-2 gap-10 items-center ${i % 2 === 1 ? "md:[direction:rtl]" : ""}`}
+            id={sectionId}
+            className={`grid md:grid-cols-2 gap-10 items-center scroll-mt-24 ${i % 2 === 1 ? "md:[direction:rtl]" : ""}`}
           >
             <div className={`relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-lg ${i % 2 === 1 ? "md:[direction:ltr]" : ""}`}>
               <Image src={image} alt={title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
@@ -74,7 +77,8 @@ export default function ModulosPage() {
               </Link>
             </div>
           </div>
-        ))}
+          )
+        })}
       </section>
     </>
   )

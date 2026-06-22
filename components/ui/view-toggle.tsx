@@ -10,7 +10,7 @@ type View = "kanban" | "list"
 export function ViewToggle({
   view,
   onChange,
-  kanbanLabel = "Kanban",
+  kanbanLabel = "Por fases",
 }: {
   view: View
   onChange: (view: View) => void

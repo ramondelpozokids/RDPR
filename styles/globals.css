@@ -169,7 +169,22 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Landing page */
+  /* Landing / gestoría hero */
+  .gestoria-hero {
+    min-height: min(85vh, 720px);
+  }
+  .hero-drone-overlay {
+    overflow: hidden;
+  }
+  .hero-drone-pan {
+    animation: heroDronePan 24s ease-in-out infinite alternate;
+    transform-origin: center center;
+  }
+  @keyframes heroDronePan {
+    0%   { transform: scale(1.08) translate(0, 0); }
+    50%  { transform: scale(1.14) translate(-1.5%, -1%); }
+    100% { transform: scale(1.1) translate(1%, -2%); }
+  }
   .landing-mesh {
     background-image:
       radial-gradient(at 40% 20%, rgb(101 112 243 / 0.12) 0px, transparent 50%),

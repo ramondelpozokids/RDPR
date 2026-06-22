@@ -31,14 +31,14 @@ export function LegalDocument({ title, subtitle, sections, currentHref }: LegalD
               <Shield size={22} className="text-brand-300" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-300 mb-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-200 mb-3">
                 Legal · Cumplimiento
               </p>
-              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight leading-tight mb-4">
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight leading-tight mb-4 text-white">
                 {title}
               </h1>
-              <p className="text-lg text-white/60 leading-relaxed max-w-2xl">{subtitle}</p>
-              <div className="flex flex-wrap gap-4 mt-6 text-xs text-white/45">
+              <p className="text-lg text-white/85 leading-relaxed max-w-2xl">{subtitle}</p>
+              <div className="flex flex-wrap gap-4 mt-6 text-xs text-white/70">
                 <span className="inline-flex items-center gap-1.5">
                   <Calendar size={12} />
                   Actualizado: {LEGAL_ENTITY.lastUpdated}

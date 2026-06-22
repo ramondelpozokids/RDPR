@@ -1,8 +1,8 @@
-import { SITE_NAV, FOOTER_LINKS, CONTACT_EMAIL, CEO_NAME, SITE_NAME } from "@/lib/site/config"
+import { SITE_NAV, FOOTER_LINKS, CONTACT_EMAIL, CEO_NAME, SITE_NAME, LEGAL_COMPANY_NAME } from "@/lib/site/config"
 
 /** Datos identificativos del titular — actualizar con datos registrales definitivos. */
 export const LEGAL_ENTITY = {
-  companyName: "Portfolio Ramón",
+  companyName: LEGAL_COMPANY_NAME,
   tradeName: SITE_NAME,
   owner: CEO_NAME,
   email: CONTACT_EMAIL,

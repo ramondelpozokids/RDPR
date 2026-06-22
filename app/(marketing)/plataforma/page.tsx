@@ -24,12 +24,12 @@ export default function PlataformaPage() {
       <section className="py-16 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-xl order-2 md:order-1">
-            <Image src={SITE_IMAGES.futurista} alt="Interfaz futurista RDPR" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            <Image src={SITE_IMAGES.business} alt="Plataforma de gestión RDPR OS" fill className="object-cover object-center" sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
           <div className="space-y-6 order-1 md:order-2">
             <h2 className="text-2xl font-bold">Diseñada para empresas reales</h2>
             <p className="text-text-secondary leading-relaxed">
-              CourtManager Pro, BOOKIA Publisher, Creauna y el resto del Portfolio Ramón operan con la misma base. Cambia de empresa en un clic sin perder contexto.
+              CourtManager Pro, BOOKIA Publisher, Creauna y el resto de marcas de RDPR Digital S.L. operan con la misma base. Cambia de marca o empresa en un clic sin perder contexto.
             </p>
             <ul className="space-y-3">
               {[

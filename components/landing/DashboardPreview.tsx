@@ -3,7 +3,7 @@ import {
   ArrowUpRight, Sparkles,
 } from "lucide-react"
 import Image from "next/image"
-import { SITE_IMAGES } from "@/lib/site/config"
+import { SITE_IMAGES, LEGAL_COMPANY_NAME } from "@/lib/site/config"
 
 const METRICS = [
   { label: "Facturación", value: "42.380 €", delta: "+18%", icon: TrendingUp, color: "text-brand-600", bg: "bg-brand-50" },
@@ -51,7 +51,7 @@ export default function DashboardPreview() {
         <main className="flex-1 p-4 sm:p-5 space-y-4 overflow-hidden">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] text-text-muted uppercase tracking-wider">Portfolio Ramón</p>
+              <p className="text-[10px] text-text-muted uppercase tracking-wider">{LEGAL_COMPANY_NAME}</p>
               <p className="text-sm font-semibold text-text-primary">Dashboard ejecutivo</p>
             </div>
             <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-brand-600 bg-brand-50 px-2 py-1 rounded-full border border-brand-100">

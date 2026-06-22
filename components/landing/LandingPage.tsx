@@ -1,8 +1,8 @@
 import Link from "next/link"
 import {
-  ArrowRight, BarChart3, BookOpen, Brain,
+  ArrowRight, BarChart3, Brain,
   Building2, Check, Layers, LineChart,
-  Shield, Sparkles, Users, Wallet, Zap,
+  Shield, Sparkles, Users, Wallet, Zap, FolderOpen,
 } from "lucide-react"
 import LandingNav from "./LandingNav"
 import DashboardPreview from "./DashboardPreview"
@@ -27,21 +27,21 @@ const MODULES = [
   {
     icon: Users,
     title: "CRM comercial",
-    desc: "Pipeline visual, oportunidades y seguimiento comercial.",
+    desc: "Embudo de ventas visual, oportunidades y seguimiento comercial.",
     className: "",
     accent: "from-violet-500/10 to-violet-600/5",
   },
   {
     icon: Layers,
     title: "Proyectos",
-    desc: "Kanban, costes, rentabilidad y control de recursos.",
+    desc: "Tareas por fases, costes, rentabilidad y control de recursos.",
     className: "",
     accent: "from-emerald-500/10 to-emerald-600/5",
   },
   {
-    icon: BookOpen,
-    title: "Editorial",
-    desc: "Autores, libros, regalías e ISBN para BOOKIA Publisher.",
+    icon: FolderOpen,
+    title: "Documentos",
+    desc: "Archivo digital seguro, contratos y documentación de clientes.",
     className: "",
     accent: "from-amber-500/10 to-amber-600/5",
   },
@@ -72,20 +72,20 @@ const PLANS = [
     highlight: true,
   },
   {
-    name: "Enterprise",
-    tagline: "Para grupos empresariales",
-    price: "499",
-    features: ["Multi-empresa", "Consolidación holding", "SSO y API", "Auditoría", "Account manager"],
-    cta: "Contactar",
-    highlight: false,
-  },
-  {
     name: "Intelligence",
     tagline: "Add-on IA avanzada",
     price: "99",
     suffix: "+",
     features: ["RDPR Intelligence", "Predicciones IA", "Clasificación contable", "Agentes autónomos", "RAG empresarial"],
     cta: "Añadir IA",
+    highlight: false,
+  },
+  {
+    name: "Enterprise",
+    tagline: "Para grupos empresariales",
+    price: "499",
+    features: ["Multi-empresa", "Consolidación holding", "SSO y API", "Auditoría", "Account manager"],
+    cta: "Contactar",
     highlight: false,
   },
 ]
@@ -233,7 +233,7 @@ export default function LandingPage() {
 
           <div className="mt-10 grid sm:grid-cols-3 gap-4">
             {[
-              { icon: Building2, label: "Multi-empresa", desc: "Portfolio Ramón, CourtManager, BOOKIA…" },
+              { icon: Building2, label: "Multi-marca", desc: "RDPR Digital S.L., CourtManager, BOOKIA…" },
               { icon: Shield, label: "Datos aislados", desc: "Cada cliente, su propio tenant seguro" },
               { icon: Zap, label: "Rápido como Linear", desc: "Interfaz limpia, cero fricción" },
             ].map(({ icon: Icon, label, desc }) => (
@@ -370,7 +370,7 @@ export default function LandingPage() {
             </div>
           </div>
           <p className="text-xs text-text-muted">
-            © {new Date().getFullYear()} RDPR · Portfolio Ramón
+            © {new Date().getFullYear()} RDPR Digital S.L.
           </p>
           <div className="flex gap-6 text-sm text-text-secondary">
             <Link href="/login" className="hover:text-text-primary transition-colors">Acceder</Link>

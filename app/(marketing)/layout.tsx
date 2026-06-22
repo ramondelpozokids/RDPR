@@ -2,6 +2,8 @@ import { SiteNavbar } from "@/components/site/SiteNavbar"
 import { SiteSidebar } from "@/components/site/SiteSidebar"
 import { SiteFooter } from "@/components/site/SiteFooter"
 import { CookieBanner } from "@/components/site/CookieBanner"
+import { ScrollToTop } from "@/components/site/ScrollToTop"
+import { OrganizationJsonLd } from "@/components/site/OrganizationJsonLd"
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +17,8 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
         </div>
       </div>
       <CookieBanner />
+      <ScrollToTop />
+      <OrganizationJsonLd />
     </div>
   )
 }

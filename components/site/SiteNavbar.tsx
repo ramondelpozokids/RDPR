@@ -2,16 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { SiteLogo } from "@/components/site/SiteLogo"
 import { SiteSidebar } from "@/components/site/SiteSidebar"
-import { SITE_NAV } from "@/lib/site/config"
-import { cn } from "@/lib/utils"
 
 export function SiteNavbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const pathname = usePathname()
 
   return (
     <>
@@ -28,24 +24,6 @@ export function SiteNavbar() {
             </button>
             <SiteLogo size="sm" />
           </div>
-
-          <nav className="hidden lg:flex items-center gap-1">
-            {SITE_NAV.map(({ href, label }) => {
-              const active = href === "/" ? pathname === "/" : pathname.startsWith(href)
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    "px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                    active ? "text-brand-600 bg-brand-50" : "text-text-secondary hover:text-text-primary hover:bg-surface-muted"
-                  )}
-                >
-                  {label}
-                </Link>
-              )
-            })}
-          </nav>
 
           <div className="flex items-center gap-2 shrink-0">
             <Link href="/login" className="hidden sm:inline-flex text-sm font-medium text-text-secondary hover:text-text-primary px-3 py-2">
@@ -68,7 +46,7 @@ export function SiteNavbar() {
                 <X size={20} />
               </button>
             </div>
-            <SiteSidebar onNavigate={() => setSidebarOpen(false)} className="flex-1 border-0 w-full" />
+            <SiteSidebar onNavigate={() => setSidebarOpen(false)} className="flex-1 border-0 w-full !flex" />
           </aside>
         </div>
       )}

@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Check } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
-import { SITE_IMAGES } from "@/lib/site/config"
+import { SITE_IMAGES, LEGAL_COMPANY_NAME } from "@/lib/site/config"
 
 export const metadata: Metadata = {
   title: "Precios",
@@ -28,20 +28,20 @@ const PLANS = [
     highlight: true,
   },
   {
-    name: "Enterprise",
-    tagline: "Para grupos empresariales",
-    price: "499",
-    features: ["Multi-empresa", "Consolidación holding", "SSO y API", "Auditoría", "Account manager"],
-    cta: "Contactar",
-    highlight: false,
-  },
-  {
     name: "Intelligence",
     tagline: "Add-on IA avanzada",
     price: "99",
     suffix: "+",
     features: ["RDPR Intelligence", "Predicciones IA", "Alertas contables", "Flujo de caja", "Conciliación inteligente"],
     cta: "Añadir IA",
+    highlight: false,
+  },
+  {
+    name: "Enterprise",
+    tagline: "Para grupos empresariales",
+    price: "499",
+    features: ["Multi-empresa", "Consolidación holding", "SSO y API", "Auditoría", "Account manager"],
+    cta: "Contactar",
     highlight: false,
   },
 ]
@@ -97,8 +97,16 @@ export default function PreciosPage() {
       </section>
 
       <section className="py-12 px-4 sm:px-6 bg-surface-muted/50 border-t border-surface-border">
-        <div className="max-w-3xl mx-auto text-center text-sm text-text-secondary">
-          <p>Precios orientativos para demostración. Contacta en <a href="mailto:info@ramondelpozorott.es" className="text-brand-600 hover:underline">info@ramondelpozorott.es</a> para un presupuesto personalizado.</p>
+        <div className="max-w-3xl mx-auto text-center text-sm text-text-secondary space-y-3">
+          <p>
+            Planes transparentes sin permanencia. El pago online con <strong className="text-text-primary">Stripe</strong> se activará
+            cuando la constitución de {LEGAL_COMPANY_NAME} esté completada. Hasta entonces, solicite acceso o contacte para presupuesto.
+          </p>
+          <p>
+            <a href="mailto:info@ramondelpozorott.es" className="text-brand-600 hover:underline">info@ramondelpozorott.es</a>
+            {" · "}
+            <Link href="/contacto" className="text-brand-600 hover:underline">Formulario de contacto</Link>
+          </p>
         </div>
       </section>
     </>

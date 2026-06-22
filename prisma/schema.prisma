@@ -575,3 +575,33 @@ enum BankTxStatus {
   MATCHED
   IGNORED
 }
+
+// ─────────────────────────────────────────────
+// WEB PÚBLICA — contacto y documentos seguros
+// ─────────────────────────────────────────────
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_inquiries")
+}
+
+model SecureUpload {
+  id            String   @id @default(cuid())
+  uploaderName  String
+  uploaderEmail String
+  fileName      String
+  fileType      String
+  fileSize      Int
+  storageKey    String
+  iv            String
+  authTag       String
+  createdAt     DateTime @default(now())
+
+  @@map("secure_uploads")
+}

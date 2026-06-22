@@ -3,18 +3,20 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  Home, Layers, Brain, CreditCard, Users, Sparkles, LayoutGrid, LogIn, ArrowRight, Shield,
+  Home, Layers, Brain, CreditCard, Users, Sparkles, LayoutGrid, LogIn, ArrowRight,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE_NAV } from "@/lib/site/config"
-import { LEGAL_PAGES } from "@/lib/site/legal"
 
 const ICONS: Record<string, typeof Home> = {
   "/": Home,
+  "/servicios": Layers,
   "/plataforma": LayoutGrid,
-  "/modulos": Layers,
+  "/modulos": LayoutGrid,
+  "/modelos-fiscales": Brain,
   "/inteligencia": Brain,
   "/precios": CreditCard,
+  "/contacto": Users,
   "/nosotros": Users,
 }
 
@@ -60,39 +62,6 @@ export function SiteSidebar({ className, onNavigate }: SiteSidebarProps) {
           )
         })}
       </nav>
-
-      <div className="px-4 pb-2">
-        <p className="px-3 text-[10px] font-semibold text-text-muted uppercase tracking-widest mb-2">
-          Legal
-        </p>
-        <div className="space-y-0.5">
-          {LEGAL_PAGES.slice(0, 4).map(({ href, label }) => {
-            const active = pathname.startsWith(href)
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={onNavigate}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors",
-                  active ? "bg-surface-muted text-text-primary font-medium" : "text-text-muted hover:text-text-primary hover:bg-surface-muted/60"
-                )}
-              >
-                <Shield size={12} className="shrink-0 opacity-60" />
-                {label}
-              </Link>
-            )
-          })}
-          <Link
-            href="/legal/mapa-del-sitio"
-            onClick={onNavigate}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-text-muted hover:text-text-primary hover:bg-surface-muted/60 transition-colors"
-          >
-            <Shield size={12} className="shrink-0 opacity-60" />
-            Mapa del sitio
-          </Link>
-        </div>
-      </div>
 
       <div className="p-4 border-t border-surface-border space-y-2">
         <Link

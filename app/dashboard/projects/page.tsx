@@ -53,7 +53,7 @@ export default async function ProjectsPage() {
           <FolderPlus size={20} className="text-primary" />
         </div>
         <p className="font-medium text-foreground mb-1">Sin proyectos todavía</p>
-        <p className="text-sm text-muted-foreground mb-4">Crea tu primer proyecto y organiza las tareas en un kanban</p>
+        <p className="text-sm text-muted-foreground mb-4">Crea tu primer proyecto y organiza las tareas por fases</p>
         <Button asChild>
           <Link href="/dashboard/projects/new">Crear primer proyecto</Link>
         </Button>
@@ -129,7 +129,7 @@ export default async function ProjectsPage() {
       {projects.length === 0 ? (
         listView
       ) : (
-        <KanbanListPageClient kanban={kanbanView} list={listView} kanbanLabel="Kanban" />
+        <KanbanListPageClient kanban={kanbanView} list={listView} kanbanLabel="Por fases" />
       )}
     </div>
   )

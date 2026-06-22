@@ -31,7 +31,7 @@ export function MarketingPageHeader({
               </p>
             )}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">{title}</h1>
-            <p className={cn("text-lg leading-relaxed max-w-xl", dark ? "text-white/65" : "text-text-secondary")}>
+            <p className={cn("text-lg leading-relaxed max-w-xl", dark ? "text-white/90" : "text-text-primary/80")}>
               {description}
             </p>
           </div>

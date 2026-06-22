@@ -384,7 +384,7 @@ export default function SettingsClient({ company, organization, currentUserId, c
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {[
                 "CRM de clientes ilimitado",
-                "Proyectos y tareas kanban",
+                "Proyectos y tareas por fases",
                 "Facturación con PDF profesional",
                 "Almacenamiento de documentos",
                 "Múltiples usuarios",
