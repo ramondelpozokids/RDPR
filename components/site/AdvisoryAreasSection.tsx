@@ -1,5 +1,5 @@
 import { MarketingAccordionItem } from "@/components/site/MarketingAccordionItem"
-import { SectionDivider } from "@/components/site/SectionDivider"
+import { StockImage } from "@/components/site/StockImage"
 import { ADVISORY_AREAS } from "@/lib/site/gestoria-vision"
 import type { StockImageKey } from "@/lib/site/stock-images"
 
@@ -8,11 +8,11 @@ type AdvisoryAreasSectionProps = {
   showAllLink?: boolean
   /** IDs de áreas que se muestran como acordeón (p. ej. fiscal, contable, laboral). */
   accordionAreaIds?: string[]
-  /** Imagen de separación tras cada área en acordeón. */
-  withAreaDividers?: boolean
+  /** Imagen dentro del acordeón al expandir. */
+  withAreaImages?: boolean
 }
 
-const AREA_DIVIDER_IMAGES: Record<string, StockImageKey> = {
+const AREA_IMAGES: Record<string, StockImageKey> = {
   fiscal: "fiscalArea",
   contable: "accountingArea",
   laboral: "laborArea",
@@ -22,7 +22,7 @@ export function AdvisoryAreasSection({
   limit,
   showAllLink = false,
   accordionAreaIds = [],
-  withAreaDividers = false,
+  withAreaImages = false,
 }: AdvisoryAreasSectionProps) {
   const areas = limit ? ADVISORY_AREAS.slice(0, limit) : ADVISORY_AREAS
   const accordionSet = new Set(accordionAreaIds)
@@ -41,35 +41,39 @@ export function AdvisoryAreasSection({
           </p>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-3">
           {areas.map(({ id, icon: Icon, title, summary, items }) => {
             const isAccordion = accordionSet.has(id)
+            const areaImage = AREA_IMAGES[id]
 
             if (isAccordion) {
               return (
-                <div key={id}>
-                  <MarketingAccordionItem
-                    title={title}
-                    summary={summary}
-                    icon={
-                      <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
-                        <Icon size={20} className="text-brand-600" />
-                      </div>
-                    }
-                  >
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
-                      {items.map((item) => (
-                        <li key={item} className="text-xs text-text-secondary flex items-start gap-1.5">
-                          <span className="text-brand-400 mt-0.5">·</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </MarketingAccordionItem>
-                  {withAreaDividers && AREA_DIVIDER_IMAGES[id] && (
-                    <SectionDivider name={AREA_DIVIDER_IMAGES[id]} className="mt-5 rounded-2xl overflow-hidden border-0" />
+                <MarketingAccordionItem
+                  key={id}
+                  title={title}
+                  summary={summary}
+                  icon={
+                    <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center shrink-0">
+                      <Icon size={20} className="text-brand-600" />
+                    </div>
+                  }
+                >
+                  {withAreaImages && areaImage && (
+                    <StockImage
+                      name={areaImage}
+                      className="aspect-[21/9] rounded-xl border border-surface-border mb-4 overflow-hidden"
+                      width={900}
+                    />
                   )}
-                </div>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5">
+                    {items.map((item) => (
+                      <li key={item} className="text-xs text-text-secondary flex items-start gap-1.5">
+                        <span className="text-brand-400 mt-0.5">·</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </MarketingAccordionItem>
               )
             }
 

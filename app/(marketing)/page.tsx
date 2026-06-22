@@ -97,7 +97,7 @@ export default async function HomePage() {
 
       <SectionDivider name="modulesArea" />
 
-      <ProductModulesCatalog compact />
+      <ProductModulesCatalog compact accordion spanish />
 
       <SectionDivider name="pricingArea" />
 

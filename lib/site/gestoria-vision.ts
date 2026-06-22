@@ -292,6 +292,32 @@ export const RDPR_DIFFERENTIATION = {
   stack: ["Finance", "Tax", "Payroll", "Legal", "Documents", "AI"] as const,
 }
 
+/** Etiquetas del stack en español (página principal y marketing). */
+export const STACK_LABELS_ES: Record<(typeof RDPR_DIFFERENTIATION.stack)[number], string> = {
+  Finance: "Finanzas",
+  Tax: "Fiscal",
+  Payroll: "Nóminas",
+  Legal: "Jurídico",
+  Documents: "Documentos",
+  AI: "IA",
+}
+
+/** Nombres de módulo en español por slug. */
+export const MODULE_NAMES_ES: Record<string, string> = {
+  accounting: "RDPR Contabilidad",
+  tax: "RDPR Fiscal",
+  finance: "RDPR Finanzas",
+  crm: "RDPR CRM",
+  documents: "RDPR Documentos",
+  intelligence: "RDPR Inteligencia",
+  banking: "RDPR Banca",
+  payroll: "RDPR Nóminas",
+  legal: "RDPR Jurídico",
+  portal: "RDPR Portal",
+  signature: "RDPR Firma",
+  compliance: "RDPR Cumplimiento",
+}
+
 export const STATUS_LABELS: Record<RoadmapStatus, string> = {
   live: "Disponible",
   beta: "En desarrollo",

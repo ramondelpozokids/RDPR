@@ -3,7 +3,6 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { AdvisoryAreasSection } from "@/components/site/AdvisoryAreasSection"
-import { SectionDivider } from "@/components/site/SectionDivider"
 import { SERVICES } from "@/lib/site/marketing-content"
 import { stockUrl } from "@/lib/site/stock-images"
 
@@ -25,14 +24,10 @@ export default function ServiciosPage() {
         imageAlt="Consultoría profesional a empresas"
       />
 
-      <SectionDivider name="consultationCall" />
-
       <AdvisoryAreasSection
         accordionAreaIds={["fiscal", "contable", "laboral"]}
-        withAreaDividers
+        withAreaImages
       />
-
-      <SectionDivider name="fiscalArea" />
 
       <section className="py-16 px-4 sm:px-6 bg-white">
         <div className="max-w-5xl mx-auto">
