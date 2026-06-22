@@ -176,10 +176,10 @@ export const TAX_MODELS: TaxModelDefinition[] = [
     description: "Pagos fraccionados del Impuesto de Sociedades",
     category: "sociedades",
     icon: Wallet,
-    status: "planned",
+    status: "active",
     entities: ["SL", "SA", "OTHER"],
     frequency: "trimestral",
-    v1: false,
+    v1: true,
   },
   {
     id: "347",

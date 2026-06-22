@@ -3,6 +3,7 @@ import { backfillAllJournalEntries } from "@/lib/accounting/journal"
 import { ACCOUNT_CODES } from "@/lib/accounting/pgc-accounts"
 import {
   DEFAULT_CORPORATE_TAX_RATE,
+  DEFAULT_CORPORATE_FRACTIONAL_RATE,
   DEFAULT_IRPF_FRACTIONAL_RATE,
   DEFAULT_PROFESSIONAL_WITHHOLDING_RATE,
   MODEL_347_THRESHOLD,
@@ -13,6 +14,7 @@ import {
   getQuarterPeriod,
   getYearPeriod,
   parsePeriodParam,
+  quarterOf,
   type TaxPeriod,
 } from "@/lib/tax/periods"
 import type { TaxEntityType, VatFilingPeriod } from "@prisma/client"
@@ -374,6 +376,56 @@ export async function calculateModel200(companyId: string, year?: number): Promi
   }
 }
 
+export type Model202Result = {
+  period: TaxPeriod
+  ingresos: number
+  gastos: number
+  baseImponible: number
+  cuotaIntegraEstimada: number
+  pagoFraccionado: number
+  tipoImpositivo: number
+  tipoFraccionado: number
+  vencimientoReferencia: string
+  disclaimer: string
+}
+
+const MODEL_202_DUE_LABELS: Record<number, string> = {
+  1: "Abril (1–20)",
+  2: "Octubre (1–20)",
+  3: "Diciembre (1–20)",
+  4: "Diciembre (1–20)",
+}
+
+export async function calculateModel202(
+  companyId: string,
+  periodParam?: string
+): Promise<Model202Result> {
+  const period = parsePeriodParam(periodParam)
+  const { revenue, expenses, netIncome } = await revenueAndExpenses(
+    companyId,
+    period.start,
+    period.end
+  )
+  const baseImponible = Math.max(0, netIncome)
+  const cuotaIntegraEstimada = baseImponible * DEFAULT_CORPORATE_TAX_RATE
+  const pagoFraccionado = cuotaIntegraEstimada * DEFAULT_CORPORATE_FRACTIONAL_RATE
+
+  return {
+    period,
+    ingresos: revenue,
+    gastos: expenses,
+    baseImponible,
+    cuotaIntegraEstimada,
+    pagoFraccionado,
+    tipoImpositivo: DEFAULT_CORPORATE_TAX_RATE,
+    tipoFraccionado: DEFAULT_CORPORATE_FRACTIONAL_RATE,
+    vencimientoReferencia:
+      MODEL_202_DUE_LABELS[period.quarter ?? quarterOf(new Date())] ?? "Consulte calendario AEAT",
+    disclaimer:
+      "Estimación V1: 18% sobre cuota íntegra orientativa (25% del resultado del trimestre). No sustituye el cálculo oficial del modelo 202 ni deducciones de pagos anteriores.",
+  }
+}
+
 export type Model347Party = {
   name: string
   taxId: string | null
@@ -465,6 +517,7 @@ export type TaxModelCalculation =
   | { modelId: "111"; data: Model111Result }
   | { modelId: "190"; data: Model190Result }
   | { modelId: "200"; data: Model200Result }
+  | { modelId: "202"; data: Model202Result }
   | { modelId: "347"; data: Model347Result }
 
 export async function calculateTaxModel(
@@ -494,6 +547,8 @@ export async function calculateTaxModel(
         modelId: "200",
         data: await calculateModel200(companyId, periodParam ? Number(periodParam) : undefined),
       }
+    case "202":
+      return { modelId: "202", data: await calculateModel202(companyId, periodParam) }
     case "347":
       return {
         modelId: "347",

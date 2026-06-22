@@ -19,7 +19,11 @@ export async function GET(req: NextRequest) {
       ...(projectId  && { projectId  }),
     },
     orderBy: { createdAt: "desc" },
-    include: { customer: { select: { name: true } }, project: { select: { name: true } } },
+    include: {
+      customer: { select: { name: true } },
+      project: { select: { name: true } },
+      folder: { select: { name: true } },
+    },
   })
 
   return NextResponse.json({ success: true, data: documents })
@@ -34,6 +38,7 @@ export async function POST(req: NextRequest) {
   const file       = formData.get("file") as File | null
   const customerId = formData.get("customerId") as string | null
   const projectId  = formData.get("projectId")  as string | null
+  const folderId   = formData.get("folderId")   as string | null
 
   if (!file) return NextResponse.json({ error: "Archivo requerido" }, { status: 400 })
 
@@ -75,10 +80,12 @@ export async function POST(req: NextRequest) {
       companyId,
       customerId: customerId || null,
       projectId:  projectId  || null,
+      folderId:   folderId   || null,
       name:       file.name,
       fileUrl,
       fileType:   file.type,
       fileSize:   file.size,
+      source:     "INTERNAL",
     },
   })
 

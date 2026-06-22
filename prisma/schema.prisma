@@ -89,6 +89,8 @@ model Company {
   expenses     Expense[]
   bankAccounts BankAccount[]
   brands       Brand[]
+  documentFolders DocumentFolder[]
+  portalAccesses ClientPortalAccess[]
 
   @@map("companies")
 }
@@ -145,6 +147,7 @@ model User {
   activityLogs  ActivityLog[]
   accounts      Account[]
   sessions      Session[]
+  portalAccess  ClientPortalAccess[]
 
   @@map("users")
 }
@@ -232,6 +235,8 @@ model Customer {
   projects  Project[]
   invoices  Invoice[]
   documents Document[]
+  folders   DocumentFolder[]
+  portalAccess ClientPortalAccess[]
 
   @@map("customers")
 }
@@ -392,21 +397,61 @@ enum ElectronicInvoiceFormat {
 // DOCUMENTOS
 // ─────────────────────────────────────────────
 model Document {
-  id         String   @id @default(cuid())
+  id         String         @id @default(cuid())
   companyId  String
   customerId String?
   projectId  String?
+  folderId   String?
   name       String
   fileUrl    String
   fileType   String
   fileSize   Int
-  createdAt  DateTime @default(now())
+  source     DocumentSource @default(INTERNAL)
+  createdAt  DateTime       @default(now())
 
-  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  customer Customer? @relation(fields: [customerId], references: [id])
-  project  Project?  @relation(fields: [projectId], references: [id])
+  company  Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer?       @relation(fields: [customerId], references: [id])
+  project  Project?        @relation(fields: [projectId], references: [id])
+  folder   DocumentFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
 
   @@map("documents")
+}
+
+enum DocumentSource {
+  INTERNAL
+  PORTAL
+}
+
+model DocumentFolder {
+  id         String   @id @default(cuid())
+  companyId  String
+  customerId String?
+  name       String
+  parentId   String?
+  createdAt  DateTime @default(now())
+
+  company   Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer  Customer?        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  parent    DocumentFolder?  @relation("FolderTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children  DocumentFolder[] @relation("FolderTree")
+  documents Document[]
+
+  @@map("document_folders")
+}
+
+model ClientPortalAccess {
+  id         String   @id @default(cuid())
+  userId     String
+  companyId  String
+  customerId String
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company  Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, customerId])
+  @@map("client_portal_access")
 }
 
 // ─────────────────────────────────────────────

@@ -4,6 +4,9 @@ export const MODEL_347_THRESHOLD = 3005.06
 /** Tipo impositivo general IS (orientativo V1). */
 export const DEFAULT_CORPORATE_TAX_RATE = 0.25
 
+/** Pagos fraccionados IS — modelo 202 (orientativo V1). */
+export const DEFAULT_CORPORATE_FRACTIONAL_RATE = 0.18
+
 /** Pagos fraccionados IRPF estimación directa (orientativo). */
 export const DEFAULT_IRPF_FRACTIONAL_RATE = 0.2
 

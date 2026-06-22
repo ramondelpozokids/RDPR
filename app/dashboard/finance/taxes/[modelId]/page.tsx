@@ -192,6 +192,20 @@ export default async function TaxModelPage({ params, searchParams }: Props) {
         </div>
       )}
 
+      {result.modelId === "202" && (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <MetricCard label="Ingresos" value={formatCurrency(result.data.ingresos)} icon={Receipt} iconColor="text-emerald-600" iconBg="bg-emerald-50" />
+            <MetricCard label="Gastos" value={formatCurrency(result.data.gastos)} icon={Wallet} iconColor="text-red-600" iconBg="bg-red-50" />
+            <MetricCard label="Cuota íntegra est." value={formatCurrency(result.data.cuotaIntegraEstimada)} icon={Building2} iconColor="text-violet-600" iconBg="bg-violet-50" />
+            <MetricCard label="Pago fraccionado (18%)" value={formatCurrency(result.data.pagoFraccionado)} icon={Calculator} iconColor="text-primary" iconBg="bg-accent" />
+          </div>
+          <p className="text-xs text-muted-foreground mb-6">
+            Vencimiento orientativo: {result.data.vencimientoReferencia}
+          </p>
+        </>
+      )}
+
       {result.modelId === "347" && (
         <>
           <div className="grid grid-cols-2 gap-4 mb-6">

@@ -136,6 +136,24 @@ export async function exportTaxModelCsv(
         )
       break
     }
+    case "202": {
+      const d = result.data
+      csv =
+        metaRows(model.name, d.period.label, d.disclaimer) +
+        "\n" +
+        rowsToCsv(
+          ["Concepto", "Importe"],
+          [
+            ["Ingresos", d.ingresos.toFixed(2)],
+            ["Gastos", d.gastos.toFixed(2)],
+            ["Base imponible", d.baseImponible.toFixed(2)],
+            [`Cuota íntegra estimada (${d.tipoImpositivo * 100}%)`, d.cuotaIntegraEstimada.toFixed(2)],
+            [`Pago fraccionado (${d.tipoFraccionado * 100}%)`, d.pagoFraccionado.toFixed(2)],
+            ["Vencimiento referencia", d.vencimientoReferencia],
+          ]
+        )
+      break
+    }
     case "347": {
       const d = result.data
       csv =
