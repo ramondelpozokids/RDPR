@@ -4,7 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { auth } from "@/lib/auth/config"
 import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
-import { SITE_IMAGES, LEGAL_COMPANY_NAME } from "@/lib/site/config"
+import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
+import { stockUrl } from "@/lib/site/stock-images"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
 import { SecurityLayers } from "@/components/site/SecurityLayers"
 import { SITE_KEYWORDS } from "@/lib/site/marketing-content"
@@ -27,7 +28,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-[#0c1929]" aria-hidden />
         <div className="absolute inset-0 opacity-40 hero-drone-overlay" aria-hidden>
           <Image
-            src={SITE_IMAGES.negocio}
+            src={stockUrl("heroAerial", 1600)}
             alt=""
             fill
             className="object-cover hero-drone-pan"
@@ -98,8 +99,8 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-xl">
             <Image
-              src={SITE_IMAGES.hero}
-              alt="Panel RDPR OS — finanzas y gestión"
+              src={stockUrl("dashboardLaptop", 1200)}
+              alt="Panel de gestión financiera en portátil"
               fill
               className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 50vw"

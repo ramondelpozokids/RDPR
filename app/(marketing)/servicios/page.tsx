@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { SERVICES } from "@/lib/site/marketing-content"
-import { SITE_IMAGES } from "@/lib/site/config"
+import { stockUrl } from "@/lib/site/stock-images"
 
 export const metadata: Metadata = {
   title: "Servicios de asesoría y gestión empresarial",
@@ -19,8 +19,8 @@ export default function ServiciosPage() {
         eyebrow="Servicios"
         title="Asesoría y tecnología para empresas exigentes"
         description="Calidad, eficacia y cercanía. Servicios contables, fiscales y de gestión apoyados en RDPR OS — software propio, no una demo."
-        image={SITE_IMAGES.business}
-        imageAlt="Servicios RDPR"
+        image={stockUrl("consultationCall", 1200)}
+        imageAlt="Consultoría profesional a empresas"
       />
 
       <section className="py-16 px-4 sm:px-6">

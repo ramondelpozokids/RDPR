@@ -3,6 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Building2, Target, Heart } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
+import { StockImage } from "@/components/site/StockImage"
 import { SITE_IMAGES, CEO_NAME, CEO_TITLE, CONTACT_EMAIL, LEGAL_COMPANY_NAME } from "@/lib/site/config"
 
 export const metadata: Metadata = {
@@ -16,9 +17,7 @@ export default function NosotrosPage() {
       <MarketingPageHeader
         eyebrow="Empresa"
         title="Construido por quien dirige empresas de verdad"
-        description={`RDPR OS nace del día a día de ${LEGAL_COMPANY_NAME}: gestión financiera, SaaS y servicios profesionales que necesitaban un sistema unificado.`}
-        image={SITE_IMAGES.ceoOficina}
-        imageAlt={`${CEO_NAME} — CEO RDPR OS`}
+        description={`${LEGAL_COMPANY_NAME} desarrolla RDPR OS para unificar finanzas, clientes y fiscalidad en un solo sistema — pensado para gestorías y empresas de servicios.`}
       />
 
       <section id="ceo" className="py-16 px-4 sm:px-6 bg-white border-y border-surface-border scroll-mt-20">
@@ -26,7 +25,7 @@ export default function NosotrosPage() {
           <div className="relative aspect-[3/4] max-h-[520px] rounded-2xl overflow-hidden border border-surface-border shadow-xl">
             <Image
               src={SITE_IMAGES.ceoOficina}
-              alt={`${CEO_NAME} en oficina`}
+              alt={`${CEO_NAME}, fundador y CEO`}
               fill
               className="object-cover object-top"
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -40,10 +39,10 @@ export default function NosotrosPage() {
               <p className="text-text-muted mt-1">{CEO_TITLE}</p>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              {CEO_NAME} lidera un ecosistema empresarial que incluye CourtManager Pro, BOOKIA Publisher, Creauna y otras marcas bajo {LEGAL_COMPANY_NAME}. RDPR OS es la respuesta a años gestionando múltiples negocios con herramientas fragmentadas.
+              Dirige un ecosistema de marcas — CourtManager Pro, BOOKIA Publisher, Creauna — bajo {LEGAL_COMPANY_NAME}. RDPR OS nace de años gestionando operaciones reales con herramientas dispersas.
             </p>
             <p className="text-text-secondary leading-relaxed">
-              La visión: que cualquier empresario pueda abrir una sola plataforma por la mañana y ver finanzas, operaciones y alertas con la misma claridad que una gestoría bien organizada.
+              Objetivo: que cualquier empresario abra una sola plataforma por la mañana y tenga la misma claridad que una gestoría bien organizada.
             </p>
             <a href={`mailto:${CONTACT_EMAIL}`} className="btn-secondary inline-flex">
               Contactar con el CEO
@@ -58,27 +57,26 @@ export default function NosotrosPage() {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">{LEGAL_COMPANY_NAME}</h2>
             <p className="text-text-secondary leading-relaxed">
-              Una razón social con múltiples marcas comerciales. RDPR OS es el sistema operativo que conecta finanzas, clientes, proyectos e inteligencia artificial.
+              Una razón social, múltiples marcas comerciales. RDPR OS conecta contabilidad, facturación electrónica, modelos AEAT e inteligencia artificial.
             </p>
+            <Link href="/servicios" className="text-sm font-medium text-brand-600 hover:underline inline-flex items-center gap-1">
+              Ver servicios <ArrowRight size={14} />
+            </Link>
           </div>
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-lg">
-            <Image
-              src={SITE_IMAGES.ceoEscalera}
-              alt={`${CEO_NAME}`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          </div>
+          <StockImage
+            name="companyBuilding"
+            className="aspect-[4/3] rounded-2xl border border-surface-border shadow-lg"
+            width={900}
+          />
         </div>
       </section>
 
       <section className="py-16 px-4 sm:px-6 bg-surface-muted/40">
         <div className="max-w-5xl mx-auto grid sm:grid-cols-3 gap-6">
           {[
-            { icon: Building2, title: "Multi-marca", desc: "Experiencia real gestionando filiales y proyectos diversos bajo una sola razón social." },
-            { icon: Target, title: "Enfoque práctico", desc: "Software que resuelve problemas de tesorería, ventas y operaciones." },
-            { icon: Heart, title: "Compromiso", desc: "Desarrollado y usado internamente antes de ofrecerse al mercado." },
+            { icon: Building2, title: "Multi-marca", desc: "Varias líneas de negocio bajo una sola razón social." },
+            { icon: Target, title: "Enfoque práctico", desc: "Software que resuelve tesorería, ventas y cumplimiento fiscal." },
+            { icon: Heart, title: "Compromiso", desc: "Usado internamente antes de ofrecerse a clientes." },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="p-6 rounded-2xl bg-white border border-surface-border">
               <Icon size={22} className="text-brand-500 mb-3" />
@@ -90,8 +88,8 @@ export default function NosotrosPage() {
       </section>
 
       <section className="py-16 px-4 sm:px-6 text-center">
-        <Link href="/register" className="btn-primary inline-flex py-3 px-8">
-          Trabajar con RDPR OS
+        <Link href="/contacto" className="btn-primary inline-flex py-3 px-8">
+          Solicitar consulta
           <ArrowRight size={16} />
         </Link>
       </section>

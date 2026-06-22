@@ -23,7 +23,7 @@ export function MarketingPageHeader({
   return (
     <section className={cn("relative overflow-hidden", dark ? "bg-[#0A0A0B] text-white" : "bg-white border-b border-surface-border", className)}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
-        <div className={cn("grid gap-10 items-center", image ? "lg:grid-cols-2" : "")}>
+        <div className={cn("grid gap-10 items-center", image ? "lg:grid-cols-2" : "max-w-3xl")}>
           <div className="space-y-4">
             {eyebrow && (
               <p className={cn("text-xs font-semibold uppercase tracking-wider", dark ? "text-brand-300" : "text-brand-600")}>
