@@ -1,4 +1,7 @@
 import type { NextAuthConfig } from "next-auth"
+import { ensureAuthEnv } from "@/lib/auth/resolve-url"
+
+ensureAuthEnv()
 
 /** Config Edge-safe (middleware). Sin Prisma ni providers con DB. */
 export const authConfig = {
