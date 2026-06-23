@@ -10,6 +10,10 @@ import { CustomerExpedienteTabs, getActiveCustomerTab } from "@/components/crm/C
 import { PortalInvitePanel } from "@/components/crm/PortalInvitePanel"
 import { CustomerDocumentsPanel } from "@/components/crm/CustomerDocumentsPanel"
 import { CustomerMessagesPanel } from "@/components/crm/CustomerMessagesPanel"
+import { CustomerProfilePanel } from "@/components/crm/CustomerProfilePanel"
+import { CustomerTasksPanel } from "@/components/crm/CustomerTasksPanel"
+import { CustomerIncidentsPanel } from "@/components/crm/CustomerIncidentsPanel"
+import { CustomerFiscalPanel } from "@/components/crm/CustomerFiscalPanel"
 
 const INVOICE_STATUS_COLORS: Record<string, string> = {
   PENDING: "badge-yellow",
@@ -45,7 +49,7 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
   })
   if (!customer) return notFound()
 
-  const [documents, folders, portalAccess] = await Promise.all([
+  const [documents, folders, portalAccess, profile, tasks, incidents, taxFilings, taxDocuments] = await Promise.all([
     prisma.document.findMany({
       where: { companyId, customerId: customer.id },
       orderBy: { createdAt: "desc" },
@@ -60,7 +64,48 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
       where: { customerId: customer.id, companyId },
       include: { user: { select: { email: true } } },
     }),
+    prisma.customerProfile.findUnique({ where: { customerId: customer.id } }),
+    prisma.customerTask.findMany({
+      where: { companyId, customerId: customer.id },
+      orderBy: [{ status: "asc" }, { dueDate: "asc" }],
+    }),
+    prisma.customerIncident.findMany({
+      where: { companyId, customerId: customer.id },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.aeatTaxFiling.findMany({
+      where: { companyId, customerId: customer.id },
+      orderBy: { periodYear: "desc" },
+      take: 20,
+    }),
+    prisma.document.findMany({
+      where: {
+        companyId,
+        customerId: customer.id,
+        category: { in: ["TAX", "INVOICE", "PAYROLL"] },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+    }),
   ])
+
+  const profileData = profile ?? {
+    entityType: "AUTONOMO" as const,
+    legalName: null,
+    dniNie: null,
+    cnae: null,
+    fiscalAddress: null,
+    fiscalCity: null,
+    fiscalPostalCode: null,
+    province: null,
+    vatFilingPeriod: "QUARTERLY" as const,
+    irpfRegime: null,
+    socialSecurityNum: null,
+    constitutionDate: null,
+    onboardingStatus: "PENDING" as const,
+    onboardingStep: 0,
+    checklist: null,
+  }
 
   const totalFacturado = customer.invoices
     .filter((i) => i.status === "PAID")
@@ -69,6 +114,23 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
   const totalPendiente = customer.invoices
     .filter((i) => i.status === "PENDING" || i.status === "OVERDUE")
     .reduce((s, i) => s + i.total, 0)
+
+  const serializedTasks = tasks.map((t) => ({
+    ...t,
+    dueDate: t.dueDate?.toISOString() ?? null,
+  }))
+
+  const serializedIncidents = incidents.map((i) => ({
+    ...i,
+    createdAt: i.createdAt.toISOString(),
+    resolvedAt: i.resolvedAt?.toISOString() ?? null,
+  }))
+
+  const serializedProfile = {
+    ...profileData,
+    constitutionDate: profileData.constitutionDate?.toISOString() ?? null,
+    checklist: profileData.checklist as { id: string; label: string; done: boolean }[] | null,
+  }
 
   const serializedDocs = documents.map((d) => ({
     ...d,
@@ -167,6 +229,14 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
                   <span className="font-medium">{documents.length}</span>
                 </div>
                 <div className="flex justify-between text-sm">
+                  <span className="text-text-secondary">Tareas pendientes</span>
+                  <span className="font-medium">{tasks.filter((t) => t.status !== "DONE").length}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-text-secondary">Incidencias abiertas</span>
+                  <span className="font-medium">{incidents.filter((i) => i.status === "OPEN" || i.status === "IN_PROGRESS").length}</span>
+                </div>
+                <div className="flex justify-between text-sm">
                   <span className="text-text-secondary">Facturado</span>
                   <span className="font-medium text-emerald-600">{formatCurrency(totalFacturado)}</span>
                 </div>
@@ -188,6 +258,34 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
             />
           </div>
         </div>
+      )}
+
+      {tab === "perfil" && (
+        <CustomerProfilePanel customerId={customer.id} initialProfile={serializedProfile} />
+      )}
+
+      {tab === "fiscal" && (
+        <CustomerFiscalPanel
+          customerId={customer.id}
+          profile={profile ? {
+            entityType: profile.entityType,
+            vatFilingPeriod: profile.vatFilingPeriod,
+            irpfRegime: profile.irpfRegime,
+            onboardingStatus: profile.onboardingStatus,
+            dniNie: profile.dniNie,
+            cnae: profile.cnae,
+          } : null}
+          taxFilings={taxFilings}
+          taxDocuments={taxDocuments}
+        />
+      )}
+
+      {tab === "tareas" && (
+        <CustomerTasksPanel customerId={customer.id} initialTasks={serializedTasks} />
+      )}
+
+      {tab === "incidencias" && (
+        <CustomerIncidentsPanel customerId={customer.id} initialIncidents={serializedIncidents} />
       )}
 
       {tab === "proyectos" && (

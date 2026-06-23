@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
-import { extractDocumentOcr, fetchTextContent } from "@/lib/documents/ocr-extract"
+import { enqueueOcrPipeline } from "@/lib/documents/ocr-pipeline"
 
 type Props = { params: { id: string } }
 
@@ -12,23 +12,13 @@ export async function POST(_req: Request, { params }: Props) {
   const doc = await prisma.document.findFirst({ where: { id: params.id, companyId } })
   if (!doc) return NextResponse.json({ error: "No encontrado" }, { status: 404 })
 
-  const textContent = await fetchTextContent(doc.fileUrl, doc.fileType)
-  const extraction = extractDocumentOcr(doc.name, textContent)
+  await enqueueOcrPipeline(doc.id, companyId, doc.customerId)
+  await new Promise((r) => setTimeout(r, 300))
 
-  const result = await prisma.documentOcrResult.upsert({
-    where: { documentId: doc.id },
-    create: {
-      documentId: doc.id,
-      rawText: extraction.rawText,
-      structured: extraction.structured,
-    },
-    update: {
-      rawText: extraction.rawText,
-      structured: extraction.structured,
-    },
-  })
+  const result = await prisma.documentOcrResult.findUnique({ where: { documentId: doc.id } })
+  const draft = await prisma.expenseDraft.findUnique({ where: { documentId: doc.id } })
 
-  return NextResponse.json({ success: true, data: result })
+  return NextResponse.json({ success: true, data: result, expenseDraft: draft })
 }
 
 export async function GET(_req: Request, { params }: Props) {

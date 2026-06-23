@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
     signerEmail: parsed.data.signerEmail,
     signerName: parsed.data.signerName,
     documentUrl: document.fileUrl,
+    customerId: parsed.data.customerId,
   })
 
   const expiresAt = new Date()

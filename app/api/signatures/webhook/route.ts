@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma/client"
+import { onSignatureCompleted } from "@/lib/signatures/provider"
 
-/** Webhook skeleton — proveedor firma (Signaturit / DocuSign). */
+/** Webhook — proveedor firma (Signaturit / DocuSign). */
 export async function POST(req: NextRequest) {
   const secret = process.env.SIGNATURE_WEBHOOK_SECRET
   if (secret) {
@@ -34,6 +35,10 @@ export async function POST(req: NextRequest) {
       signedAt: status === "SIGNED" ? new Date() : request.signedAt,
     },
   })
+
+  if (status === "SIGNED") {
+    await onSignatureCompleted(request.id)
+  }
 
   return NextResponse.json({ received: true })
 }

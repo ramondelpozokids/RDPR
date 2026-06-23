@@ -111,6 +111,123 @@ model Company {
 }
 
 // ─────────────────────────────────────────────
+// FASE 2-5 — Autorizaciones, OCR, borradores, banca cliente
+// ─────────────────────────────────────────────
+enum AuthorizationScope {
+  AEAT_PRESENT
+  SS_MANAGE
+  BANK_READ
+  FULL_REPRESENTATION
+}
+
+enum GrantStatus {
+  PENDING
+  ACTIVE
+  REVOKED
+}
+
+model AuthorizationGrant {
+  id                 String               @id @default(cuid())
+  companyId          String
+  customerId         String
+  signatureRequestId String?              @unique
+  scopes             AuthorizationScope[] @default([])
+  status             GrantStatus          @default(PENDING)
+  grantedAt          DateTime?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  customer         Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  signatureRequest SignatureRequest? @relation(fields: [signatureRequestId], references: [id], onDelete: SetNull)
+
+  @@index([companyId, customerId])
+  @@map("authorization_grants")
+}
+
+enum OcrJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model OcrJob {
+  id           String       @id @default(cuid())
+  companyId    String
+  customerId   String?
+  documentId   String       @unique
+  status       OcrJobStatus @default(PENDING)
+  errorMessage String?
+  processedAt  DateTime?
+  createdAt    DateTime     @default(now())
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, status])
+  @@map("ocr_jobs")
+}
+
+enum ExpenseDraftStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model ExpenseDraft {
+  id          String             @id @default(cuid())
+  companyId   String
+  customerId  String?
+  documentId  String             @unique
+  vendor      String?
+  description String
+  issueDate   DateTime           @default(now())
+  subtotal    Float
+  taxRate     Float              @default(21)
+  taxAmount   Float
+  total       Float
+  category    ExpenseCategory    @default(SERVICES)
+  confidence  String             @default("low")
+  status      ExpenseDraftStatus @default(PENDING_REVIEW)
+  reviewedAt  DateTime?
+  expenseId   String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  document Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, status])
+  @@map("expense_drafts")
+}
+
+enum BankConnectionStatus {
+  PENDING
+  CONNECTED
+  EXPIRED
+  REVOKED
+}
+
+model CustomerBankConnection {
+  id               String               @id @default(cuid())
+  companyId        String
+  customerId       String
+  provider         String               @default("manual")
+  iban             String?
+  bankName         String?
+  status           BankConnectionStatus @default(PENDING)
+  consentExpiresAt DateTime?
+  externalId       String?
+  lastSyncAt       DateTime?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, customerId])
+  @@map("customer_bank_connections")
+}
+
+// ─────────────────────────────────────────────
 // MARCAS COMERCIALES (bajo una razón social)
 // ─────────────────────────────────────────────
 enum BrandType {
@@ -164,6 +281,7 @@ model User {
   sessions      Session[]
   portalAccess  ClientPortalAccess[]
   portalMessages PortalMessage[]
+  customerTasks CustomerTask[] @relation("CustomerTaskAssignee")
 
   @@map("users")
 }
@@ -259,8 +377,111 @@ model Customer {
   signatureRequests SignatureRequest[]
   dataProcessingRecords DataProcessingRecord[]
   dataSubjectRequests DataSubjectRequest[]
+  profile         CustomerProfile?
+  tasks           CustomerTask[]
+  incidents       CustomerIncident[]
+  taxFilings      AeatTaxFiling[]
+  authorizationGrants AuthorizationGrant[]
+  expenseDrafts   ExpenseDraft[]
+  bankConnections CustomerBankConnection[]
 
   @@map("customers")
+}
+
+// Perfil fiscal / expediente del cliente final (gestoría B2B2B)
+model CustomerProfile {
+  id                String          @id @default(cuid())
+  customerId        String          @unique
+  entityType        TaxEntityType   @default(AUTONOMO)
+  legalName         String?
+  dniNie            String?
+  cnae              String?
+  fiscalAddress     String?
+  fiscalCity        String?
+  fiscalPostalCode  String?
+  province          String?
+  vatFilingPeriod   VatFilingPeriod @default(QUARTERLY)
+  irpfRegime        IrpfRegime?
+  socialSecurityNum String?
+  constitutionDate  DateTime?
+  onboardingStatus  OnboardingStatus @default(PENDING)
+  onboardingStep    Int              @default(0)
+  checklist         Json?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("customer_profiles")
+}
+
+enum OnboardingStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETE
+}
+
+enum CustomerTaskType {
+  GENERAL
+  DOCUMENT_REQUEST
+  TAX_FILING
+  REVIEW
+  FOLLOW_UP
+}
+
+model CustomerTask {
+  id          String           @id @default(cuid())
+  companyId   String
+  customerId  String
+  assignedTo  String?
+  title       String
+  description String?          @db.Text
+  type        CustomerTaskType @default(GENERAL)
+  priority    TaskPriority     @default(MEDIUM)
+  status      TaskStatus       @default(TODO)
+  dueDate     DateTime?
+  completedAt DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assignee User?    @relation("CustomerTaskAssignee", fields: [assignedTo], references: [id], onDelete: SetNull)
+
+  @@index([companyId, customerId, status])
+  @@index([companyId, dueDate])
+  @@map("customer_tasks")
+}
+
+enum IncidentSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum IncidentStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model CustomerIncident {
+  id          String           @id @default(cuid())
+  companyId   String
+  customerId  String
+  title       String
+  description String?          @db.Text
+  severity    IncidentSeverity @default(MEDIUM)
+  status      IncidentStatus   @default(OPEN)
+  resolvedAt  DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, customerId, status])
+  @@map("customer_incidents")
 }
 
 enum PipelineStage {
@@ -419,6 +640,18 @@ enum ElectronicInvoiceFormat {
 // ─────────────────────────────────────────────
 // DOCUMENTOS
 // ─────────────────────────────────────────────
+enum DocumentCategory {
+  GENERAL
+  INVOICE
+  CONTRACT
+  PAYROLL
+  TAX
+  ID_DOCUMENT
+  DEED
+  AUTHORIZATION
+  OTHER
+}
+
 model Document {
   id         String         @id @default(cuid())
   companyId  String
@@ -430,6 +663,7 @@ model Document {
   fileUrl    String
   fileType   String
   fileSize   Int
+  category   DocumentCategory @default(GENERAL)
   tags       String[]       @default([])
   source     DocumentSource @default(INTERNAL)
   createdAt  DateTime       @default(now())
@@ -441,6 +675,8 @@ model Document {
   legalCase LegalCase?     @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
   ocrResult DocumentOcrResult?
   signatureRequests SignatureRequest[]
+  ocrJob        OcrJob?
+  expenseDraft  ExpenseDraft?
 
   @@map("documents")
 }
@@ -842,6 +1078,7 @@ model VerifactuRegistryEntry {
 model AeatTaxFiling {
   id              String               @id @default(cuid())
   companyId       String
+  customerId      String?
   modelId         String
   periodYear      Int
   periodQuarter   Int?
@@ -857,9 +1094,11 @@ model AeatTaxFiling {
   createdAt       DateTime             @default(now())
   updatedAt       DateTime             @updatedAt
 
-  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
 
   @@index([companyId, modelId])
+  @@index([companyId, customerId])
   @@map("aeat_tax_filings")
 }
 
@@ -896,6 +1135,7 @@ model SignatureRequest {
   document  Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
   customer  Customer?  @relation(fields: [customerId], references: [id], onDelete: SetNull)
   legalCase LegalCase? @relation(fields: [legalCaseId], references: [id], onDelete: SetNull)
+  authorizationGrant AuthorizationGrant?
 
   @@map("signature_requests")
 }

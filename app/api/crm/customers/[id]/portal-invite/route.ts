@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import bcrypt from "bcryptjs"
 import crypto from "crypto"
+import { markChecklistDone } from "@/lib/crm/checklist-sync"
 
 type Params = { params: { id: string } }
 
@@ -57,6 +58,8 @@ export async function POST(_req: Request, { params }: Params) {
     create: { userId: user.id, companyId, customerId: customer.id },
     update: {},
   })
+
+  await markChecklistDone(customer.id, "portal")
 
   const existingFolder = await prisma.documentFolder.findFirst({
     where: { companyId, customerId: customer.id, name: "Expediente" },

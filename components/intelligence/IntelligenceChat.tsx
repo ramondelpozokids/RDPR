@@ -217,4 +217,8 @@ const PREDEFINED_LABELS: Record<IntelligenceQueryId, string> = {
   ledger_balance: "¿Cuál es el saldo de clientes (430)?",
   payroll_cost_month: "¿Cuál es el coste de nómina este mes?",
   payroll_employees: "¿Cuántos empleados tengo en plantilla?",
+  pending_crm_tasks: "¿Qué tareas de clientes están pendientes?",
+  ocr_review_queue: "¿Hay facturas pendientes de revisión OCR?",
+  signatures_pending: "¿Hay firmas pendientes de clientes?",
+  onboarding_incomplete: "¿Qué clientes no han completado el onboarding?",
 }

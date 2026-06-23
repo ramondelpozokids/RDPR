@@ -1,9 +1,11 @@
 export type OcrStructured = {
   vendor?: string
   amount?: number
+  subtotal?: number
+  taxAmount?: number
   date?: string
   vatRate?: number
-  confidence: "low" | "medium"
+  confidence: "low" | "medium" | "high"
   source: "filename" | "text"
 }
 
@@ -76,11 +78,21 @@ export function extractDocumentOcr(name: string, textContent?: string): OcrExtra
     hints.push("--- Contenido ---", textContent.slice(0, 4000))
 
     if (!structured.amount) {
-      const m = textContent.match(/total[\s:]*(\d+[.,]\d{2})/i)
-      if (m) {
-        const amount = parseAmount(m[1])
+      const totalMatch = textContent.match(/total[\s:]*(\d+[.,]\d{2})/i)
+      if (totalMatch) {
+        const amount = parseAmount(totalMatch[1])
         if (amount) structured.amount = amount
       }
+    }
+    const baseMatch = textContent.match(/base[\s\w]*[\s:]*(\d+[.,]\d{2})/i)
+    if (baseMatch) {
+      const sub = parseAmount(baseMatch[1])
+      if (sub) structured.subtotal = sub
+    }
+    const ivaMatch = textContent.match(/iva[\s(]*(\d{1,2})[\s%)]/i)
+    if (ivaMatch) structured.vatRate = parseInt(ivaMatch[1], 10)
+    if (structured.subtotal && structured.amount && !structured.taxAmount) {
+      structured.taxAmount = structured.amount - structured.subtotal
     }
     if (!structured.date) {
       for (const re of DATE_PATTERNS) {
@@ -92,8 +104,13 @@ export function extractDocumentOcr(name: string, textContent?: string): OcrExtra
       }
     }
     if (structured.vendor || structured.amount || structured.date) {
-      structured.confidence = "medium"
+      structured.confidence = structured.subtotal ? "high" : "medium"
     }
+  }
+
+  if (structured.amount && structured.vatRate && !structured.subtotal) {
+    structured.subtotal = structured.amount / (1 + structured.vatRate / 100)
+    structured.taxAmount = structured.amount - structured.subtotal
   }
 
   return {

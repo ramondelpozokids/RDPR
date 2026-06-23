@@ -19,6 +19,10 @@ export type IntelligenceQueryId =
   | "ledger_balance"
   | "payroll_cost_month"
   | "payroll_employees"
+  | "pending_crm_tasks"
+  | "ocr_review_queue"
+  | "signatures_pending"
+  | "onboarding_incomplete"
 
 export type IntelligenceLink = { href: string; label: string }
 export type IntelligenceHighlight = { label: string; value: string }
@@ -50,6 +54,10 @@ export const PREDEFINED_QUERIES: Array<{
   { id: "ledger_balance", label: "¿Cuál es el saldo de clientes (430)?", category: "finanzas" },
   { id: "payroll_cost_month", label: "¿Cuál es el coste de nómina este mes?", category: "laboral" },
   { id: "payroll_employees", label: "¿Cuántos empleados tengo en plantilla?", category: "laboral" },
+  { id: "pending_crm_tasks", label: "¿Qué tareas de clientes están pendientes?", category: "crm" },
+  { id: "ocr_review_queue", label: "¿Hay facturas pendientes de revisión OCR?", category: "finanzas" },
+  { id: "signatures_pending", label: "¿Hay firmas pendientes de clientes?", category: "crm" },
+  { id: "onboarding_incomplete", label: "¿Qué clientes no han completado el onboarding?", category: "crm" },
 ]
 
 function monthStart(d = new Date()) {
@@ -86,6 +94,10 @@ export function matchQueryFromText(text: string): IntelligenceQueryId | null {
   if (t.includes("430") || (t.includes("cliente") && t.includes("saldo"))) return "ledger_balance"
   if ((t.includes("nomina") || t.includes("sueldo") || t.includes("salario")) && t.includes("mes")) return "payroll_cost_month"
   if (t.includes("empleado") || t.includes("plantilla") || t.includes("trabajador")) return "payroll_employees"
+  if (t.includes("tarea") && t.includes("pendient")) return "pending_crm_tasks"
+  if (t.includes("ocr") || (t.includes("factura") && t.includes("revis"))) return "ocr_review_queue"
+  if (t.includes("firma") && t.includes("pendient")) return "signatures_pending"
+  if (t.includes("onboarding") || (t.includes("alta") && t.includes("cliente"))) return "onboarding_incomplete"
 
   return null
 }
@@ -479,6 +491,87 @@ export async function executeIntelligenceQuery(
           { label: "Total", value: String(total) },
         ],
         links: [{ href: "/dashboard/payroll/employees", label: "Ver plantilla" }],
+      }
+    }
+
+    case "pending_crm_tasks": {
+      const tasks = await prisma.customerTask.findMany({
+        where: { companyId, status: { not: "DONE" } },
+        include: { customer: { select: { name: true, id: true } } },
+        orderBy: [{ priority: "desc" }, { dueDate: "asc" }],
+        take: 8,
+      })
+      if (tasks.length === 0) {
+        return {
+          queryId,
+          question: meta.label,
+          answer: "No hay tareas de clientes pendientes. ¡Todo al día!",
+          links: [{ href: "/dashboard/crm", label: "Ver CRM" }],
+        }
+      }
+      const list = tasks.map((t) => `• **${t.customer.name}**: ${t.title}`).join("\n")
+      return {
+        queryId,
+        question: meta.label,
+        answer: `Hay **${tasks.length}** tarea(s) pendiente(s) en expedientes de clientes:\n\n${list}`,
+        highlights: [{ label: "Pendientes", value: String(tasks.length) }],
+        links: [{ href: "/dashboard/crm", label: "Centro CRM" }],
+      }
+    }
+
+    case "ocr_review_queue": {
+      const count = await prisma.expenseDraft.count({
+        where: { companyId, status: "PENDING_REVIEW" },
+      })
+      return {
+        queryId,
+        question: meta.label,
+        answer:
+          count === 0
+            ? "No hay borradores de gastos pendientes de revisión OCR."
+            : `Hay **${count}** factura(s) detectadas por IA pendientes de tu aprobación en la bandeja de revisión.`,
+        highlights: [{ label: "Por revisar", value: String(count) }],
+        links: [{ href: "/dashboard/documents/review", label: "Bandeja revisión IA" }],
+      }
+    }
+
+    case "signatures_pending": {
+      const count = await prisma.signatureRequest.count({
+        where: { companyId, status: "PENDING" },
+      })
+      return {
+        queryId,
+        question: meta.label,
+        answer:
+          count === 0
+            ? "No hay solicitudes de firma pendientes."
+            : `Hay **${count}** solicitud(es) de firma esperando respuesta de clientes.`,
+        highlights: [{ label: "Firmas pendientes", value: String(count) }],
+        links: [{ href: "/dashboard/signatures", label: "Ver firmas" }],
+      }
+    }
+
+    case "onboarding_incomplete": {
+      const profiles = await prisma.customerProfile.findMany({
+        where: { onboardingStatus: { not: "COMPLETE" }, customer: { companyId, pipelineStage: "CLIENT_WON" } },
+        include: { customer: { select: { name: true, id: true } } },
+        take: 10,
+      })
+      if (profiles.length === 0) {
+        return {
+          queryId,
+          question: meta.label,
+          answer: "Todos los clientes activos han completado el onboarding.",
+          links: [{ href: "/dashboard/crm", label: "Ver CRM" }],
+        }
+      }
+      const list = profiles.map((p) => `• **${p.customer.name}** (${p.onboardingStatus})`).join("\n")
+      return {
+        queryId,
+        question: meta.label,
+        answer: `**${profiles.length}** cliente(s) con onboarding incompleto:\n\n${list}`,
+        highlights: [{ label: "Incompletos", value: String(profiles.length) }],
+        links: [{ href: "/dashboard", label: "Centro de mando" }],
       }
     }
 

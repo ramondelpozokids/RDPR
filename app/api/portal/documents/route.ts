@@ -77,7 +77,19 @@ export async function POST(req: NextRequest) {
       fileSize: file.size,
       source: "PORTAL",
     },
+    include: { folder: { select: { name: true } } },
   })
+
+  void import("@/lib/documents/ocr-pipeline").then(({ enqueueOcrPipeline }) =>
+    enqueueOcrPipeline(document.id, ctx.companyId, ctx.customerId)
+  )
+
+  if (document.folder?.name === "Identidad") {
+    void import("@/lib/crm/checklist-sync").then(({ markChecklistDone, completeOnboardingTasks }) => {
+      markChecklistDone(ctx.customerId, "identity")
+      completeOnboardingTasks(ctx.customerId, ctx.companyId, "DNI")
+    })
+  }
 
   void import("@/lib/notifications/portal-upload").then(({ notifyPortalDocumentUpload }) =>
     notifyPortalDocumentUpload({

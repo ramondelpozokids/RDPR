@@ -12,8 +12,12 @@ type Doc = {
   folder?: { name: string } | null
 }
 
+type Folder = { id: string; name: string }
+
 export default function PortalDocumentosPage() {
   const [documents, setDocuments] = useState<Doc[]>([])
+  const [folders, setFolders] = useState<Folder[]>([])
+  const [folderId, setFolderId] = useState("")
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
 
@@ -21,6 +25,7 @@ export default function PortalDocumentosPage() {
     const res = await fetch("/api/portal/documents")
     const json = await res.json()
     if (json.data?.documents) setDocuments(json.data.documents)
+    if (json.data?.folders) setFolders(json.data.folders)
     setLoading(false)
   }
 
@@ -34,6 +39,7 @@ export default function PortalDocumentosPage() {
     setUploading(true)
     const fd = new FormData()
     fd.append("file", file)
+    if (folderId) fd.append("folderId", folderId)
     try {
       const res = await fetch("/api/portal/documents", { method: "POST", body: fd })
       if (res.ok) await load()
@@ -50,11 +56,24 @@ export default function PortalDocumentosPage() {
         <p className="text-sm text-text-secondary">Descargue o suba documentación para su asesoría.</p>
       </div>
 
-      <label className="btn-primary inline-flex cursor-pointer text-sm">
-        {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-        Subir documento
-        <input type="file" className="hidden" onChange={onUpload} disabled={uploading} />
-      </label>
+      <div className="flex flex-wrap items-end gap-3">
+        {folders.length > 0 && (
+          <div>
+            <label className="text-xs text-text-muted block mb-1">Carpeta</label>
+            <select className="input text-sm py-2" value={folderId} onChange={(e) => setFolderId(e.target.value)}>
+              <option value="">Sin carpeta</option>
+              {folders.map((f) => (
+                <option key={f.id} value={f.id}>{f.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
+        <label className="btn-primary inline-flex cursor-pointer text-sm">
+          {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+          Subir documento
+          <input type="file" className="hidden" onChange={onUpload} disabled={uploading} />
+        </label>
+      </div>
 
       {loading ? (
         <p className="text-sm text-text-muted">Cargando…</p>

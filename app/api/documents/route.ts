@@ -136,5 +136,9 @@ export async function POST(req: NextRequest) {
     },
   })
 
+  void import("@/lib/documents/ocr-pipeline").then(({ enqueueOcrPipeline }) =>
+    enqueueOcrPipeline(document.id, companyId, customerId)
+  )
+
   return NextResponse.json({ success: true, data: document }, { status: 201 })
 }

@@ -30,14 +30,26 @@ export default async function PortalLayout({ children }: { children: React.React
             <p className="text-xs text-text-muted">{ctx.customer.name} · {ctx.company.name}</p>
           </div>
           <div className="flex items-center gap-3">
+            <Link href="/portal/onboarding" className="text-sm text-text-secondary hover:text-brand-600">
+              Alta
+            </Link>
             <Link href="/portal/documentos" className="text-sm text-text-secondary hover:text-brand-600">
               Documentos
+            </Link>
+            <Link href="/portal/firmas" className="text-sm text-text-secondary hover:text-brand-600">
+              Firmas
             </Link>
             <Link href="/portal/mensajes" className="text-sm text-text-secondary hover:text-brand-600">
               Mensajes
             </Link>
+            <Link href="/portal/banco" className="text-sm text-text-secondary hover:text-brand-600">
+              Banco
+            </Link>
             <Link href="/portal/impuestos" className="text-sm text-text-secondary hover:text-brand-600">
-              Resumen
+              Fiscal
+            </Link>
+            <Link href="/portal/ayuda" className="text-sm text-text-secondary hover:text-brand-600">
+              Ayuda
             </Link>
             <form
               action={async () => {

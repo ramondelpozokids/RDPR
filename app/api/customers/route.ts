@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
+import { setupNewCustomer } from "@/lib/crm/customer-setup"
 
 const customerSchema = z.object({
   name:          z.string().min(1),
@@ -51,6 +52,8 @@ export async function POST(req: NextRequest) {
   const customer = await prisma.customer.create({
     data: { companyId, ...parsed.data },
   })
+
+  await setupNewCustomer(customer.id, companyId)
 
   return NextResponse.json({ success: true, data: customer }, { status: 201 })
 }
