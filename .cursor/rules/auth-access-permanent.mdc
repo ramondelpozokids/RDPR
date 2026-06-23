@@ -1,0 +1,44 @@
+---
+description: Reglas inmutables del sistema de acceso RDPR OS — nunca romper login/sesiones
+alwaysApply: true
+---
+
+# Acceso RDPR OS — NO ROMPER
+
+## Arquitectura obligatoria (Auth.js v5)
+
+- `lib/auth/env.ts` — URL y secret; en Vercel corrige localhost automáticamente.
+- `lib/auth/auth.config.ts` — **Edge-safe**: JWT, callbacks, sin Prisma, sin providers con BD.
+- `lib/auth/config.ts` — **Node only**: providers Credentials + `authorizeCredentials`.
+- `lib/auth/actions.ts` — login con **Server Action** (`loginAction`).
+- `lib/auth/authorize-credentials.ts` — única validación email/contraseña contra BD.
+- `middleware.ts` — solo importa `auth.config`, nunca `config.ts` ni Prisma.
+- `app/(auth)/login/page.tsx` — `useFormState(loginAction)`, **prohibido** `signIn()` cliente.
+
+## Prohibido
+
+- Quitar middleware sin reemplazo Edge-safe equivalente.
+- Poner Prisma o `lib/auth/config` en middleware o auth.config.
+- Volver a login cliente con `signIn` de `next-auth/react`.
+- Inputs controlados (`value=`) en email/password del login.
+- Cambiar diseño, sidebar, navbar, footer o rutas de marketing al arreglar acceso.
+- Parches puntuales sin pasar `npm run auth:check`.
+
+## Antes de tocar auth
+
+1. Ejecutar `npm run auth:check`
+2. Ejecutar `npm run build`
+3. Verificar `/api/health` en local o preview
+
+## Variables Vercel obligatorias
+
+- `DATABASE_URL` (pooler 6543 + `pgbouncer=true`)
+- `DIRECT_URL` (5432)
+- `AUTH_SECRET` (≥32 chars)
+- `AUTH_URL` = `https://rdpr-uzun.vercel.app`
+- `AUTH_TRUST_HOST` = `true`
+
+## Backup de referencia
+
+- Tag local: `backup-2026-06-23-auth-stable`
+- Carpeta: `C:\Users\X\Desktop\RDPR-backup-2026-06-23`

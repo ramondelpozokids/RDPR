@@ -1,0 +1,32 @@
+name: Auth Guard
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  auth-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Verificar arquitectura de acceso
+        run: npm run auth:check
+
+      - name: Build (incluye middleware Auth.js)
+        run: npm run build
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/ci?schema=public
+          DIRECT_URL: postgresql://ci:ci@localhost:5432/ci?schema=public
+          AUTH_SECRET: ci-auth-secret-minimum-32-characters-long
+          AUTH_URL: http://localhost:3000
+          AUTH_TRUST_HOST: "true"

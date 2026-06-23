@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && npm run auth:check && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
@@ -14,6 +14,7 @@
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
+    "auth:check": "npx tsx scripts/auth-preflight.ts",
     "test": "node --import tsx --test __tests__/sprint-a.test.ts __tests__/fase1-gestoria.test.ts __tests__/fase2-5-automation.test.ts __tests__/firm-billing.test.ts"
   },
   "dependencies": {
