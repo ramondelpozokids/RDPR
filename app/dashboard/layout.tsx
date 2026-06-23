@@ -2,7 +2,6 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth/config"
 import { getActiveCompanyContext } from "@/lib/company/context"
-import { getActiveBrandContext } from "@/lib/brands/context"
 import { isPortalOnlyUser } from "@/lib/portal/context"
 import Sidebar from "@/components/layout/Sidebar"
 
@@ -26,19 +25,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
     )
   }
 
-  const brandCtx = await getActiveBrandContext()
-
   return (
     <div className="flex h-screen overflow-hidden bg-surface-muted">
-      <Sidebar
-        user={session.user}
-        companies={ctx.companies}
-        activeCompanyId={ctx.companyId}
-        organizationName={ctx.organization?.name}
-        brands={brandCtx?.brands ?? []}
-        activeBrandId={brandCtx?.activeBrandId ?? null}
-        legalName={brandCtx?.legalName ?? ctx.company.name}
-      />
+      <Sidebar user={session.user} />
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
           {children}
