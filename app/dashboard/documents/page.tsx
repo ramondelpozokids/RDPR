@@ -7,9 +7,10 @@ import { SearchInput }   from "@/components/ui/SearchInput"
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog"
 import { toast }         from "@/components/ui/Toaster"
 import { PageSpinner }   from "@/components/ui/Spinner"
+import Link from "next/link"
 import {
   FolderOpen, Upload, FileText, File, ImageIcon,
-  Trash2, ExternalLink, Pencil, X, Check, Link2,
+  Trash2, ExternalLink, Pencil, X, Check, Link2, ScanLine,
 } from "lucide-react"
 import { DocumentOcrButton } from "@/components/documents/DocumentOcrButton"
 import { formatDate, formatFileSize } from "@/lib/utils"
@@ -175,6 +176,10 @@ export default function DocumentsPage() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Link href="/dashboard/documents/review" className="btn-secondary hidden sm:inline-flex">
+            <ScanLine size={15} />
+            Revisión OCR
+          </Link>
           <input ref={fileRef} type="file" className="hidden" onChange={handleFileChange} />
           <Button onClick={() => fileRef.current?.click()} loading={uploading}>
             <Upload size={15} />

@@ -29,7 +29,6 @@ const NAV_ITEMS = [
   { href: "/dashboard/compliance", icon: ShieldCheck,    label: "Compliance"   },
   { href: "/dashboard/intelligence", icon: Sparkles,    label: "Intelligence" },
   { href: "/dashboard/documents", icon: FolderOpen,      label: "Documentos"  },
-  { href: "/dashboard/documents/review", icon: FolderOpen, label: "Revisión IA" },
   { href: "/dashboard/settings",  icon: Settings,        label: "Ajustes"     },
 ]
 

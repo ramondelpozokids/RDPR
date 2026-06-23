@@ -1,12 +1,10 @@
 import { getActiveCompanyContext } from "@/lib/company/context"
 import { getActiveBrandContext } from "@/lib/brands/context"
 import { getExecutiveStats } from "@/lib/dashboard/get-executive-stats"
-import { getGestoriaCommandCenter } from "@/lib/gestoria/get-command-center-stats"
 import { formatCurrency, formatDate, INVOICE_STATUS_LABELS } from "@/lib/utils"
 import { MetricCard } from "@/components/ui/metric-card"
 import { Button } from "@/components/ui/button"
 import { ExecutiveAlerts } from "@/components/dashboard/ExecutiveAlerts"
-import { GestoriaCommandCenter } from "@/components/dashboard/GestoriaCommandCenter"
 import { MonthlyRevenueChart } from "@/components/dashboard/MonthlyRevenueChart"
 import { CompanyBreakdown } from "@/components/dashboard/CompanyBreakdown"
 import {
@@ -59,7 +57,6 @@ export default async function DashboardPage() {
   }
 
   const stats = await getExecutiveStats(ctx.companyId, ctx.companies)
-  const gestoria = await getGestoriaCommandCenter(ctx.companyId)
   const brandCtx = await getActiveBrandContext()
 
   return (
@@ -93,9 +90,6 @@ export default async function DashboardPage() {
           </Button>
         </div>
       </div>
-
-      {/* Centro de mando gestoría */}
-      <GestoriaCommandCenter data={gestoria} />
 
       {/* KPIs financieros */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
