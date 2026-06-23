@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { auth } from "@/lib/auth/config"
 import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
 import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
 import { stockUrl } from "@/lib/site/stock-images"
@@ -21,9 +19,6 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const session = await auth()
-  if (session) redirect("/dashboard")
-
   return (
     <>
       {/* Hero con vídeo aéreo Madrid (estilo gestoría) */}

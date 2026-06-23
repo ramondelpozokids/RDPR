@@ -22,10 +22,6 @@ export default auth(async function middleware(req) {
     }
   }
 
-  if ((pathname === "/login" || pathname === "/register") && session) {
-    return NextResponse.redirect(new URL("/dashboard", req.url))
-  }
-
   return NextResponse.next()
 })
 
