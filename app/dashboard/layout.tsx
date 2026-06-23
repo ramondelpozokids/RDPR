@@ -3,11 +3,16 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth/config"
 import { getActiveCompanyContext } from "@/lib/company/context"
 import { getActiveBrandContext } from "@/lib/brands/context"
+import { isPortalOnlyUser } from "@/lib/portal/context"
 import Sidebar from "@/components/layout/Sidebar"
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   if (!session?.user) redirect("/login")
+
+  if (session.user.id && (await isPortalOnlyUser(session.user.id))) {
+    redirect("/portal/documentos")
+  }
 
   const ctx = await getActiveCompanyContext()
   if (!ctx) {

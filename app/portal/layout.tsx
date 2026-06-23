@@ -1,11 +1,15 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { auth, signOut } from "@/lib/auth/config"
-import { getActivePortalContext, isPortalOnlyUser } from "@/lib/portal/context"
+import { getActivePortalContext, hasPortalAccess, isPortalOnlyUser } from "@/lib/portal/context"
 
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
   if (!session?.user?.id) redirect("/login")
+
+  if (!(await hasPortalAccess(session.user.id))) {
+    redirect("/dashboard")
+  }
 
   const ctx = await getActivePortalContext()
   if (!ctx) {
