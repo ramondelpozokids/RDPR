@@ -1,6 +1,5 @@
 // lib/auth/config.ts — runtime Node (API routes, layouts, authorize)
 import NextAuth from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma/client"
@@ -11,7 +10,6 @@ ensureAuthEnv()
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       name: "credentials",

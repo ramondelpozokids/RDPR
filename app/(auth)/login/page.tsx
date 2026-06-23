@@ -35,25 +35,24 @@ function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [showPwd, setShowPwd] = useState(false)
 
-  function validate() {
-    const e: Record<string, string> = {}
-    if (!fields.email)                            e.email    = "El email es obligatorio"
-    else if (!/\S+@\S+\.\S+/.test(fields.email)) e.email    = "Email inválido"
-    if (!fields.password)                         e.password = "La contraseña es obligatoria"
-    return e
-  }
-
-  async function handleSubmit(ev: React.FormEvent) {
+  async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault()
-    const e = validate()
+    const fd = new FormData(ev.currentTarget)
+    const email = String(fd.get("email") ?? fields.email).trim().toLowerCase()
+    const password = String(fd.get("password") ?? fields.password)
+
+    const e: Record<string, string> = {}
+    if (!email) e.email = "El email es obligatorio"
+    else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Email inválido"
+    if (!password) e.password = "La contraseña es obligatoria"
     if (Object.keys(e).length) { setErrors(e); return }
 
     setLoading(true)
     setErrors({})
 
     const result = await signIn("credentials", {
-      email:    fields.email,
-      password: fields.password,
+      email,
+      password,
       redirect: false,
     })
 
@@ -92,6 +91,7 @@ function LoginForm() {
               </label>
               <input
                 type="email"
+                name="email"
                 autoComplete="email"
                 placeholder="tu@empresa.com"
                 value={fields.email}
@@ -112,6 +112,7 @@ function LoginForm() {
               <div className="relative">
                 <input
                   type={showPwd ? "text" : "password"}
+                  name="password"
                   autoComplete="current-password"
                   placeholder="••••••••"
                   value={fields.password}
