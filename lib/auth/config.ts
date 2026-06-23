@@ -1,24 +1,19 @@
-// lib/auth/config.ts
-import NextAuth, { NextAuthConfig } from "next-auth"
-import { PrismaAdapter }            from "@auth/prisma-adapter"
-import Credentials                  from "next-auth/providers/credentials"
-import bcrypt                       from "bcryptjs"
-import { prisma }                   from "@/lib/prisma/client"
+// lib/auth/config.ts — runtime Node (API routes, layouts, authorize)
+import NextAuth from "next-auth"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import Credentials from "next-auth/providers/credentials"
+import bcrypt from "bcryptjs"
+import { prisma } from "@/lib/prisma/client"
+import { authConfig } from "@/lib/auth/auth.config"
 
-export const authConfig: NextAuthConfig = {
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
-  trustHost: true,
-  adapter:  PrismaAdapter(prisma),
-  session:  { strategy: "jwt" },
-  pages: {
-    signIn: "/login",
-    error:  "/login",
-  },
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+  adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       name: "credentials",
       credentials: {
-        email:    { label: "Email",      type: "email"    },
+        email: { label: "Email", type: "email" },
         password: { label: "Contraseña", type: "password" },
       },
       async authorize(credentials) {
@@ -39,19 +34,4 @@ export const authConfig: NextAuthConfig = {
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id
-      return token
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.id = token.id as string
-      }
-      return session
-    },
-  },
-}
-
-// Named export "auth" used across server components and API routes
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)
+})

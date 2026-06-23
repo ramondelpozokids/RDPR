@@ -1,7 +1,10 @@
-// middleware.ts — sin Prisma (Edge no lo soporta)
-import { auth } from "@/lib/auth/config"
+// middleware.ts — Edge: solo auth.config (sin Prisma)
+import NextAuth from "next-auth"
 import { NextResponse } from "next/server"
+import { authConfig } from "@/lib/auth/auth.config"
 import { isPublicRegistrationEnabled } from "@/lib/auth/registration"
+
+const { auth } = NextAuth(authConfig)
 
 export default auth(async function middleware(req) {
   const { pathname, searchParams } = req.nextUrl
