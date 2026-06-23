@@ -25,6 +25,7 @@ export default function PortalOnboardingPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [checklistProgress, setChecklistProgress] = useState({ done: 0, total: 5, percent: 0 })
   const [fields, setFields] = useState({
     legalName: "",
     dniNie: "",
@@ -41,6 +42,14 @@ export default function PortalOnboardingPage() {
         if (json.data?.profile) {
           const p = json.data.profile
           setStep(p.onboardingStep ?? 0)
+          const checklist = (p.checklist as { done: boolean }[] | null) ?? []
+          const total = checklist.length || 5
+          const done = checklist.filter((c) => c.done).length || (p.onboardingStep ?? 0)
+          setChecklistProgress({
+            done,
+            total,
+            percent: total > 0 ? Math.round((done / total) * 100) : 0,
+          })
           setFields((f) => ({
             ...f,
             legalName: p.legalName ?? "",
@@ -98,6 +107,19 @@ export default function PortalOnboardingPage() {
 
       <div className="card space-y-4">
         <p className="text-sm text-text-secondary">{STEPS[step]?.desc}</p>
+
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs text-text-muted">
+            <span>Progreso expediente</span>
+            <span>{checklistProgress.done}/{checklistProgress.total} ({checklistProgress.percent}%)</span>
+          </div>
+          <div className="h-2 rounded-full bg-surface-muted overflow-hidden">
+            <div
+              className="h-full bg-brand-500 rounded-full transition-all"
+              style={{ width: `${checklistProgress.percent}%` }}
+            />
+          </div>
+        </div>
 
         {step === 0 && (
           <>

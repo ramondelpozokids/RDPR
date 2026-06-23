@@ -11,6 +11,7 @@ import {
   ONBOARDING_STATUS_LABELS,
 } from "@/lib/crm/labels"
 import { CheckCircle2, Circle } from "lucide-react"
+import { ChecklistProgressBar } from "@/components/crm/ChecklistProgressBar"
 
 type ChecklistItem = { id: string; label: string; done: boolean }
 
@@ -137,6 +138,7 @@ export function CustomerProfilePanel({
 
       <div className="card space-y-3">
         <h3 className="text-sm font-semibold">Checklist onboarding</h3>
+        <ChecklistProgressBar checklist={checklist} />
         {checklist.length === 0 ? (
           <p className="text-xs text-text-muted">Sin checklist configurado.</p>
         ) : (

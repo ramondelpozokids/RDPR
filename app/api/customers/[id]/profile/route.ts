@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
+import { syncMissingDocTasks } from "@/lib/crm/auto-tasks"
+import { logCustomerActivity } from "@/lib/crm/activity-log"
+import type { ChecklistItem } from "@/lib/crm/checklist-sync"
 
 const profileSchema = z.object({
   entityType: z.enum(["AUTONOMO", "SL", "SA", "OTHER"]).optional(),
@@ -66,6 +69,21 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     create: { customerId: params.id, ...data },
     update: data,
   })
+
+  if (parsed.data.checklist?.length) {
+    await syncMissingDocTasks(companyId, params.id, parsed.data.checklist as ChecklistItem[])
+    await logCustomerActivity({
+      companyId,
+      customerId: params.id,
+      action: "CHECKLIST_UPDATED",
+      entity: "CustomerProfile",
+      entityId: profile.id,
+      metadata: {
+        done: parsed.data.checklist.filter((c) => c.done).length,
+        total: parsed.data.checklist.length,
+      },
+    })
+  }
 
   return NextResponse.json({ success: true, data: profile })
 }

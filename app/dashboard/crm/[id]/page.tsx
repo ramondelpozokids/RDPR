@@ -14,6 +14,8 @@ import { CustomerProfilePanel } from "@/components/crm/CustomerProfilePanel"
 import { CustomerTasksPanel } from "@/components/crm/CustomerTasksPanel"
 import { CustomerIncidentsPanel } from "@/components/crm/CustomerIncidentsPanel"
 import { CustomerFiscalPanel } from "@/components/crm/CustomerFiscalPanel"
+import { CustomerActivityTimeline } from "@/components/crm/CustomerActivityTimeline"
+import { getCustomerActivityTimeline } from "@/lib/crm/activity-log"
 
 const INVOICE_STATUS_COLORS: Record<string, string> = {
   PENDING: "badge-yellow",
@@ -136,6 +138,11 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
     ...d,
     createdAt: d.createdAt.toISOString(),
   }))
+
+  const activityEvents =
+    tab === "actividad"
+      ? await getCustomerActivityTimeline(companyId, customer.id)
+      : []
 
   return (
     <div className="max-w-5xl">
@@ -400,6 +407,8 @@ export default async function CustomerDetailPage({ params, searchParams }: Props
       )}
 
       {tab === "mensajes" && <CustomerMessagesPanel customerId={customer.id} />}
+
+      {tab === "actividad" && <CustomerActivityTimeline events={activityEvents} />}
 
       {tab === "portal" && (
         <div className="max-w-md">

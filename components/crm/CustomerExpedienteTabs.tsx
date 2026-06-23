@@ -14,6 +14,7 @@ const TABS = [
   { id: "facturas", label: "Facturas" },
   { id: "documentos", label: "Documentos" },
   { id: "mensajes", label: "Mensajes" },
+  { id: "actividad", label: "Actividad" },
   { id: "portal", label: "Portal" },
 ] as const
 

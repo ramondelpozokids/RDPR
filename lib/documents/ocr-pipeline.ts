@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma/client"
 import { runDocumentOcr } from "@/lib/documents/ocr-vision"
 import { assertCanRunOcr } from "@/lib/billing/usage"
+import { ensureOcrReviewTask } from "@/lib/crm/auto-tasks"
+import { logCustomerActivity } from "@/lib/crm/activity-log"
 import type { ExpenseCategory } from "@prisma/client"
 
 function inferCategory(name: string): ExpenseCategory {
@@ -89,6 +91,23 @@ export async function processOcrJob(documentId: string) {
         await prisma.document.update({
           where: { id: doc.id },
           data: { category: "INVOICE" },
+        })
+      }
+
+      if (doc.customerId) {
+        await ensureOcrReviewTask({
+          companyId: doc.companyId,
+          customerId: doc.customerId,
+          documentId: doc.id,
+          documentName: doc.name,
+        })
+        await logCustomerActivity({
+          companyId: doc.companyId,
+          customerId: doc.customerId,
+          action: "OCR_EXPENSE_DRAFT",
+          entity: "ExpenseDraft",
+          entityId: doc.id,
+          metadata: { documentName: doc.name },
         })
       }
     }
