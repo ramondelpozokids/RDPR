@@ -3,6 +3,8 @@ import { z } from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import { createSignatureRequest } from "@/lib/signatures/provider"
+import { assertCanCreateSignature } from "@/lib/billing/usage"
+import { PlanLimitError } from "@/lib/billing/plan-limits"
 
 export async function GET() {
   const companyId = await requireCompanyId()
@@ -44,6 +46,15 @@ export async function POST(req: NextRequest) {
     where: { id: parsed.data.documentId, companyId },
   })
   if (!document) return NextResponse.json({ error: "Documento no encontrado" }, { status: 404 })
+
+  try {
+    await assertCanCreateSignature(companyId)
+  } catch (e) {
+    if (e instanceof PlanLimitError) {
+      return NextResponse.json({ error: e.message, code: e.code }, { status: 402 })
+    }
+    throw e
+  }
 
   const provider = await createSignatureRequest({
     title: parsed.data.title,

@@ -3,6 +3,8 @@ import { z } from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requirePortalContext } from "@/lib/portal/context"
 import { markChecklistDone } from "@/lib/crm/checklist-sync"
+import { assertFeature } from "@/lib/billing/usage"
+import { PlanLimitError } from "@/lib/billing/plan-limits"
 
 const bankSchema = z.object({
   iban: z.string().min(15).max(34),
@@ -28,6 +30,15 @@ export async function POST(req: NextRequest) {
   const body = await req.json()
   const parsed = bankSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: "IBAN inválido" }, { status: 400 })
+
+  try {
+    await assertFeature(ctx.companyId, "openBanking")
+  } catch (e) {
+    if (e instanceof PlanLimitError) {
+      return NextResponse.json({ error: e.message, code: e.code }, { status: 402 })
+    }
+    throw e
+  }
 
   const iban = parsed.data.iban.replace(/\s/g, "").toUpperCase()
   const existing = await prisma.customerBankConnection.findFirst({

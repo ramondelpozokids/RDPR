@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import Stripe from "stripe"
 import { prisma } from "@/lib/prisma/client"
 import { getStripeClient } from "@/lib/stripe/client"
+import { ensureFirmForCompany, syncFirmBilling } from "@/lib/firm/ensure"
 
 export const runtime = "nodejs"
 
@@ -34,16 +35,21 @@ export async function POST(req: NextRequest) {
       const companyId = session.metadata?.companyId
       const plan = session.metadata?.plan
       if (companyId) {
+        const billingData = {
+          billingPlan: plan ?? undefined,
+          billingStatus: "active",
+          stripeCustomerId: typeof session.customer === "string" ? session.customer : undefined,
+          stripeSubscriptionId:
+            typeof session.subscription === "string" ? session.subscription : undefined,
+        }
         await prisma.company.update({
           where: { id: companyId },
-          data: {
-            billingPlan: plan ?? undefined,
-            billingStatus: "active",
-            stripeCustomerId: typeof session.customer === "string" ? session.customer : undefined,
-            stripeSubscriptionId:
-              typeof session.subscription === "string" ? session.subscription : undefined,
-          },
+          data: billingData,
         })
+        const firm = await ensureFirmForCompany(companyId)
+        if (firm) {
+          await syncFirmBilling(firm.id, billingData)
+        }
         await prisma.activityLog.create({
           data: {
             companyId,
@@ -63,13 +69,18 @@ export async function POST(req: NextRequest) {
         where: { stripeSubscriptionId: sub.id },
       })
       if (company) {
+        const billingData = {
+          billingStatus: sub.status,
+          billingPlan: sub.metadata?.plan ?? company.billingPlan ?? undefined,
+        }
         await prisma.company.update({
           where: { id: company.id },
-          data: {
-            billingStatus: sub.status,
-            billingPlan: sub.metadata?.plan ?? company.billingPlan,
-          },
+          data: billingData,
         })
+        const firm = await ensureFirmForCompany(company.id)
+        if (firm) {
+          await syncFirmBilling(firm.id, billingData)
+        }
       }
       break
     }

@@ -1,6 +1,7 @@
 import { randomBytes } from "crypto"
 import { prisma } from "@/lib/prisma/client"
 import { markChecklistDone, completeOnboardingTasks } from "@/lib/crm/checklist-sync"
+import { assertCanCreateSignature } from "@/lib/billing/usage"
 
 export type SignatureProviderResult = {
   externalId: string
@@ -91,6 +92,8 @@ export async function createAuthorizationSignature(input: {
   signerEmail: string
   signerName?: string
 }) {
+  await assertCanCreateSignature(input.companyId)
+
   let doc = await prisma.document.findFirst({
     where: {
       companyId: input.companyId,

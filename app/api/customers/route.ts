@@ -4,6 +4,8 @@ import { z }      from "zod"
 import { prisma } from "@/lib/prisma/client"
 import { requireCompanyId } from "@/lib/company/context"
 import { setupNewCustomer } from "@/lib/crm/customer-setup"
+import { assertCanAddClient } from "@/lib/billing/usage"
+import { PlanLimitError } from "@/lib/billing/plan-limits"
 
 const customerSchema = z.object({
   name:          z.string().min(1),
@@ -48,6 +50,15 @@ export async function POST(req: NextRequest) {
   const body   = await req.json()
   const parsed = customerSchema.safeParse(body)
   if (!parsed.success) return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
+
+  try {
+    await assertCanAddClient(companyId)
+  } catch (e) {
+    if (e instanceof PlanLimitError) {
+      return NextResponse.json({ error: e.message, code: e.code }, { status: 402 })
+    }
+    throw e
+  }
 
   const customer = await prisma.customer.create({
     data: { companyId, ...parsed.data },

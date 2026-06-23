@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma/client"
-import { extractDocumentOcr, fetchTextContent } from "@/lib/documents/ocr-extract"
+import { runDocumentOcr } from "@/lib/documents/ocr-vision"
+import { assertCanRunOcr } from "@/lib/billing/usage"
 import type { ExpenseCategory } from "@prisma/client"
 
 function inferCategory(name: string): ExpenseCategory {
@@ -37,8 +38,7 @@ export async function processOcrJob(documentId: string) {
     const doc = await prisma.document.findUnique({ where: { id: documentId } })
     if (!doc) throw new Error("Documento no encontrado")
 
-    const textContent = await fetchTextContent(doc.fileUrl, doc.fileType)
-    const extraction = extractDocumentOcr(doc.name, textContent)
+    const extraction = await runDocumentOcr(doc.name, doc.fileUrl, doc.fileType)
 
     await prisma.documentOcrResult.upsert({
       where: { documentId: doc.id },
@@ -115,6 +115,8 @@ export async function enqueueOcrPipeline(
   companyId: string,
   customerId?: string | null
 ) {
+  await assertCanRunOcr(companyId)
+
   await prisma.ocrJob.upsert({
     where: { documentId },
     create: { documentId, companyId, customerId: customerId ?? undefined, status: "PENDING" },

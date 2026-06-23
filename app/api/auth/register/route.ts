@@ -58,6 +58,15 @@ export async function POST(req: NextRequest) {
       const baseSlug = slugify(companyName) || "empresa"
       const unique   = `${baseSlug}-${Date.now().toString(36).slice(-4)}`
 
+      const firm = await tx.firm.create({
+        data: {
+          name: companyName,
+          slug: `firm-${unique}`,
+          billingPlan: "trial",
+          billingStatus: "trialing",
+        },
+      })
+
       const organization = await tx.organization.create({
         data: {
           name: companyName,
@@ -72,6 +81,9 @@ export async function POST(req: NextRequest) {
           legalName:      companyName,
           slug:           unique,
           organizationId: organization.id,
+          firmId:         firm.id,
+          billingPlan:    "trial",
+          billingStatus:  "trialing",
           brandColor:     "#6570f3",
           taxEntityType:  "SL",
           vatFilingPeriod: "QUARTERLY",

@@ -8,9 +8,10 @@ import { toast }         from "@/components/ui/Toaster"
 import { getInitials }   from "@/lib/utils"
 import {
   Building2, Users, Lock, CreditCard,
-  Check, Eye, EyeOff, Shield, Zap, Tag,
+  Check, Eye, EyeOff, Shield, Tag,
 } from "lucide-react"
 import { BrandsSettings } from "@/components/settings/BrandsSettings"
+import { PlanUsagePanel } from "@/components/settings/PlanUsagePanel"
 import { DEFAULT_LEGAL_NAME } from "@/lib/brands/catalog"
 
 interface Company {
@@ -369,54 +370,7 @@ export default function SettingsClient({ company, organization, currentUserId, c
       )}
 
       {/* ── PLAN ──────────────────────────────── */}
-      {tab === "plan" && (
-        <div className="space-y-4">
-          <div className="card">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <p className="text-lg font-bold text-text-primary">Plan Beta · Gratuito</p>
-                <p className="text-sm text-text-secondary mt-1">
-                  Acceso completo durante el periodo de prueba
-                </p>
-              </div>
-              <span className="badge-green text-xs px-3 py-1">Activo</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {[
-                "CRM de clientes ilimitado",
-                "Proyectos y tareas por fases",
-                "Facturación con PDF profesional",
-                "Almacenamiento de documentos",
-                "Múltiples usuarios",
-                "Dashboard con estadísticas",
-              ].map(f => (
-                <div key={f} className="flex items-center gap-2 text-sm text-text-secondary">
-                  <Check size={13} className="text-emerald-500 shrink-0" />
-                  {f}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="card border-brand-200 bg-gradient-to-br from-brand-50 via-white to-violet-50 relative overflow-hidden">
-            <div className="absolute top-3 right-3">
-              <Zap size={40} className="text-brand-200 opacity-50" />
-            </div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="badge-violet">Próximamente</span>
-              <span className="text-xs text-text-muted">Q2 2025</span>
-            </div>
-            <p className="font-bold text-brand-900 text-lg">Plan Pro</p>
-            <p className="text-sm text-brand-700 mt-1 mb-4">
-              Almacenamiento ilimitado · IA integrada · Módulo restaurante ·
-              Inventario · RRHH · API access · Soporte prioritario
-            </p>
-            <button className="btn-primary opacity-60 cursor-not-allowed" disabled>
-              Próximamente disponible
-            </button>
-          </div>
-        </div>
-      )}
+      {tab === "plan" && <PlanUsagePanel />}
     </div>
   )
 }

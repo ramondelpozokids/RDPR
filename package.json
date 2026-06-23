@@ -14,7 +14,7 @@
     "db:migrate": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
-    "test": "node --import tsx --test __tests__/sprint-a.test.ts __tests__/fase1-gestoria.test.ts __tests__/fase2-5-automation.test.ts"
+    "test": "node --import tsx --test __tests__/sprint-a.test.ts __tests__/fase1-gestoria.test.ts __tests__/fase2-5-automation.test.ts __tests__/firm-billing.test.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.0",

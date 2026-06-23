@@ -50,10 +50,30 @@ enum IrpfRegime {
 }
 
 // ─────────────────────────────────────────────
+// GESTORÍA / TENANT SaaS (B2B pagador)
+// ─────────────────────────────────────────────
+model Firm {
+  id                   String   @id @default(cuid())
+  name                 String
+  slug                 String   @unique
+  billingPlan          String?  @default("trial")
+  billingStatus        String?  @default("trialing")
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  companies Company[]
+
+  @@map("firms")
+}
+
+// ─────────────────────────────────────────────
 // EMPRESA / COMPANY
 // ─────────────────────────────────────────────
 model Company {
   id             String   @id @default(cuid())
+  firmId         String?
   organizationId String?
   name           String
   legalName      String?  // Razón social (facturación, AEAT, eFactura)
@@ -81,6 +101,7 @@ model Company {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
+  firm         Firm?         @relation(fields: [firmId], references: [id], onDelete: SetNull)
   organization Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
   users        UserCompany[]
   customers    Customer[]
