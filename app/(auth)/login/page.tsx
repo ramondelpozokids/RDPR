@@ -2,15 +2,35 @@
 "use client"
 
 import { Suspense, useState } from "react"
-import { signIn }   from "next-auth/react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useFormState, useFormStatus } from "react-dom"
+import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Eye, EyeOff, ArrowRight } from "lucide-react"
 import { SiteLogo } from "@/components/site/SiteLogo"
+import { loginAction, type LoginState } from "@/lib/auth/actions"
+
+const INITIAL_STATE: LoginState = {}
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null
   return <p className="text-xs text-red-600 mt-1 flex items-center gap-1">⚠ {msg}</p>
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus()
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="btn-primary w-full justify-center py-2.5 mt-2"
+    >
+      {pending
+        ? <><svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg> Entrando...</>
+        : <><ArrowRight size={16} /> Iniciar sesión</>
+      }
+    </button>
+  )
 }
 
 export default function LoginPage() {
@@ -26,44 +46,11 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
-  const router       = useRouter()
-  const params       = useSearchParams()
-  const registered   = params.get("registered")
-
-  const [fields, setFields]   = useState({ email: "", password: "" })
-  const [errors, setErrors]   = useState<Record<string, string>>({})
-  const [loading, setLoading] = useState(false)
+  const params = useSearchParams()
+  const registered = params.get("registered")
+  const callbackUrl = params.get("callbackUrl") ?? "/dashboard"
+  const [state, formAction] = useFormState(loginAction, INITIAL_STATE)
   const [showPwd, setShowPwd] = useState(false)
-
-  async function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
-    ev.preventDefault()
-    const fd = new FormData(ev.currentTarget)
-    const email = String(fd.get("email") ?? fields.email).trim().toLowerCase()
-    const password = String(fd.get("password") ?? fields.password)
-
-    const e: Record<string, string> = {}
-    if (!email) e.email = "El email es obligatorio"
-    else if (!/\S+@\S+\.\S+/.test(email)) e.email = "Email inválido"
-    if (!password) e.password = "La contraseña es obligatoria"
-    if (Object.keys(e).length) { setErrors(e); return }
-
-    setLoading(true)
-    setErrors({})
-
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    })
-
-    if (result?.error) {
-      setErrors({ form: "Email o contraseña incorrectos" })
-    } else {
-      router.push("/dashboard")
-      router.refresh()
-    }
-    setLoading(false)
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-surface-muted p-4">
@@ -83,7 +70,9 @@ function LoginForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <form action={formAction} className="space-y-4" noValidate>
+            <input type="hidden" name="callbackUrl" value={callbackUrl} />
+
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-1.5">
@@ -94,14 +83,9 @@ function LoginForm() {
                 name="email"
                 autoComplete="email"
                 placeholder="tu@empresa.com"
-                value={fields.email}
-                onChange={e => {
-                  setFields(f => ({ ...f, email: e.target.value }))
-                  if (errors.email) setErrors(er => ({ ...er, email: "" }))
-                }}
-                className={`input ${errors.email ? "input-error" : ""}`}
+                className={`input ${state.fieldErrors?.email ? "input-error" : ""}`}
               />
-              <FieldError msg={errors.email} />
+              <FieldError msg={state.fieldErrors?.email} />
             </div>
 
             {/* Password */}
@@ -115,12 +99,7 @@ function LoginForm() {
                   name="password"
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  value={fields.password}
-                  onChange={e => {
-                    setFields(f => ({ ...f, password: e.target.value }))
-                    if (errors.password) setErrors(er => ({ ...er, password: "" }))
-                  }}
-                  className={`input pr-10 ${errors.password ? "input-error" : ""}`}
+                  className={`input pr-10 ${state.fieldErrors?.password ? "input-error" : ""}`}
                 />
                 <button
                   type="button"
@@ -130,26 +109,17 @@ function LoginForm() {
                   {showPwd ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
               </div>
-              <FieldError msg={errors.password} />
+              <FieldError msg={state.fieldErrors?.password} />
             </div>
 
             {/* Form-level error */}
-            {errors.form && (
+            {state.error && (
               <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-                <p className="text-sm text-red-700">{errors.form}</p>
+                <p className="text-sm text-red-700">{state.error}</p>
               </div>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary w-full justify-center py-2.5 mt-2"
-            >
-              {loading
-                ? <><svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg> Entrando...</>
-                : <><ArrowRight size={16} /> Iniciar sesión</>
-              }
-            </button>
+            <SubmitButton />
           </form>
         </div>
 

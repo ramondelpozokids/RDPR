@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { resolveAuthBaseUrl } from "@/lib/auth/resolve-url"
+import { getAuthDiagnostics } from "@/lib/auth/env"
 import { prisma } from "@/lib/prisma/client"
 
 export const runtime = "nodejs"
@@ -23,10 +23,7 @@ export async function GET() {
 
   return NextResponse.json({
     ok: dbConnected && userFound,
-    authUrl: resolveAuthBaseUrl(),
-    hasAuthSecret: Boolean(process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET),
-    hasDatabase: db.length > 0,
-    databaseOk: db.length > 0 && !db.includes("example.com"),
+    ...getAuthDiagnostics(),
     dbConnected,
     userFound,
     dbError,

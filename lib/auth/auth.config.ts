@@ -1,11 +1,11 @@
 import type { NextAuthConfig } from "next-auth"
-import { ensureAuthEnv } from "@/lib/auth/resolve-url"
+import { ensureAuthEnv, getAuthSecret } from "@/lib/auth/env"
 
 ensureAuthEnv()
 
-/** Config Edge-safe (middleware). Sin Prisma ni providers con DB. */
+/** Config compatible con Edge (middleware). Sin Prisma ni providers con DB. */
 export const authConfig = {
-  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  secret: getAuthSecret(),
   trustHost: true,
   session: { strategy: "jwt" },
   pages: {
@@ -14,6 +14,14 @@ export const authConfig = {
   },
   providers: [],
   callbacks: {
+    authorized({ auth, request }) {
+      const path = request.nextUrl.pathname
+      const protectedRoute =
+        path.startsWith("/dashboard") || path.startsWith("/portal")
+
+      if (!protectedRoute) return true
+      return !!auth?.user
+    },
     async jwt({ token, user }) {
       if (user) token.id = user.id
       return token
