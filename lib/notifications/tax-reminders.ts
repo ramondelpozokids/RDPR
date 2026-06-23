@@ -33,7 +33,7 @@ export async function sendTaxDeadlineReminders(): Promise<{ companies: number; e
       html: `
         <p>Recordatorio orientativo para <strong>${company.name}</strong>:</p>
         <p>Revise los modelos del periodo <strong>${period.label}</strong>: ${models}.</p>
-        <p>Acceda a Tax Intelligence en RDPR OS para exportar estimaciones CSV.</p>
+        <p>Acceda a Inteligencia fiscal en RDPR OS para exportar estimaciones CSV.</p>
         <p style="color:#666;font-size:12px">No sustituye calendario oficial AEAT. Desactive configurando CRON sin ejecutar o sin RESEND_API_KEY.</p>
       `,
     })

@@ -1,6 +1,8 @@
 import { createCipheriv, randomBytes, scryptSync } from "crypto"
 import { mkdir, writeFile } from "fs/promises"
 import path from "path"
+import { isStorageConfigured, requiresRealStorage } from "@/lib/storage/config"
+import { uploadBuffer } from "@/lib/storage/upload"
 
 const ALGO = "aes-256-gcm"
 const MAX_FILE_BYTES = 15 * 1024 * 1024 // 15 MB
@@ -13,7 +15,7 @@ function getKey(): Buffer {
   return scryptSync(secret, "rdpr-secure-upload-v1", 32)
 }
 
-function storageDir() {
+function localStorageDir() {
   return process.env.VERCEL
     ? path.join("/tmp", "rdpr-secure-uploads")
     : path.join(process.cwd(), "storage", "secure-uploads")
@@ -24,6 +26,8 @@ export type EncryptedFileResult = {
   iv: string
   authTag: string
   fileSize: number
+  /** URL pública cuando se sube a R2 (solo metadatos; blob cifrado). */
+  storageUrl?: string
 }
 
 export async function encryptAndStoreFile(
@@ -41,9 +45,29 @@ export async function encryptAndStoreFile(
   const authTag = cipher.getAuthTag()
 
   const safeName = originalName.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120)
-  const storageKey = `${Date.now()}-${randomBytes(4).toString("hex")}-${safeName}`
+  const storageKey = `${Date.now()}-${randomBytes(4).toString("hex")}-${safeName}.enc`
 
-  const dir = storageDir()
+  if (isStorageConfigured()) {
+    const uploaded = await uploadBuffer({
+      keyPrefix: "secure-uploads",
+      fileName: storageKey,
+      body: encrypted,
+      contentType: "application/octet-stream",
+    })
+    return {
+      storageKey: uploaded.key,
+      storageUrl: uploaded.url,
+      iv: iv.toString("hex"),
+      authTag: authTag.toString("hex"),
+      fileSize: buffer.length,
+    }
+  }
+
+  if (requiresRealStorage()) {
+    throw new Error("STORAGE_NOT_CONFIGURED")
+  }
+
+  const dir = localStorageDir()
   await mkdir(dir, { recursive: true })
   await writeFile(path.join(dir, storageKey), encrypted)
 

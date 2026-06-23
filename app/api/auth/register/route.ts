@@ -5,12 +5,17 @@ import { z } from "zod"
 import { Prisma } from "@prisma/client"
 import { prisma } from "@/lib/prisma/client"
 import { slugify } from "@/lib/utils"
+import {
+  isPublicRegistrationEnabled,
+  registrationClosedMessage,
+} from "@/lib/auth/registration"
 
 const registerSchema = z.object({
   name:        z.string().min(1),
   email:       z.string().email(),
   password:    z.string().min(8),
   companyName: z.string().min(1),
+  inviteToken: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -27,6 +32,11 @@ export async function POST(req: NextRequest) {
 
     if (!parsed.success) {
       return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
+    }
+
+    const inviteHeader = req.headers.get("x-registration-invite")
+    if (!isPublicRegistrationEnabled(parsed.data.inviteToken ?? inviteHeader)) {
+      return NextResponse.json({ error: registrationClosedMessage() }, { status: 403 })
     }
 
     const { name, email, password, companyName } = parsed.data

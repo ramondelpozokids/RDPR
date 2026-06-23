@@ -74,6 +74,12 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("[secure-upload]", err)
     const msg = err instanceof Error ? err.message : "Error al procesar el archivo"
+    if (msg === "STORAGE_NOT_CONFIGURED") {
+      return NextResponse.json(
+        { error: "Almacenamiento no configurado en el servidor." },
+        { status: 503 }
+      )
+    }
     return NextResponse.json({ error: msg }, { status: 500 })
   }
 }

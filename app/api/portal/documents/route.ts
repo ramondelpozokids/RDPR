@@ -1,34 +1,26 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma/client"
 import { requirePortalContext } from "@/lib/portal/context"
+import { isStorageConfigured, requiresRealStorage } from "@/lib/storage/config"
+import { uploadBuffer } from "@/lib/storage/upload"
 
 async function uploadFile(companyId: string, file: File) {
-  let fileUrl = `/placeholder/${companyId}/${Date.now()}-${file.name}`
-
-  if (process.env.STORAGE_ENDPOINT) {
-    const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3")
-    const client = new S3Client({
-      region: "auto",
-      endpoint: process.env.STORAGE_ENDPOINT,
-      credentials: {
-        accessKeyId: process.env.STORAGE_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.STORAGE_SECRET_ACCESS_KEY!,
-      },
-    })
-    const key = `${companyId}/portal/${Date.now()}-${file.name}`
-    const buffer = Buffer.from(await file.arrayBuffer())
-    await client.send(
-      new PutObjectCommand({
-        Bucket: process.env.STORAGE_BUCKET_NAME!,
-        Key: key,
-        Body: buffer,
-        ContentType: file.type,
-      })
-    )
-    fileUrl = `${process.env.NEXT_PUBLIC_STORAGE_PUBLIC_URL}/${key}`
+  if (requiresRealStorage() && !isStorageConfigured()) {
+    throw new Error("STORAGE_NOT_CONFIGURED")
   }
 
-  return fileUrl
+  if (!isStorageConfigured()) {
+    return `/dev-local/${companyId}/portal/${Date.now()}-${file.name}`
+  }
+
+  const buffer = Buffer.from(await file.arrayBuffer())
+  const { url } = await uploadBuffer({
+    keyPrefix: `${companyId}/portal`,
+    fileName: file.name,
+    body: buffer,
+    contentType: file.type || "application/octet-stream",
+  })
+  return url
 }
 
 export async function GET() {
@@ -60,7 +52,19 @@ export async function POST(req: NextRequest) {
 
   if (!file) return NextResponse.json({ error: "Archivo requerido" }, { status: 400 })
 
-  const fileUrl = await uploadFile(ctx.companyId, file)
+  let fileUrl: string
+  try {
+    fileUrl = await uploadFile(ctx.companyId, file)
+  } catch (err) {
+    if (err instanceof Error && err.message === "STORAGE_NOT_CONFIGURED") {
+      return NextResponse.json(
+        { error: "Almacenamiento no configurado en el servidor." },
+        { status: 503 }
+      )
+    }
+    console.error("[portal/documents/upload]", err)
+    return NextResponse.json({ error: "Error al subir el archivo" }, { status: 500 })
+  }
 
   const document = await prisma.document.create({
     data: {

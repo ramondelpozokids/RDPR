@@ -1,8 +1,8 @@
 // app/(auth)/register/page.tsx
 "use client"
 
-import { useState }  from "react"
-import { useRouter } from "next/navigation"
+import { Suspense, useState, useMemo } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link          from "next/link"
 import { Eye, EyeOff, Check, ArrowRight } from "lucide-react"
 import { SiteLogo } from "@/components/site/SiteLogo"
@@ -40,7 +40,23 @@ function PasswordStrength({ password }: { password: string }) {
 }
 
 export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-surface-muted">
+          <p className="text-sm text-text-secondary">Cargando…</p>
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
+  )
+}
+
+function RegisterForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const inviteToken = useMemo(() => searchParams.get("invite"), [searchParams])
   const [fields, setFields] = useState({
     name: "", companyName: "", email: "", password: "", confirm: "",
   })
@@ -80,6 +96,7 @@ export default function RegisterPage() {
         email:       fields.email,
         password:    fields.password,
         companyName: fields.companyName,
+        ...(inviteToken ? { inviteToken } : {}),
       }),
     })
 
