@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
 import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
-import { stockUrl } from "@/lib/site/stock-images"
+import { HeroDroneVideo } from "@/components/site/HeroDroneVideo"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
 import { TestimonialsSection } from "@/components/site/TestimonialsSection"
 import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
@@ -24,14 +24,7 @@ export default async function HomePage() {
       <section className="gestoria-hero relative overflow-hidden text-white flex items-center justify-center text-center">
         <div className="absolute inset-0 bg-[#0c1929]" aria-hidden />
         <div className="absolute inset-0 hero-drone-overlay" aria-hidden>
-          <Image
-            src="/facturas.webp"
-            alt="Facturación y gestión documental"
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
+          <HeroDroneVideo />
         </div>
         <div className="absolute inset-0 bg-black/45" aria-hidden />
 
@@ -107,7 +100,7 @@ export default async function HomePage() {
         <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-xl">
             <Image
-              src={stockUrl("dashboardLaptop", 1200)}
+              src="/facturas.webp"
               alt="Panel de gestión financiera en portátil"
               fill
               className="object-cover object-center"
