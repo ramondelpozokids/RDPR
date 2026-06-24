@@ -4,7 +4,6 @@ import Image from "next/image"
 import { ArrowRight, Check, Calculator, Receipt, Users, Shield } from "lucide-react"
 import { LEGAL_COMPANY_NAME } from "@/lib/site/config"
 import { stockUrl } from "@/lib/site/stock-images"
-import { HeroDroneVideo } from "@/components/site/HeroDroneVideo"
 import { TaxModelsShowcase } from "@/components/site/TaxModelsShowcase"
 import { TestimonialsSection } from "@/components/site/TestimonialsSection"
 import { ProductModulesCatalog } from "@/components/site/ProductModulesCatalog"
@@ -25,7 +24,14 @@ export default async function HomePage() {
       <section className="gestoria-hero relative overflow-hidden text-white flex items-center justify-center text-center">
         <div className="absolute inset-0 bg-[#0c1929]" aria-hidden />
         <div className="absolute inset-0 hero-drone-overlay" aria-hidden>
-          <HeroDroneVideo />
+          <Image
+            src="/facturas.webp"
+            alt="Facturación y gestión documental"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="absolute inset-0 bg-black/45" aria-hidden />
 

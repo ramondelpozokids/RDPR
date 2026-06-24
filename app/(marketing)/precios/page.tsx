@@ -55,7 +55,7 @@ export default function PreciosPage() {
         eyebrow="Precios"
         title="Inversión en control, no en complejidad"
         description="La inteligencia financiera para empresas que quieren crecer. Sin sorpresas, sin permanencia."
-        image={SITE_IMAGES.precios}
+        image="/empresa.webp"
         imageAlt="Planes RDPR OS"
       />
 

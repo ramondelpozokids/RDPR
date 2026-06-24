@@ -18,7 +18,7 @@ export default function ContactoPage() {
         eyebrow="Contacto"
         title="Hablemos de su empresa"
         description="Confíe en asesores expertos. Le respondemos con la mayor brevedad posible."
-        image={stockUrl("contactHero", 1200)}
+        image="/asesores.webp"
         imageAlt="Contacto con asesoría profesional"
       />
 

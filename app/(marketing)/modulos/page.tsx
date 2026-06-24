@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, Wallet, Users, Layers, FolderOpen, Brain } from "lucide-react"
 import { MarketingPageHeader } from "@/components/site/MarketingPageHeader"
 import { StockImage } from "@/components/site/StockImage"
@@ -73,11 +74,23 @@ export default function ModulosPage() {
             id={anchor}
             className={`grid md:grid-cols-2 gap-10 items-center scroll-mt-24 ${i % 2 === 1 ? "md:[direction:rtl]" : ""}`}
           >
-            <StockImage
-              name={image}
-              className={`aspect-[4/3] rounded-2xl border border-surface-border shadow-lg ${i % 2 === 1 ? "md:[direction:ltr]" : ""}`}
-              width={900}
-            />
+            {i === 0 ? (
+              <div className={`relative aspect-[4/3] rounded-2xl overflow-hidden border border-surface-border shadow-lg ${i % 2 === 1 ? "md:[direction:ltr]" : ""}`}>
+                <Image
+                  src="/datos_fiscales.webp"
+                  alt={title}
+                  fill
+                  className="object-cover"
+                  sizes="900px"
+                />
+              </div>
+            ) : (
+              <StockImage
+                name={image}
+                className={`aspect-[4/3] rounded-2xl border border-surface-border shadow-lg ${i % 2 === 1 ? "md:[direction:ltr]" : ""}`}
+                width={900}
+              />
+            )}
             <div className={i % 2 === 1 ? "md:[direction:ltr]" : ""}>
               <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mb-4">
                 <Icon size={20} className="text-brand-600" />
