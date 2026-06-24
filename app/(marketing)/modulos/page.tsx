@@ -30,7 +30,7 @@ const FEATURED: Array<{
     icon: Users,
     title: "RDPR Clientes",
     desc: "Expediente del cliente: datos fiscales, facturas, incidencias, tareas y documentación.",
-    image: "consultationCall",
+    image: "incidencias",
     anchor: "clientes",
   },
   {

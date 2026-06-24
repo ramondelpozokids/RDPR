@@ -22,6 +22,7 @@ export type StockImageKey =
   | "contactHero"
   | "aboutHero"
   | "datosFiscales"
+  | "incidencias"
 
 type StockEntry = {
   local: string
@@ -116,6 +117,10 @@ export const STOCK: Record<StockImageKey, StockEntry> = {
   datosFiscales: {
     local: "/datos_fiscales.webp",
     alt: "Datos fiscales y gestión tributaria",
+  },
+  incidencias: {
+    local: "/incidencias.webp",
+    alt: "Gestión de incidencias y expediente de clientes",
   },
 }
 
